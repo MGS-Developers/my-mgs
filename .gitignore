@@ -1,3 +1,9 @@
+# hey there! this is pal speaking
+# the .gitignore file has a really simple but important purpose
+# it's a list of files, directories (that's a fancy word for folders), and file types to never publish to Git or GitHub
+# for example, we don't want to publish build files to GitHub, because these will be different depending on what OS the developer is using
+# anything listed in here will be ignored by git and never addded
+
 # Miscellaneous
 *.class
 *.log

@@ -1,16 +1,14 @@
-# mymgs
+# MyMGS
+An MGS School Council project.
 
-A new Flutter project.
+## About this project
+We're making an app to help MGS students navigate school life. This app will eventually include a range of features:
 
-## Getting Started
+- A list of clubs, talks, societies, and drama performances
+- Up-to-date catering menu — and a quick way to see what today's menu is
+- Links to well-being charities
+- Practical revision resources, sorted by year group and subject
+- ...and more!
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Getting started
+To get started developing MyMGS, [take a look at Pal's slideshow](https://docs.google.com/presentation/d/1PeUDCDDno2yWrFLfk6lrHQWurxSg167CJwW3c2knNwk/edit?usp=sharing) which contains some handy tips on how to install the Flutter SDK and set up your environment.

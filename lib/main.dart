@@ -1,117 +1,116 @@
+// Hi there!
+// Welcome to MyMGS' source code. This file, main.dart, is the file Dart will automatically open first
+// this file needs to contain the 'main' function, which is the starting point for our app. Dart will call this to start our app.
+
+// I (Pal) have put in some helpful comments to try and guide you through what everything here is doing
+// unless you're a flutter pro 😎, pls read my comments carefully
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymgs/screens/main_navigation.dart';
+import 'package:mymgs/widgets/spinner.dart';
+import 'helpers/app_name.dart';
 
+// this is the function Dart automatically calls to start the app — it's known as the entrypoint
+// trying to run _anything_ before runApp() will cause a fatal error
+// for clarity, avoid adding anything else to this function
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+// this is our first class!
+// it extends [StatelessWidget], a built-in Flutter class that represents a 'widget'
+// a 'widget' is just a visible piece of UI. it can be a button, a specific screen, or in this case, the entire app
+// widgets can be nested inside each other. for example, this widget contains multiple screens, which contain text
+class App extends StatelessWidget {
+  // before we can use Firebase's modules, we need to initialise it
+  // initialisation uses a Future, so we need to make sure the app doesn't load until it has completed
+  // obviously, this process takes less than a millisecond
+  final Future<FirebaseApp> _firebaseInit = Firebase.initializeApp();
+
+  // Futures play a pretty major role in any Dart-based application, since it's a primarily asynchronous language
+  // if you've ever used JavaScript, a Future is the exact same thing as a Promise.
+  // if not, read this guide to get an understanding: https://dart.dev/codelabs/async-await
+
+  // base text themes
+  // these get copied and modified for dark theme
+  static const TextTheme textTheme = TextTheme(
+    bodyText1: TextStyle(
+      color: Colors.black54,
+    ),
+  );
+
+  // Themes!
+  // our app can run in two modes: dark mode and light mode.
+  // we don't just support dark mode because it 'looks cool' (but yeah it does)
+  // dark mode is a very important accessibility feature, and also helps save battery with OLED/AMOLED devices
+  // using Flutter's theme system, we can easily define colours for both light and dark mode, as well as text styles
+  static final ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    // we define colors using the Color() class
+    // we use a hexadecimal number (starting with 0x) and a hex colour code, similar to HTML
+    // the first two digits are the alpha value: i.e. how opaque. mostly we use 'FF', i.e. fully opaque
+    // it's in the format of ARGB, like this:
+    // 0x<alpha 00-FF><red 00-FF><green 00-FF><blue 00-FF>
+    // to get a colour you like, type 'colour picker' into google, choose a colour, copy the hex (without the #), and paste like this:
+    // Color(0xFF<paste here>)
+
+    // the primaryColor is the colour we use for any interactive components, headers, and basically anything we want to draw attention to or separate
+    primaryColor: Color(0xFF42a5f5),
+    primaryColorBrightness: Brightness.dark,
+    backgroundColor: Colors.white,
+    textTheme: textTheme,
+  );
+
+  // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
+  static final ThemeData darkTheme = lightTheme.copyWith(
+    primaryColor: Color(0xFF1e6fb0),
+    backgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black,
+    textTheme: textTheme.copyWith(
+      bodyText1: TextStyle(
+        color: Colors.white54,
+      ),
+    ),
+  );
+
+  // the 'build' function needs to be defined for widgets
+  // flutter will call this function and expect our UI pieces to be returned
+  // if nothing is returned (or if we return something other than widgets), the app will crash :'(
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+    // the FutureBuilder widget takes two named parameters (https://dart.dev/codelabs/dart-cheatsheet#optional-named-parameters)
+    // the 'future' parameter expects a future, like the one we defined above as a class property (_firebaseInit)
+    // the 'builder' parameter expects a function, taking the 'context' and 'snapshot' arguments
+    // the FutureBuilder will call the builder function when it's first initialised and will expect to get a widget back immediately
+    // it will then call the builder function once again when the future completes
+    // if during either call it doesn't return a widget, the app will crash :)
+    // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
+    // FutureBuilder is making a traditionally imperative piece of code be declarative, meaning that we get to write less code
+    return FutureBuilder(
+      future: _firebaseInit,
+      builder: (BuildContext context, snapshot) {
+        // if the Future hasn't finished, display a loading spinner thing
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(
+            // Spinner is a widget made by pal
+            // pro tip: cmd/ctrl+click a function or variable to jump to its definition (in Android Studio)
+            child: Spinner(),
+          );
+        }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        // MaterialApp builds up the basics of our app, like the header bar and the colours, allowing us to use these without rewriting code every time
+        return MaterialApp(
+          title: appName,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          // have no clue what ThemeMode.system means? try cmd/ctrl + clicking on 'system' to see where it's defined (in Android Studio)
+          // the vast majority of Flutter's definitions come with extensive code comments!
+          themeMode: ThemeMode.system,
+          home: const MainNavigation(),
+        );
+      }
     );
   }
 }
