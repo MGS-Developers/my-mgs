@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/dashboard.dart';
+import 'package:mymgs/screens/talks.dart';
 
 // this is a lil complicated
 // basically, we're storing a dynamic reference to our app's main scaffold widget
@@ -28,6 +29,7 @@ class _MainNavigationState extends State<MainNavigation> {
   // these are just the screens we want to be navigable within our app drawer
   static const List<Widget> screens = [
     Dashboard(),
+    Talks(),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -76,6 +78,10 @@ class _MainNavigationState extends State<MainNavigation> {
                 title: const Text('Dashboard'),
                 onTap: () => _selectPage(0),
               ),
+              ListTile(
+                title: const Text('Talks'),
+                onTap: () => _selectPage(1),
+              )
             ],
           ),
         )

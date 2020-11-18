@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard();
+class Talks extends StatelessWidget {
+  const Talks();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DrawerAppBar('Dashboard')
+      appBar: DrawerAppBar('Talks')
     );
   }
 }
