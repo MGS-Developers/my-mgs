@@ -12,3 +12,17 @@ We're making an app to help MGS students navigate school life. This app will eve
 
 ## Getting started
 To get started developing MyMGS, [take a look at Pal's slideshow](https://docs.google.com/presentation/d/1PeUDCDDno2yWrFLfk6lrHQWurxSg167CJwW3c2knNwk/edit?usp=sharing) which contains some handy tips on how to install the Flutter SDK and set up your environment.
+
+Then, clone this repo. If you're on Mac or Linux, Git should already be installed, but on Windows you'll need to [install it yourself](https://git-scm.com/download/win). Once that's done, just open a command line, navigate to your intended parent directory, and run:
+
+```bash
+git clone https://github.com/My-MGS/my-mgs mymgs
+```
+
+Enter the directory with your command line, and run:
+
+```bash
+flutter pub get
+```
+
+And you're done! Open Android Studio (or your preferred IDE, but Android Studio definitely gives the best experience) and open the new `mymgs` directory.
