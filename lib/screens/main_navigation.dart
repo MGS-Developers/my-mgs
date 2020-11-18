@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/app_name.dart';
+import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
 import 'package:mymgs/screens/talks.dart';
 
@@ -30,6 +31,7 @@ class _MainNavigationState extends State<MainNavigation> {
   static const List<Widget> screens = [
     Dashboard(),
     Talks(),
+    Clubs(),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -81,6 +83,10 @@ class _MainNavigationState extends State<MainNavigation> {
               ListTile(
                 title: const Text('Talks'),
                 onTap: () => _selectPage(1),
+              ),
+              ListTile(
+                title: const Text('Clubs'),
+                onTap: () => _selectPage(2),
               )
             ],
           ),
