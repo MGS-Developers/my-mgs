@@ -1,6 +1,9 @@
 # MyMGS
 An MGS School Council project.
 
+## Important: before making a contribution
+Before making a contribution, please read [the contributing guide](https://github.com/My-MGS/my-mgs/blob/master/CONTRIBUTING.md) and follow it.
+
 ## About this project
 We're making an app to help MGS students navigate school life. This app will eventually include a range of features:
 
