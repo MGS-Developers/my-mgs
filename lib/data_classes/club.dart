@@ -12,6 +12,7 @@ part 'club.g.dart';
 // this will update the club.g.dart file
 @JsonSerializable(nullable: false)
 class Club {
+  String id;
   String name;
   String description;
 
