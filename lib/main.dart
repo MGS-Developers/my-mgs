@@ -64,20 +64,20 @@ class App extends StatelessWidget {
     // Color(0xFF<paste here>)
 
     // the primaryColor is the colour we use for any interactive components, headers, and basically anything we want to draw attention to or separate
-    primaryColor: Color(0xFF42a5f5),
+    primaryColor: Color(0xFF374b6a),
     primaryColorBrightness: Brightness.dark,
+    accentColor: Color(0xFFb4bbc7),
     backgroundColor: Colors.white,
     textTheme: textTheme,
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
   static final ThemeData darkTheme = lightTheme.copyWith(
-    primaryColor: Color(0xFF1e6fb0),
     backgroundColor: Colors.black,
     scaffoldBackgroundColor: Colors.black,
     textTheme: textTheme.copyWith(
       bodyText1: TextStyle(
-        color: Colors.white54,
+        color: Colors.white70,
       ),
     ),
   );

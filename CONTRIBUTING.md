@@ -8,3 +8,6 @@ Thanks for helping with the MyMGS app! To make sure development can go as smooth
 4. Once you're ready, open a new [pull request](https://github.com/My-MGS/my-mgs/pulls). Describe your implementation in as much detail as possible, as well as any notes that future developers working on the new code you added should be aware of. Make sure to mention any issue numbers that the PR relates to (e.g. put '#2' in the PR body somewhere)
 5. Someone will review your code and leave comments suggesting improvements. Please respond to these promptly by adding new commits to your branch (new commits are automatically added to pull requests) and marking comments as resolved.
 6. Once the reviewer has marked your PR as accepted, click the 'Merge' button on GitHub (avoid merging PRs locally). If there are any merge conflicts you can't resolve, feel free to ask for help.
+
+## Design work
+When making UX wireframes or UI mockups, using [Figma](https://www.figma.com/) is highly recommended. The paid plan is free for MGS students and staff. Just verify your educational account, and then ask Pal to add you to the team!

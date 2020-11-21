@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
+import 'package:mymgs/screens/diary.dart';
 import 'package:mymgs/screens/talks.dart';
 
 // this is a lil complicated
@@ -32,6 +33,7 @@ class _MainNavigationState extends State<MainNavigation> {
     Dashboard(),
     Talks(),
     Clubs(),
+    Diary(),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -70,7 +72,10 @@ class _MainNavigationState extends State<MainNavigation> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                child: const Text(appName),
+                child: const Text(
+                  appName,
+                  style: TextStyle(color: Colors.white),
+                ),
                 decoration: BoxDecoration(
                   // here, we're making the drawer's header's background colour be our current theme's primary colour
                   color: Theme.of(context).primaryColor,
@@ -87,6 +92,10 @@ class _MainNavigationState extends State<MainNavigation> {
               ListTile(
                 title: const Text('Clubs'),
                 onTap: () => _selectPage(2),
+              ),
+              ListTile(
+                title: const Text('Homework Diary'),
+                onTap: () => _selectPage(3),
               )
             ],
           ),
