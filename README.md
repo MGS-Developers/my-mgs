@@ -33,4 +33,4 @@ And you're done! Open Android Studio (or your preferred IDE, but Android Studio 
 ## Testing QR code
 When the app prompts you to scan a QR code, use this:
 
-![https://ibb.co/gg1Y8pR](https://ibb.co/gg1Y8pR)
+![https://i.ibb.co/q1G68fr/qrcode.png](https://i.ibb.co/q1G68fr/qrcode.png)
