@@ -45,6 +45,7 @@ class App extends StatelessWidget {
   static const TextTheme textTheme = TextTheme(
     bodyText1: TextStyle(
       color: Colors.black54,
+      fontWeight: FontWeight.normal,
     ),
   );
 
@@ -73,11 +74,13 @@ class App extends StatelessWidget {
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
   static final ThemeData darkTheme = lightTheme.copyWith(
+    primaryColor: Color(0xFF061F45),
     backgroundColor: Colors.black,
     scaffoldBackgroundColor: Colors.black,
     textTheme: textTheme.copyWith(
       bodyText1: TextStyle(
         color: Colors.white70,
+        fontWeight: FontWeight.normal,
       ),
     ),
   );

@@ -4,11 +4,14 @@
 // https://flutter.dev/docs/cookbook/design/drawer
 
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
 import 'package:mymgs/screens/diary.dart';
+import 'package:mymgs/screens/setup/setup.dart';
 import 'package:mymgs/screens/talks.dart';
+import 'package:mymgs/widgets/spinner.dart';
 
 // this is a lil complicated
 // basically, we're storing a dynamic reference to our app's main scaffold widget
@@ -53,8 +56,48 @@ class _MainNavigationState extends State<MainNavigation> {
     Navigator.pop(context);
   }
 
+  SetupStatus setupStatus = SetupStatus.Determining;
+
+  // this is a special function that gets called when the widget is initialised
+  // in here, we can run any code want to to set the widget up
+  // in this case, we want to find out whether the user has set the app up or not
+  // if not, we need to show them a setup screen
+  @override
+  void initState() {
+    super.initState();
+    getSetupComplete().then((value) {
+      setState(() {
+        setupStatus = value;
+      });
+    });
+  }
+
+  // our setup screen will call this function when it's finished
+  void _completeSetup() {
+    setState(() {
+      setupStatus = SetupStatus.Complete;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (setupStatus == SetupStatus.Determining) {
+      return Scaffold(
+        body: Center(
+          child: Spinner(),
+        ),
+      );
+    }
+
+    if (setupStatus == SetupStatus.Incomplete) {
+      // like with any other programming language, a 'return' statement also ends the function
+      // no code runs after this return statement, meaning that the other return statement below won't be run if this is run
+      // this way, we return the setup screen, and nothing but the setup screen
+      return SetupScreen(
+        quitSetup: _completeSetup
+      );
+    }
+
     // a scaffold acts as an overlay over our app
     // it can contain an app bar, a drawer, a bottom bar, and many other things!
     // for now, we just need the body and the drawer features
