@@ -33,6 +33,11 @@ Future<void> saveYearGroup(int yearGroup) async {
   sharedPreferences.setInt('year-group', yearGroup);
 }
 
+Future<int> getYearGroup() async {
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  return sharedPreferences.getInt('year-group');
+}
+
 // generate a MyMGS-compatible QR code with an encrypted private key: https://repl.it/@palk/mymgs-key-gen
 
 /// returns whether the processing was successful

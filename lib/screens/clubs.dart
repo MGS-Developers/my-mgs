@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/clubs.dart';
+import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 
@@ -15,9 +16,12 @@ class _ClubsState extends State<Clubs> {
   @override
   void initState() {
     super.initState();
-    // TODO: add logic here to get stored year group to filter clubs by
-    // consider using one of these two: https://pub.dev/packages/shared_preferences or https://pub.dev/packages/hive (pal recommends the latter — much faster)
-    // TODO: then, use setState() to update the `clubsFuture` Future with a new call to `getClub`, passing in the year group as an optional named parameter
+    getYearGroup()
+      .then((value) {
+        setState(() {
+          clubsFuture = getClubs(yearGroup: value);
+        });
+      });
   }
 
   @override
