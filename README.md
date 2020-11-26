@@ -31,6 +31,6 @@ flutter pub get
 And you're done! Open Android Studio (or your preferred IDE, but Android Studio definitely gives the best experience) and open the new `mymgs` directory.
 
 ## Testing QR code
-When the app prompts you to scan a QR code, use this:
+When you first open the app, you'll be prompted for a QR code. Obviously, don't try to ask your form tutor for one. QR codes are generated using an AES-encrypted version of the [TOTP](https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm) algorithm, so the usable QR code changes once every 30 seconds.
 
-![https://i.ibb.co/q1G68fr/qrcode.png](https://i.ibb.co/q1G68fr/qrcode.png)
+To get the currently usable QR code, just visit this page:  [https://europe-west2-my-mgs-app.cloudfunctions.net/getQrCode?password=pythoniscool](https://europe-west2-my-mgs-app.cloudfunctions.net/getQrCode?password=pythoniscool). It may take a few seconds to load, since the function running it is shut down when it hasn't been used for over 30 minutes, and you'll have to wait for it to start up again.

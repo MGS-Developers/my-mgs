@@ -4,12 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// we're not actually using AES for what it's meant to be used
-// normally, an Initialization Vector (IV) would be generated for each request, similarly to a nonce
-// but in this case, we're implementing a much simpler use case. therefore, a simple hard-coded SHA1 segment will do
-const PERMANENT_IV = 'ccc10b2bac194a1d';
-final IV _iv = IV.fromUtf8(PERMANENT_IV);
-
 final FirebaseFunctions _firebaseFunctions = FirebaseFunctions.instanceFor(region: 'europe-west2');
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -57,6 +51,7 @@ Future<bool> processQR(String rawData) async {
 
   final RemoteConfig remoteConfig = await RemoteConfig.instance;
   final String publicKeyString = remoteConfig.getString('enrollment_public_key');
+  final String ivString = remoteConfig.getString('enrollment_iv');
 
   if (publicKeyString == null) {
     return false;
@@ -65,8 +60,9 @@ Future<bool> processQR(String rawData) async {
   String decryptedData;
   try {
     final Key publicKey = Key.fromUtf8(publicKeyString);
+    final IV iv = IV.fromUtf8(ivString);
     final encrypter = Encrypter(AES(publicKey, mode: AESMode.cbc));
-    decryptedData = encrypter.decrypt(encryptedData, iv: _iv);
+    decryptedData = encrypter.decrypt(encryptedData, iv: iv);
   } catch (e) {
     return false;
   }
