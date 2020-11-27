@@ -57,7 +57,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           const SizedBox(height: 10),
           PlatformButton(
             child: const Text('Save'),
-            onPressed: _save,
+            onPressed: yearGroup == null ? null : _save,
           )
         ],
       ),
