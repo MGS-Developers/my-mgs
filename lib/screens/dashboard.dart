@@ -14,7 +14,9 @@ class Dashboard extends StatelessWidget {
         child: Column(
           children: [
             // this button is here temporarily, just to let you access the catering menu view
-            // when we implement a "today's menu" section,
+            //
+            // when we implement a "today's menu" section, we'll replace this button with a large, hero-format card
+            // that contains today's menu, and when you tap it, you'll be taken to the catering menu page
             TextButton(
               child: const Text('view menu'),
               onPressed: () {
