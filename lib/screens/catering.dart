@@ -8,6 +8,8 @@ import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 
 class Catering extends StatelessWidget {
+  final cateringItemsFuture = getCateringItems();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +17,7 @@ class Catering extends StatelessWidget {
         title: const Text('Catering'),
       ),
       body: FutureBuilder<List<CateringItem>>(
-        future: getCateringItems(),
+        future: cateringItemsFuture,
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

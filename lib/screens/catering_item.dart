@@ -43,31 +43,33 @@ class CateringItemScreen extends StatelessWidget {
           cateringItem.dayOfWeek.toDayString(),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                text: '',
-                children: [
-                  TextSpan(
-                    text: 'Location: ',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  TextSpan(
-                    text: cateringItem.location,
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ]
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                text: TextSpan(
+                    text: '',
+                    children: [
+                      TextSpan(
+                        text: 'Location: ',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      TextSpan(
+                        text: cateringItem.location,
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                    ]
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ...getMenuWidgets(context),
-            const SizedBox(height: 30),
-            const InfoDisclaimer(),
-          ],
+              const SizedBox(height: 20),
+              ...getMenuWidgets(context),
+              const SizedBox(height: 30),
+              const InfoDisclaimer(),
+            ],
+          ),
         ),
       ),
     );
