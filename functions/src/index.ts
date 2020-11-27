@@ -49,9 +49,9 @@ export const getQrCode = functions
         const [publicKey, iv] = await getPublicKey();
         const encryptedAes = encryptTotpKey(publicKey, iv, token);
 
-        const qrBuffer = await QRCode.toBuffer('mymgs-privkey-' + encryptedAes, {
-            width: 600,
+        return await QRCode.toString('mymgs-privkey-' + encryptedAes, {
+            width: 400,
             margin: 0,
+            type: 'svg',
         });
-        return qrBuffer.toString('base64');
     });
