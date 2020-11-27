@@ -10,14 +10,17 @@ class Clubs extends StatefulWidget {
 }
 
 class _ClubsState extends State<Clubs> {
-  Future<List<Club>> clubsFuture = getClubs();
+  Future<List<Club>> clubsFuture;
 
   // https://stackoverflow.com/a/52300307/9043010
   @override
   void initState() {
     super.initState();
+    // this function gets which year group the user has said they're in
     getYearGroup()
       .then((value) {
+        // once we've found out, we need to update the `clubsFuture` state variable with a call to `getClubs`, passing in the year group
+        // see the `getClubs` function for how this filtering works
         setState(() {
           clubsFuture = getClubs(yearGroup: value);
         });
@@ -34,6 +37,8 @@ class _ClubsState extends State<Clubs> {
           // TODO: add code for GitHub issue #1 here
           // refer to FutureBuilder docs for the contents of 'snapshot'
           // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
+          // once populated, snapshot.data will contain a `List` of `Club` class instances
+          // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
           return SizedBox();
         },
       ),
