@@ -1,20 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'club_time.dart';
+part of 'catering_item.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ClubTime _$ClubTimeFromJson(Map<String, dynamic> json) {
-  return ClubTime()
-    ..dayOfWeek = _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek'])
-    ..time = timeOfDayFromString(json['time'] as String);
+CateringItem _$CateringItemFromJson(Map<String, dynamic> json) {
+  return CateringItem()
+    ..id = json['id'] as String
+    ..week = json['week'] as int
+    ..yearGroups = (json['yearGroups'] as List)?.map((e) => e as int)?.toList()
+    ..dayOfWeek = _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek'])
+    ..menuItems = (json['menuItems'] as List)?.map((e) => e as String)?.toList()
+    ..location = json['location'] as String;
 }
 
-Map<String, dynamic> _$ClubTimeToJson(ClubTime instance) => <String, dynamic>{
+Map<String, dynamic> _$CateringItemToJson(CateringItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'week': instance.week,
+      'yearGroups': instance.yearGroups,
       'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek],
-      'time': timeOfDayToString(instance.time),
+      'menuItems': instance.menuItems,
+      'location': instance.location,
     };
 
 T _$enumDecode<T>(
@@ -36,6 +45,17 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
   return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DayOfWeekEnumMap = {

@@ -8,38 +8,37 @@ part 'club_time.g.dart';
 // unlike enums in other languages, dart's act a little different to actual integers
 // https://dart.dev/guides/language/language-tour#enumerated-types
 enum DayOfWeek {
+  @JsonValue(0)
   Monday,
+  @JsonValue(1)
   Tuesday,
+  @JsonValue(2)
   Wednesday,
+  @JsonValue(3)
   Thursday,
+  @JsonValue(4)
   Friday,
+  @JsonValue(5)
   Saturday,
+  @JsonValue(6)
   Sunday
+}
+
+extension ParseString on DayOfWeek {
+  String toDayString() {
+    return this.toString().split('.').last;
+  }
 }
 
 @JsonSerializable(nullable: false)
 class ClubTime {
   // an enum type
-  DayOfWeek _dayOfWeek;
+  DayOfWeek dayOfWeek;
   // TimeOfDay is independent of time zones (incl. DST), much like MGS clubs
   // since JsonSerializable doesn't know how to serialize a TimeOfDay instance, we need to tell it using @JsonKey
   // @JsonKey is an 'annotation': https://dart.dev/guides/language/language-tour#metadata
   @JsonKey(fromJson: timeOfDayFromString, toJson: timeOfDayToString)
   TimeOfDay time;
-
-  get dayOfWeek => _dayOfWeek;
-  set dayOfWeek(dynamic value) {
-    // the assert() keyword makes sure our program crashes dramatically (only in development) should the statement be false
-    // https://dart.dev/guides/language/language-tour#assert
-    assert(value is DayOfWeek || value is int);
-
-    if (value is DayOfWeek) {
-      _dayOfWeek = value;
-    } else if (value is int) {
-      assert(value >= 0 && value <= 6);
-      _dayOfWeek = DayOfWeek.values[value];
-    }
-  }
 
   // TODO: replace this line with your code for GitHub issue #2
 
