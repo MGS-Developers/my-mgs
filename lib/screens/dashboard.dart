@@ -9,7 +9,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DrawerAppBar('Dashboard'),
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(15),
         child: Column(
           children: [

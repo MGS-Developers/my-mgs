@@ -73,6 +73,14 @@ class App extends StatelessWidget {
     backgroundColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     textTheme: textTheme,
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Color(0xFF374b6a)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+        )
+    ),
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
@@ -86,6 +94,11 @@ class App extends StatelessWidget {
       bodyText1: TextStyle(
         color: Colors.white70,
         fontWeight: FontWeight.normal,
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: lightTheme.outlinedButtonTheme.style.copyWith(
+        foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
     ),
   );

@@ -12,6 +12,18 @@ class TodaysMenu extends StatelessWidget {
 
   final cateringItemFuture = getTodaysMenu();
 
+  Widget _getViewTimetableButton(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        Navigator.of(context).push(platformPageRoute(
+          context: context,
+          builder: (_) => Catering(),
+        ));
+      },
+      child: const Text('View timetable'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CateringItem>(
@@ -29,7 +41,9 @@ class TodaysMenu extends StatelessWidget {
             Text(
               'It looks like today isn\'t a school day.',
               style: Theme.of(context).textTheme.bodyText1,
-            )
+            ),
+            const SizedBox(height: 5),
+            _getViewTimetableButton(context),
           ];
         } else {
           onPressed = () {
@@ -48,15 +62,8 @@ class TodaysMenu extends StatelessWidget {
               '+ ${(snapshot.data.menuItems.length - 1).toString()} more',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(platformPageRoute(
-                  context: context,
-                  builder: (_) => Catering(),
-                ));
-              },
-              child: const Text('View timetable'),
-            ),
+            const SizedBox(height: 5),
+            _getViewTimetableButton(context),
           ];
         }
 
