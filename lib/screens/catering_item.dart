@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/data_classes/club_time.dart';
+import 'package:mymgs/widgets/catering_item_flags.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 
 class CateringItemScreen extends StatelessWidget {
@@ -13,23 +14,48 @@ class CateringItemScreen extends StatelessWidget {
   Iterable<Widget> getMenuWidgets(BuildContext context) {
     return cateringItem.menuItems.map((e) {
       return Padding(
-        padding: EdgeInsets.only(bottom: 15),
-        child: Row(
-          children: [
-            Text(
-              '‣',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            const SizedBox(width: 10),
-            Flexible(
-              child: Text(
-                e,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  fontSize: 20,
-                )
+        padding: EdgeInsets.only(bottom: 20),
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Theme.of(context).primaryColorLight,
+            boxShadow: [BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 10,
+              spreadRadius: 1,
+              offset: const Offset(0, 2),
+            )]
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      e.name,
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  if (e.flags != null && e.flags.isNotEmpty) ...[
+                    const SizedBox(width: 5),
+                    CateringItemFlags(flags: e.flags),
+                  ]
+                ],
               ),
-            ),
-          ],
+              if (e.description != null) ...[
+                const SizedBox(height: 2),
+                Text(
+                  e.description,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ],
+            ],
+          ),
         ),
       );
     });
@@ -49,19 +75,20 @@ class CateringItemScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 5),
               RichText(
                 text: TextSpan(
-                    text: '',
-                    children: [
-                      TextSpan(
-                        text: 'Location: ',
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      TextSpan(
-                        text: cateringItem.location,
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
-                    ]
+                  text: '',
+                  children: [
+                    TextSpan(
+                      text: 'Location: ',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    TextSpan(
+                      text: cateringItem.location,
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),

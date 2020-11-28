@@ -28,7 +28,7 @@ class Catering extends StatelessWidget {
           if (snapshot.data == null || snapshot.data.isEmpty) {
             return const Center(
               child: Text(
-                  'No catering items found.'
+                'No catering items found.'
               ),
             );
           }
@@ -37,16 +37,14 @@ class Catering extends StatelessWidget {
             elements: snapshot.data,
             groupBy: (e) => e.week,
             groupSeparatorBuilder: (int value) => Container(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColorDark,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
               ),
               child: Text(
                 'Week $value',
-                style: TextStyle(
-                  color: Colors.white70,
-                ),
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             useStickyGroupSeparators: true,
@@ -56,7 +54,7 @@ class Catering extends StatelessWidget {
                     item.dayOfWeek.toDayString()
                 ),
                 subtitle: Text(
-                  '${item.menuItems.first} + ${item.menuItems.length - 1} more',
+                  '${item.menuItems.first.name} + ${item.menuItems.length - 1} more',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 onTap: () {

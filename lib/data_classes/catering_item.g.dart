@@ -10,9 +10,11 @@ CateringItem _$CateringItemFromJson(Map<String, dynamic> json) {
   return CateringItem()
     ..id = json['id'] as String
     ..week = json['week'] as int
-    ..yearGroups = (json['yearGroups'] as List)?.map((e) => e as int)?.toList()
-    ..dayOfWeek = _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek'])
-    ..menuItems = (json['menuItems'] as List)?.map((e) => e as String)?.toList()
+    ..yearGroups = (json['yearGroups'] as List).map((e) => e as int).toList()
+    ..dayOfWeek = _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek'])
+    ..menuItems = (json['menuItems'] as List)
+        .map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..location = json['location'] as String;
 }
 
@@ -45,17 +47,6 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
   return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DayOfWeekEnumMap = {

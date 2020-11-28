@@ -1,16 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club_time.dart';
+import 'package:mymgs/data_classes/menu_item.dart';
 
 part 'catering_item.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(nullable: false)
 class CateringItem {
   String id;
 
   int week;
   List<int> yearGroups;
   DayOfWeek dayOfWeek;
-  List<String> menuItems;
+  List<MenuItem> menuItems;
   String location;
 
   CateringItem();
