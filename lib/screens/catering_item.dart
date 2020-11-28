@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/data_classes/club_time.dart';
+import 'package:mymgs/helpers/widget_helpers.dart';
 import 'package:mymgs/widgets/catering_item_flags.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 
@@ -17,16 +18,7 @@ class CateringItemScreen extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 20),
         child: Container(
           padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Theme.of(context).primaryColorLight,
-            boxShadow: [BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 10,
-              spreadRadius: 1,
-              offset: const Offset(0, 2),
-            )]
-          ),
+          decoration: getCardDecoration(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
