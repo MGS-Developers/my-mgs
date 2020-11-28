@@ -27,6 +27,7 @@ class ClubTime {
   @JsonKey(fromJson: timeOfDayFromString, toJson: timeOfDayToString)
   TimeOfDay time;
 
+
   get dayOfWeek => _dayOfWeek;
   set dayOfWeek(dynamic value) {
     // the assert() keyword makes sure our program crashes dramatically (only in development) should the statement be false
@@ -41,9 +42,16 @@ class ClubTime {
     }
   }
 
-  // TODO: replace this line with your code for GitHub issue #2
+  String toDisplayString() {
+    // TimeOfDay stores an hour and minute value in 24hr time. The 'hourOfPeriod' function returns the stored hour value in 12hr time (24hr - 12).
+    // The below code then combines the 12 hour value with the minute value, as well as the period value which stores if the time is am or pm.
+    String displayTime = time.hourOfPeriod.toString() + ":" + time.minute.toString() + time.period.toString();
+    return ("Every " + _dayOfWeek.toString() + " at " + displayTime);
+  }
 
   ClubTime();
   factory ClubTime.fromJson(Map<String, dynamic> json) => _$ClubTimeFromJson(json);
   Map<String, dynamic> toJson() => _$ClubTimeToJson(this);
+
+
 }
