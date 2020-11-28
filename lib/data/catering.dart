@@ -74,8 +74,8 @@ Future<int> getCateringWeek() async {
 Future<CateringItem> getTodaysMenu() async {
   // if you're debugging outside of term/week times, override these values
   // make sure not to actually commit your override!
-  final cateringWeek = 2;//await getCateringWeek();
-  final dayOfWeek = 2;//DateTime.now().weekday - 1;
+  final cateringWeek = await getCateringWeek();
+  final dayOfWeek = DateTime.now().weekday - 1;
 
   final yearGroup = await getYearGroup();
 
