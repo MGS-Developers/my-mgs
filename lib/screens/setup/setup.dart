@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/setup/intro.dart';
 import 'package:mymgs/screens/setup/scan_code.dart';
 import 'package:mymgs/screens/setup/select_year_group.dart';
@@ -26,7 +27,7 @@ class _SetupScreenState extends State<SetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to MyMGS!'),
+        title: const Text('Welcome to $appName!'),
       ),
       body: PageView(
         controller: pageController,
