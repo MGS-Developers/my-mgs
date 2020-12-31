@@ -15,6 +15,7 @@ class Clubs extends StatefulWidget {
 
 class _ClubsState extends State<Clubs> {
   Future<List<Club>> clubsFuture;
+
   //Stored the day currently selected by the user. First value in the DayOfWeek enum by default (currently Monday)
   DayOfWeek selectedDay = DayOfWeek.values.first;
 
@@ -60,82 +61,78 @@ class _ClubsState extends State<Clubs> {
             //This ensures that the app looks the same, no matter the device (hopefully, haven't tested)
             child: new Column(
               //I don't know why mainAxisSize is here or what is does.
-              mainAxisSize: MainAxisSize.max,
               children: [
-                new Expanded(
-                  //Expanded widget holding the dropdown menu
-                  flex: 1,
-                  child: new DropdownButton<DayOfWeek>(
-                      items: DayOfWeek.values
-                          .map((day) => DropdownMenuItem(
-                                child: Text(describeEnum(day)),
-                                value: day,
-                              ))
-                          .toList(),
-                      value: selectedDay,
-                      onChanged: (DayOfWeek newValue) {
-                        setState(() {
-                          selectedDay = newValue;
-                        });
-                      }),
-                ),
-                new Expanded(
-                    flex: 8,
-                    child: new Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
-                          border: Border(
-                              left: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 4),
-                              right: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 4))),
-                      margin: EdgeInsets.all(15),
-                      child: () {
-                        List<Club> filteredList =
-                            filterForDay(snapshot.data, selectedDay);
-                        Widget scrollbar = Scrollbar(
-                            child: new ListView(children: [
-                          ...filteredList
-                              .map((club) => new Container(
-                                  margin: EdgeInsets.all(25),
-                                  decoration: new BoxDecoration(
-                                      borderRadius: new BorderRadius.all(
-                                          Radius.circular(10)),
-                                      color: Theme.of(context).primaryColor),
-                                  child: Column(children: [
-                                    new Text(club.name,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .primaryColorLight,
-                                            fontSize: 20)),
-                                    new Text(
-                                      club.time.getDisplayTime(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColorLight,
-                                          fontSize: 16),
-                                    )
-                                  ])))
-                              .toList(),
-                        ]));
-                        Widget emptyText = new Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            child: new Text(
-                              "There are no clubs for your year on this day",
-                              style: Theme.of(context).textTheme.bodyText1,
-                              textAlign: TextAlign.center,
-                            ));
+                //Expanded widget holding the dropdown menu
 
-                        if (filteredList.isEmpty) {
-                          return emptyText;
-                        }
-                        return scrollbar;
-                      }(),
-                    ))
+                new DropdownButton<DayOfWeek>(
+                    items: DayOfWeek.values
+                        .map((day) => DropdownMenuItem(
+                              child: Text(describeEnum(day)),
+                              value: day,
+                            ))
+                        .toList(),
+                    value: selectedDay,
+                    onChanged: (DayOfWeek newValue) {
+                      setState(() {
+                        selectedDay = newValue;
+                      });
+                    }),
+
+                new Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      border: Border(
+                          left: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 4),
+                          right: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 4))),
+                  margin: EdgeInsets.all(15),
+                  child: () {
+                    List<Club> filteredList =
+                        filterForDay(snapshot.data, selectedDay);
+                    Widget listView = ListView.builder(
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        Club club = filteredList[index];
+                        return new Container(
+                            margin: EdgeInsets.all(5),
+                            decoration: new BoxDecoration(
+                                borderRadius:
+                                    new BorderRadius.all(Radius.circular(10)),
+                                color: Theme.of(context).primaryColor),
+                            child: Column(children: [
+                              new Text(club.name,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      fontSize: 20)),
+                              new Text(
+                                club.time.getDisplayTime(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColorLight,
+                                    fontSize: 16),
+                              )
+                            ]));
+                      },
+                    );
+
+                    Widget emptyText = new Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        child: new Text(
+                          "There are no clubs for your year on this day",
+                          style: Theme.of(context).textTheme.bodyText1,
+                          textAlign: TextAlign.center,
+                        ));
+
+                    if (filteredList.isEmpty) {
+                      return emptyText;
+                    }
+                    return listView;
+                  }(),
+                )
               ],
             ),
           );
