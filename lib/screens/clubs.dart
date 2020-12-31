@@ -33,114 +33,6 @@ class _ClubsState extends State<Clubs> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DrawerAppBar('Clubs'),
-      body: FutureBuilder<List<Club>>(
-        //When the class is initialised a Future<List<Club>> is commenced, which will make a database query and return a list of clubs depending on the user's yeargroup
-        future: clubsFuture,
-        builder: (BuildContext context, snapshot) {
-          // TODO: add code for GitHub issue #1 here
-          // refer to FutureBuilder docs for the contents of 'snapshot'
-          // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
-          // once populated, snapshot.data will contain a `List` of `Club` class instances
-          // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
-
-          if (snapshot.connectionState != ConnectionState.done) {
-            //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
-            return new Center(child: new Spinner());
-          } else if (snapshot.hasError || snapshot.data == null) {
-            //Checks for errors and null. A list of clubs is now safe and ready to use.
-            return new Text("An error occurred");
-          }
-          //This is the outmost container and makes sure that the list of clubs isn't pressing against the sides of the screen
-          return new Container(
-            //This column stores the dropdown widget and the container for the scrollable list
-            //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
-            //This ensures that the app looks the same, no matter the device (hopefully, haven't tested)
-            child: new Column(
-              //I don't know why mainAxisSize is here or what is does.
-              children: [
-                //Expanded widget holding the dropdown menu
-
-                new DropdownButton<DayOfWeek>(
-                    items: DayOfWeek.values
-                        .map((day) => DropdownMenuItem(
-                              child: Text(describeEnum(day)),
-                              value: day,
-                            ))
-                        .toList(),
-                    value: selectedDay,
-                    onChanged: (DayOfWeek newValue) {
-                      setState(() {
-                        selectedDay = newValue;
-                      });
-                    }),
-
-                new Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      border: Border(
-                          left: BorderSide(
-                              color: Theme.of(context).primaryColor, width: 4),
-                          right: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 4))),
-                  margin: EdgeInsets.all(15),
-                  child: () {
-                    List<Club> filteredList =
-                        filterForDay(snapshot.data, selectedDay);
-                    Widget listView = ListView.builder(
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        Club club = filteredList[index];
-                        return new Container(
-                            margin: EdgeInsets.all(5),
-                            decoration: new BoxDecoration(
-                                borderRadius:
-                                    new BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).primaryColor),
-                            child: Column(children: [
-                              new Text(club.name,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      fontSize: 20)),
-                              new Text(
-                                club.time.getDisplayTime(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColorLight,
-                                    fontSize: 16),
-                              )
-                            ]));
-                      },
-                    );
-
-                    Widget emptyText = new Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        child: new Text(
-                          "There are no clubs for your year on this day",
-                          style: Theme.of(context).textTheme.bodyText1,
-                          textAlign: TextAlign.center,
-                        ));
-
-                    if (filteredList.isEmpty) {
-                      return emptyText;
-                    }
-                    return listView;
-                  }(),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   List<Club> filterForDay(List<Club> clubs, DayOfWeek day) {
     List<Club> returnList = new List<Club>();
     for (Club club in clubs) {
@@ -149,5 +41,107 @@ class _ClubsState extends State<Clubs> {
       }
     }
     return returnList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: DrawerAppBar('Clubs'),
+      body: Container(
+        padding: const EdgeInsets.only(
+          top: 15,
+        ),
+        width: double.infinity,
+        child: FutureBuilder<List<Club>>(
+          //When the class is initialised a Future<List<Club>> is commenced, which will make a database query and return a list of clubs depending on the user's yeargroup
+          future: clubsFuture,
+          builder: (BuildContext context, snapshot) {
+            // TODO: add code for GitHub issue #1 here
+            // refer to FutureBuilder docs for the contents of 'snapshot'
+            // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
+            // once populated, snapshot.data will contain a `List` of `Club` class instances
+            // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
+
+            if (snapshot.connectionState != ConnectionState.done) {
+              //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
+              return Center(child: new Spinner());
+            } else if (snapshot.hasError || snapshot.data == null) {
+              //Checks for errors and null. A list of clubs is now safe and ready to use.
+              return Text("An error occurred");
+            }
+
+            List<Club> filteredList = filterForDay(snapshot.data, selectedDay);
+
+            //This column stores the dropdown widget and the container for the scrollable list
+            //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
+            //This ensures that the app looks the same, no matter the device (hopefully, haven't tested)
+            return Column(
+              //I don't know why mainAxisSize is here or what is does.
+              children: [
+                //Expanded widget holding the dropdown menu
+                DropdownButton<DayOfWeek>(
+                    items: DayOfWeek.values.map((day) => DropdownMenuItem(
+                      child: Text(describeEnum(day)),
+                      value: day,
+                    )).toList(),
+                    value: selectedDay,
+                    onChanged: (DayOfWeek newValue) {
+                      setState(() {
+                        selectedDay = newValue;
+                      });
+                    }
+                ),
+
+                if (filteredList.isEmpty) Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "There are no clubs for your year on this day",
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                if (filteredList.isNotEmpty) ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 5,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    Club club = filteredList[index];
+                    return Container(
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            club.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColorLight,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            club.time.getDisplayTime(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColorLight,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }
