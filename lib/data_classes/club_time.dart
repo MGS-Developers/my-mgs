@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
+import 'package:mymgs/helpers/enum_helpers.dart';
 
 part 'club_time.g.dart';
 
@@ -49,7 +50,7 @@ class ClubTime {
     // TimeOfDay stores an hour and minute value in 24hr time. The 'hourOfPeriod' function returns the stored hour value in 12hr time (24hr - 12).
     // The below code then combines the 12 hour value with the minute value, as well as the period value which stores if the time is am or pm.
 
-    return (time.hourOfPeriod.toString() + ":" + time.minute.toString() + describeEnum(time.period));
+    return (time.hourOfPeriod.toString() + ":" + time.minute.toString() + EnumHelper.getStringValue(time.period));
   }
 
   ClubTime();

@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/clubs.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/club_time.dart';
+import 'package:mymgs/helpers/enum_helpers.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -70,73 +70,93 @@ class _ClubsState extends State<Clubs> {
               return Text("An error occurred");
             }
 
-            List<Club> filteredList = filterForDay(snapshot.data, selectedDay);
+            final List<Club> filteredList =
+                filterForDay(snapshot.data, selectedDay);
 
             //This column stores the dropdown widget and the container for the scrollable list
             //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
             //This ensures that the app looks the same, no matter the device (hopefully, haven't tested)
             return Column(
-              //I don't know why mainAxisSize is here or what is does.
               children: [
                 //Expanded widget holding the dropdown menu
                 DropdownButton<DayOfWeek>(
-                    items: DayOfWeek.values.map((day) => DropdownMenuItem(
-                      child: Text(describeEnum(day)),
-                      value: day,
-                    )).toList(),
+                    items: DayOfWeek.values
+                        .map((day) => DropdownMenuItem(
+                              child: Text(EnumHelper.getStringValue(day)),
+                              value: day,
+                            ))
+                        .toList(),
                     value: selectedDay,
                     onChanged: (DayOfWeek newValue) {
                       setState(() {
                         selectedDay = newValue;
                       });
-                    }
-                ),
+                    }),
 
-                if (filteredList.isEmpty) Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "There are no clubs for your year on this day",
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.center,
+                if (filteredList.isEmpty)
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "There are no clubs for your year on this day",
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-                if (filteredList.isNotEmpty) ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: filteredList.length,
-                  itemBuilder: (context, index) {
-                    Club club = filteredList[index];
-                    return Container(
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            club.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColorLight,
-                              fontSize: 20,
-                            ),
+                if (filteredList.isNotEmpty)
+                  Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                            border: Border(
+                                left: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 4),
+                                right: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 4))),
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 5,
                           ),
-                          Text(
-                            club.time.getDisplayTime(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColorLight,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          shrinkWrap: true,
+                          itemCount: filteredList.length,
+                          itemBuilder: (context, index) {
+                            Club club = filteredList[index];
+                            return Container(
+                              margin: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    club.name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    club.time.getDisplayTime(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        )),
+                  ))
               ],
             );
           },
