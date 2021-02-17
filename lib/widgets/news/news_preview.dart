@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/news.dart';
-import 'package:mymgs/screens/news_item.dart';
+import 'package:mymgs/screens/news/news_item.dart';
 
 class NewsPreview extends StatelessWidget {
   final NewsItem newsItem;
