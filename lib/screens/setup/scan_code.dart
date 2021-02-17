@@ -40,13 +40,13 @@ class _ScanCodeState extends State<ScanCode> {
     failureTimer?.cancel();
   }
 
-  void _onQREvent(String data) async {
+  void _onQREvent(Barcode barcode) async {
     if (verifyingCode) return;
 
     setState(() {
       verifyingCode = true;
     });
-    if(await processQR(data)) {
+    if(await processQR(barcode.code)) {
       widget.onComplete();
       setState(() {
         verifyingCode = false;

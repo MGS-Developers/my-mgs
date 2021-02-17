@@ -9,6 +9,7 @@ import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
 import 'package:mymgs/screens/diary.dart';
+import 'package:mymgs/screens/safeguarding/dashboard.dart';
 import 'package:mymgs/screens/setup/setup.dart';
 import 'package:mymgs/screens/talks.dart';
 import 'package:mymgs/widgets/spinner.dart';
@@ -37,6 +38,7 @@ class _MainNavigationState extends State<MainNavigation> {
     Talks(),
     Clubs(),
     Diary(),
+    SafeguardingDashboard(),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -139,6 +141,10 @@ class _MainNavigationState extends State<MainNavigation> {
               ListTile(
                 title: const Text('Homework Diary'),
                 onTap: () => _selectPage(3),
+              ),
+              ListTile(
+                title: const Text('Safeguarding'),
+                onTap: () => _selectPage(4),
               )
             ],
           ),
