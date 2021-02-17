@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/widgets/dashboard_cards/news.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
-import 'package:mymgs/widgets/todays_menu.dart';
+import 'package:mymgs/widgets/dashboard_cards/todays_menu.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard();
@@ -10,10 +11,13 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       appBar: DrawerAppBar('Dashboard'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15
+        ),
         child: Column(
           children: [
             TodaysMenu(),
+            News(),
           ],
         ),
       ),

@@ -52,7 +52,7 @@ class ClubTime {
     }
 
     String displayTime = time.hourOfPeriod.toString() + ":" + time.minute.toString() + period;
-    return ("Every " + _dayOfWeek.toString() + " at " + displayTime);
+    return ("Every " + dayOfWeek.toString() + " at " + displayTime);
   }
 
   ClubTime();

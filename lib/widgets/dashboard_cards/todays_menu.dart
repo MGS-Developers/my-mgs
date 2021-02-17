@@ -4,7 +4,7 @@ import 'package:mymgs/data/catering.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/screens/catering.dart';
 import 'package:mymgs/screens/catering_item.dart';
-import 'package:mymgs/widgets/dashboard_card.dart';
+import 'package:mymgs/widgets/dashboard_cards/dashboard_card.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class TodaysMenu extends StatelessWidget {

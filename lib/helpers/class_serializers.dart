@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+dynamic noopTransform(dynamic value) {
+  return value;
+}
+
 String timeOfDayToString(TimeOfDay value) {
   // this one's easy — just stringify the hours and the minutes
   // we're making use of string interpolation here https://dart.dev/guides/language/language-tour#strings
