@@ -8,7 +8,7 @@ import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/app_name.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
-import 'package:mymgs/screens/diary.dart';
+import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/safeguarding/dashboard.dart';
 import 'package:mymgs/screens/setup/setup.dart';
 import 'package:mymgs/screens/talks.dart';
