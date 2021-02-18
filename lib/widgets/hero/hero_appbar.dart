@@ -1,26 +1,31 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:mymgs/helpers/animation.dart';
 
-class NewsAppBar extends StatefulWidget implements PreferredSizeWidget {
+class HeroAppBar extends StatefulWidget implements PreferredSizeWidget {
   final ScrollController controller;
+  final String title;
 
-  const NewsAppBar({
+  const HeroAppBar({
     @required this.controller,
+    @required this.title,
     Key key,
   });
 
-  _NewsAppBarState createState() => _NewsAppBarState();
+  _HeroAppBarState createState() => _HeroAppBarState();
 
   @override
   Size get preferredSize => Size(double.infinity, kToolbarHeight);
 }
 
-class _NewsAppBarState extends State<NewsAppBar> {
-  bool transparent = true;
+class _HeroAppBarState extends State<HeroAppBar> {
+  double scrollExtent = 0;
 
   void _scrollListener() {
     final position = widget.controller.position;
     setState(() {
-      transparent = position.extentBefore == 0;
+      scrollExtent = position.extentBefore;
     });
   }
 
@@ -38,10 +43,12 @@ class _NewsAppBarState extends State<NewsAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final opacity = lerp(0, 1, 0, 100, scrollExtent);
+
     return AppBar(
-      title: Text("Article"),
-      backgroundColor: transparent ? Colors.transparent : Theme.of(context).appBarTheme.color,
-      elevation: transparent ? 0 : null,
+      title: Text(widget.title),
+      backgroundColor: Theme.of(context).primaryColor.withOpacity(opacity),
+      elevation: 0,
     );
   }
 }
