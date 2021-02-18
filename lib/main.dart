@@ -8,6 +8,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymgs/notifications/init.dart';
 import 'package:mymgs/screens/main_navigation.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'helpers/app_name.dart';
@@ -18,6 +19,8 @@ import 'helpers/app_name.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
+
+  setupNotifications();
 }
 
 // this is our first class!

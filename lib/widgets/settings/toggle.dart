@@ -68,7 +68,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
         final bool currentValue = snapshot.data ?? false;
 
         return ListTile(
-          enabled: widget.enabled && widget.requirement,
+          enabled: widget.enabled == true && widget.requirement == true,
           onTap: () {
             _toggle(currentValue);
           },

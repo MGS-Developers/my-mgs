@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:mymgs/data_classes/diary_entry.dart';
+import 'package:mymgs/notifications/channels.dart';
+import 'package:mymgs/notifications/permissions.dart';
+import 'package:mymgs/notifications/reminders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String _dayToKey(DateTime date) {
@@ -48,6 +51,36 @@ class DiaryEntryController {
     streamController.add(newEntry);
   }
 
+  void _createHomeworkReminder(SubjectEntry subjectEntry) async {
+    if (!(await isNotificationAllowed("homework"))) return;
+
+    final dueDate = subjectEntry.dueDate;
+    final scheduleTime = DateTime(
+      dueDate.year,
+      dueDate.month,
+      dueDate.day - 1,
+      18,
+      00,
+    );
+
+    final reminderId = subjectEntry.hashCode;
+    scheduleReminder(
+      reminderId,
+      when: scheduleTime,
+      title: subjectEntry.subject + " is due tomorrow",
+      subtitle: subjectEntry.homework,
+      notificationDetails: MGSChannels.homework(
+        subject: subjectEntry.subject,
+        homework: subjectEntry.homework,
+      ),
+    );
+  }
+
+  void _deleteHomeworkReminder(SubjectEntry subjectEntry) {
+    final reminderId = subjectEntry.hashCode;
+    cancelReminder(reminderId);
+  }
+
   Future<void> addHomework({
     String subject,
     String homework,
@@ -64,12 +97,33 @@ class DiaryEntryController {
     }
 
     dayEntry.subjectEntries.add(subjectEntry);
+    _createHomeworkReminder(subjectEntry);
     await write(dayEntry);
   }
 
   Future<void> deleteHomework(int index) async {
     final dayEntry = await _getEntryForDay(date);
+    _deleteHomeworkReminder(dayEntry.subjectEntries[index]);
     dayEntry.subjectEntries.removeAt(index);
+    await write(dayEntry);
+  }
+
+  Future<void> toggleHomework(int index) async {
+    final dayEntry = await _getEntryForDay(date);
+    if (!dayEntry.subjectEntries.asMap().containsKey(index)) return;
+
+    if (dayEntry.subjectEntries[index].complete == null) {
+      dayEntry.subjectEntries[index].complete = true;
+    } else {
+      dayEntry.subjectEntries[index].complete = !dayEntry.subjectEntries[index].complete;
+    }
+
+    if (dayEntry.subjectEntries[index].complete) {
+      _deleteHomeworkReminder(dayEntry.subjectEntries[index]);
+    } else {
+      _createHomeworkReminder(dayEntry.subjectEntries[index]);
+    }
+
     await write(dayEntry);
   }
 }

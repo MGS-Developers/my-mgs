@@ -12,7 +12,8 @@ SubjectEntry _$SubjectEntryFromJson(Map<String, dynamic> json) {
     ..homework = json['homework'] as String
     ..dueDate = json['dueDate'] == null
         ? null
-        : DateTime.parse(json['dueDate'] as String);
+        : DateTime.parse(json['dueDate'] as String)
+    ..complete = json['complete'] as bool;
 }
 
 Map<String, dynamic> _$SubjectEntryToJson(SubjectEntry instance) =>
@@ -20,6 +21,7 @@ Map<String, dynamic> _$SubjectEntryToJson(SubjectEntry instance) =>
       'subject': instance.subject,
       'homework': instance.homework,
       'dueDate': instance.dueDate?.toIso8601String(),
+      'complete': instance.complete,
     };
 
 DiaryEntry _$DiaryEntryFromJson(Map<String, dynamic> json) {

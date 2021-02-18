@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:convert/convert.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:crypto/crypto.dart';
 
 part 'diary_entry.g.dart';
 
@@ -7,10 +11,22 @@ class SubjectEntry {
   String subject;
   String homework;
   DateTime dueDate;
+  bool complete = false;
 
   SubjectEntry();
   factory SubjectEntry.fromJson(Map<String, dynamic> json) => _$SubjectEntryFromJson(json);
   Map<String, dynamic> toJson() => _$SubjectEntryToJson(this);
+
+  @override
+  int get hashCode {
+    final hashBase = subject + homework + dueDate.toIso8601String();
+    return md5.convert(utf8.encode(hashBase)).hashCode;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return super.hashCode == other.hashCode;
+  }
 }
 
 @JsonSerializable()

@@ -59,3 +59,8 @@ StreamController<T> watchSetting<T>(String key) {
 
   return newStreamController;
 }
+
+Future<T> getSetting<T>(String key) async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  return sharedPreferences.get(key) as T;
+}

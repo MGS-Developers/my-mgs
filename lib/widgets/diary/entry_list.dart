@@ -64,6 +64,10 @@ class _EntryList extends State<EntryList> {
     );
   }
 
+  void _toggleComplete(MapEntry<int, SubjectEntry> entry) async {
+    await widget.diaryEntryController.toggleHomework(entry.key);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DiaryEntry>(
@@ -105,7 +109,13 @@ class _EntryList extends State<EntryList> {
             children: snapshot.data.subjectEntries.asMap().entries.map((entry) => ExpansionPanel(
               canTapOnHeader: true,
               headerBuilder: (BuildContext context, _) => ListTile(
-                title: Text(entry.value.subject),
+                title: Text(
+                  entry.value.subject,
+                  style: entry.value.complete ? TextStyle(
+                    color: MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.black54 : Colors.white70,
+                    decoration: TextDecoration.lineThrough,
+                  ) : null,
+                ),
                 onLongPress: () {
                   _showEntryMenu(entry);
                 },
@@ -129,6 +139,15 @@ class _EntryList extends State<EntryList> {
                       "Due: " + Jiffy(entry.value.dueDate).yMMMEd,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                         fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    OutlinedButton(
+                      onPressed: () {
+                        _toggleComplete(entry);
+                      },
+                      child: Text(
+                        entry.value.complete ? "Mark incomplete" : "Mark complete"
                       ),
                     ),
                   ],
