@@ -22,11 +22,6 @@ Future<SetupStatus> getSetupComplete() async {
   }
 }
 
-Future<void> saveYearGroup(int yearGroup) async {
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setInt('year-group', yearGroup);
-}
-
 Future<int> getYearGroup() async {
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   return sharedPreferences.getInt('year-group');
