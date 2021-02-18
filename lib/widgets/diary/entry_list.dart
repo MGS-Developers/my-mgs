@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/diary.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/screens/diary/add_entry.dart';
@@ -98,30 +99,43 @@ class _EntryList extends State<EntryList> {
           );
         }
 
-        return ExpansionPanelList(
-          expansionCallback: _setExpanded,
-          children: snapshot.data.subjectEntries.asMap().entries.map((entry) => ExpansionPanel(
-            canTapOnHeader: true,
-            headerBuilder: (BuildContext context, _) => ListTile(
-              title: Text(entry.value.subject),
-              onLongPress: () {
-                _showEntryMenu(entry);
-              },
-              onTap: () {
-                _setExpanded(entry.key, expandedIndexes.contains(entry.key));
-              },
-            ),
-            isExpanded: expandedIndexes.contains(entry.key),
-            body: Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(15),
-              child: Text(
-                entry.value.homework,
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
+        return SingleChildScrollView(
+          child: ExpansionPanelList(
+            expansionCallback: _setExpanded,
+            children: snapshot.data.subjectEntries.asMap().entries.map((entry) => ExpansionPanel(
+              canTapOnHeader: true,
+              headerBuilder: (BuildContext context, _) => ListTile(
+                title: Text(entry.value.subject),
+                onLongPress: () {
+                  _showEntryMenu(entry);
+                },
+                onTap: () {
+                  _setExpanded(entry.key, expandedIndexes.contains(entry.key));
+                },
               ),
-            ),
-          )).toList(),
+              isExpanded: expandedIndexes.contains(entry.key),
+              body: Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.value.homework,
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      "Due: " + Jiffy(entry.value.dueDate).yMMMEd,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )).toList(),
+          ),
         );
       }
     );

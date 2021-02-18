@@ -47,8 +47,10 @@ class _DiaryState extends State<Diary> {
               dateCallback: _changeDate,
             ),
             const SizedBox(height: 20),
-            EntryList(
-              diaryEntryController: _diaryEntryController,
+            Expanded(
+              child: EntryList(
+                diaryEntryController: _diaryEntryController,
+              ),
             ),
           ],
         ),

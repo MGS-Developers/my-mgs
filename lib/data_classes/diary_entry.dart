@@ -6,6 +6,7 @@ part 'diary_entry.g.dart';
 class SubjectEntry {
   String subject;
   String homework;
+  DateTime dueDate;
 
   SubjectEntry();
   factory SubjectEntry.fromJson(Map<String, dynamic> json) => _$SubjectEntryFromJson(json);

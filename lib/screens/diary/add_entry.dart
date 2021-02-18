@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/diary.dart';
+import 'package:mymgs/widgets/diary/due_date.dart';
 import 'package:mymgs/widgets/diary/select_subject.dart';
 
 class AddDiaryEntry extends StatefulWidget {
@@ -14,12 +15,14 @@ class AddDiaryEntry extends StatefulWidget {
 }
 
 class _AddDiaryEntryState extends State<AddDiaryEntry> {
-  String _subject = "Art";
+  String _subject = "🎨 Art";
   TextEditingController _homework;
+  DateTime _dueDate;
 
   @override
   void initState() {
     _homework = TextEditingController();
+    _dueDate = DateTime.now();
     super.initState();
   }
 
@@ -33,6 +36,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
     widget.diaryEntryController.addHomework(
       subject: _subject,
       homework: _homework.text,
+      dueDate: _dueDate,
     );
     Navigator.of(context).pop();
   }
@@ -46,6 +50,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               Jiffy(widget.diaryEntryController.date).yMMMEd,
@@ -59,6 +64,15 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
                   _subject = newSubject;
                 });
               }
+            ),
+            const SizedBox(height: 10),
+            DueDate(
+              selectedDate: _dueDate,
+              dateCallback: (DateTime newDate) {
+                setState(() {
+                  _dueDate = newDate;
+                });
+              },
             ),
             const SizedBox(height: 10),
             PlatformTextField(

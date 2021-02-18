@@ -51,11 +51,13 @@ class DiaryEntryController {
   Future<void> addHomework({
     String subject,
     String homework,
+    DateTime dueDate,
   }) async {
     final dayEntry = await _getEntryForDay(date);
     final SubjectEntry subjectEntry = SubjectEntry()
       ..subject = subject
-      ..homework = homework;
+      ..homework = homework
+      ..dueDate = dueDate;
 
     if (dayEntry.subjectEntries == null) {
       dayEntry.subjectEntries = [];

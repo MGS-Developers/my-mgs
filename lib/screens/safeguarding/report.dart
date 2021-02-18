@@ -63,6 +63,7 @@ class _SafeguardingReportState extends State<SafeguardingReport> {
             PlatformTextField(
               controller: _input,
               keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.sentences,
               maxLines: 8,
               enabled: !_loading,
             ),
