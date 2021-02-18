@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/setup.dart';
-import 'package:mymgs/helpers/app_name.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';

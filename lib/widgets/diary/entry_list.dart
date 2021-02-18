@@ -91,10 +91,10 @@ class _EntryList extends State<EntryList> {
                   child: Text("Add new"),
                   onPressed: () {
                     Navigator.of(context).push(platformPageRoute(
-                        context: context,
-                        builder: (_) => AddDiaryEntry(
-                          diaryEntryController: widget.diaryEntryController,
-                        )
+                      context: context,
+                      builder: (_) => AddDiaryEntry(
+                        diaryEntryController: widget.diaryEntryController,
+                      ),
                     ));
                   },
                 )

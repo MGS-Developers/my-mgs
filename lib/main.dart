@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/notifications/init.dart';
 import 'package:mymgs/screens/main_navigation.dart';
 import 'package:mymgs/widgets/spinner.dart';
-import 'helpers/app_name.dart';
+import 'helpers/app_metadata.dart';
 
 // this is the function Dart automatically calls to start the app — it's known as the entrypoint
 // trying to run _anything_ before runApp() will cause a fatal error

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/settings/contributors.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -25,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.of(context).pop();
 
                   Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text("Restart MyMGS to get personalised content."),
+                    content: Text("Restart " + appName + " to get personalised content."),
                     duration: const Duration(seconds: 2),
                   ));
                 },
@@ -35,6 +37,15 @@ class SettingsScreen extends StatelessWidget {
           ],
         )
       ),
+    );
+  }
+
+  void _showAbout(BuildContext context) {
+    showAboutDialog(
+      context: context,
+      applicationName: appName,
+      applicationVersion: appVersion,
+      applicationLegalese: appLegalese,
     );
   }
 
@@ -67,7 +78,22 @@ class SettingsScreen extends StatelessWidget {
             onTap: () {
               _changeYearGroup(context);
             },
-          )
+          ),
+          KeyValueSetting(
+            name: "About " + appName,
+            onTap: () {
+              _showAbout(context);
+            }
+          ),
+          KeyValueSetting(
+            name: "Contributors",
+            onTap: () {
+              Navigator.of(context).push(platformPageRoute(
+                context: context,
+                builder: (_) => Contributors(),
+              ));
+            }
+          ),
         ],
       ),
     );

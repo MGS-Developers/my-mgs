@@ -13,7 +13,7 @@ class Dashboard extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 15
-        ),
+        ).copyWith(bottom: 10),
         child: Column(
           children: [
             TodaysMenu(),
