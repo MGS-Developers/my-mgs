@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/notifications/push.dart';
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -13,7 +14,17 @@ const InitializationSettings initializationSettings = InitializationSettings(
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 Future<void> setupNotifications() async {
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onSelectNotification: (payload) async {
+      // ignore: close_sinks
+      final controller = getLinkController();
+      final deepLink = DeepLink.fromPayloadString(payload);
+      if (deepLink != null) {
+        controller.add(deepLink);
+      }
+    }
+  );
 
   _firebaseMessaging.configure(
     onMessage: pushHandler,

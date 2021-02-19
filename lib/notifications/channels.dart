@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -55,6 +56,8 @@ class MGSChannels {
       final imagePath = await _downloadImage(image);
       styleInformation = BigPictureStyleInformation(
         FilePathAndroidBitmap(imagePath),
+        largeIcon: FilePathAndroidBitmap(imagePath),
+        hideExpandedLargeIcon: true,
       );
       notificationAttachment = IOSNotificationAttachment(imagePath);
     }
@@ -63,7 +66,7 @@ class MGSChannels {
       android: AndroidNotificationDetails(
         "news",
         "News",
-        "Updates and advertisements from the School Council.",
+        "Updates and advertisements from the School Council. Open " + appName + " to customise.",
         importance: Importance.max,
         styleInformation: styleInformation,
       ),

@@ -14,3 +14,14 @@ Future<List<NewsItem>> getNews(int limit) async {
     "id": e.id,
   })).toList();
 }
+
+Future<NewsItem> getNewsItem(String id) async {
+  final doc = await _firestore.collection("news")
+      .doc(id)
+      .get();
+
+  return NewsItem.fromJson({
+    ...doc.data(),
+    "id": doc.id,
+  });
+}

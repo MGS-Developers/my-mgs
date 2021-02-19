@@ -3,9 +3,12 @@
 // you'll find the code for the fancy sidebar thing (called a 'drawer') here, as well as the code that selects which page to display
 // https://flutter.dev/docs/cookbook/design/drawer
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
@@ -61,6 +64,8 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   SetupStatus setupStatus = SetupStatus.Determining;
+  DeepLinkStatus deepLinkStatus = DeepLinkStatus.Determining;
+  StreamSubscription<DeepLink> _deepLinkListener;
 
   // this is a special function that gets called when the widget is initialised
   // in here, we can run any code want to to set the widget up
@@ -74,6 +79,32 @@ class _MainNavigationState extends State<MainNavigation> {
         setupStatus = value;
       });
     });
+
+    // this is our custom way to detect link while the app is open and when it first opens.
+    // it's a little confusing, but rarely needs tweaking, so don't worry about it.
+    _deepLinkListener = watchDeepLink().stream.listen((deepLink) {
+      if (deepLink == null) {
+        setState(() {
+          deepLinkStatus = DeepLinkStatus.NoLink;
+        });
+        return;
+      }
+
+      deepLink.getRoute(context)
+      .then((route) {
+        Navigator.of(context).push(route);
+      });
+
+      setState(() {
+        deepLinkStatus = DeepLinkStatus.YesLink;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _deepLinkListener.cancel();
+    super.dispose();
   }
 
   // our setup screen will call this function when it's finished
@@ -85,7 +116,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    if (setupStatus == SetupStatus.Determining) {
+    if (setupStatus == SetupStatus.Determining || deepLinkStatus == DeepLinkStatus.Determining) {
       return Scaffold(
         body: Center(
           child: Spinner(),

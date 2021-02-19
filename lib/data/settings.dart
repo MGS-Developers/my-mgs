@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final _firebaseMessaging = FirebaseMessaging();
 final Map<String, List<StreamController>> allStreamControllers = {};
 
 void _broadcastUpdate(String key, dynamic newValue) {
@@ -27,6 +29,15 @@ void _broadcastUpdate(String key, dynamic newValue) {
 Future<void> saveSetting(String key, dynamic value) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   if (value is bool) {
+    if (key.endsWith("push_notifications")) {
+      final topicName = key.replaceFirst('_push_notifications', '');
+      if (value) {
+        await _firebaseMessaging.subscribeToTopic(topicName);
+      } else {
+        await _firebaseMessaging.unsubscribeFromTopic(topicName);
+      }
+    }
+
     await sharedPreferences.setBool(key, value);
   } else if (value is String) {
     await sharedPreferences.setString(key, value);

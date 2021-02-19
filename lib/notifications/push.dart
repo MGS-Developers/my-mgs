@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
 
@@ -9,18 +10,24 @@ final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 Future<void> pushHandler(Map<String, dynamic> message) async {
   if (!(await isNotificationAllowed("news"))) return;
 
-  final String title = message["title"];
-  final String body = message["body"];
-  final String imageUrl = message["imageUrl"];
-  final String topic = message["topic"];
+  final data = message["data"];
+  final String title = data["title"];
+  final String body = data["body"];
+  final String imageUrl = data["imageUrl"];
+  final String topic = data["topic"];
+  final String resource = data["resourceType"];
+  final String id = data["resourceId"];
 
   if (!(await isPushTopicAllowed(topic))) return;
   if (title == null || body == null) return;
+
+  final deepLink = DeepLink(DeepLinkResource.values[int.parse(resource)], id);
 
   flutterLocalNotificationsPlugin.show(
     Random().nextInt(10000),
     title,
     body,
     await MGSChannels.news(imageUrl),
+    payload: deepLink.toPayloadString(),
   );
 }
