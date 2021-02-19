@@ -12,7 +12,9 @@ Future<void> pushHandler(Map<String, dynamic> message) async {
   final String title = message["title"];
   final String body = message["body"];
   final String imageUrl = message["imageUrl"];
+  final String topic = message["topic"];
 
+  if (!(await isPushTopicAllowed(topic))) return;
   if (title == null || body == null) return;
 
   flutterLocalNotificationsPlugin.show(

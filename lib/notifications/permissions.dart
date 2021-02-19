@@ -13,12 +13,24 @@ Future<bool> isNotificationAllowed(String groupId) async {
   }
 }
 
+Future<bool> isPushTopicAllowed(String topic) async {
+  final response = await getSetting<bool>(topic + "_push_notifications");
+  if (response == null) {
+    await _firebaseMessaging.unsubscribeFromTopic(topic);
+    return false;
+  } else {
+    if (response == false) await _firebaseMessaging.unsubscribeFromTopic(topic);
+    return response;
+  }
+}
+
 Future<void> allowAllNotifications() async {
   for (final channel in MGSChannels.channels) {
     await saveSetting(channel + "_notifications", true);
   }
 
   for (final topic in MGSChannels.pubSubTopics) {
+    await saveSetting(topic + "_push_notifications", true);
     await _firebaseMessaging.subscribeToTopic(topic);
   }
 }

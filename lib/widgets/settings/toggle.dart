@@ -12,6 +12,7 @@ class ToggleSetting extends StatefulWidget {
   final ToggleCallback callback;
   final String description;
   final bool enabled;
+  final bool indented;
 
   // if false, the toggle is disabled and also set to false
   final bool requirement;
@@ -23,6 +24,7 @@ class ToggleSetting extends StatefulWidget {
     this.description,
     this.enabled = true,
     this.requirement = true,
+    this.indented = false,
   });
 
   _ToggleSettingState createState() => _ToggleSettingState();
@@ -66,9 +68,14 @@ class _ToggleSettingState extends State<ToggleSetting> {
       stream: _streamController.stream,
       builder: (BuildContext context, snapshot) {
         final bool currentValue = snapshot.data ?? false;
+        final bool canBeChanged = widget.enabled == true && widget.requirement == true;
 
         return ListTile(
-          enabled: widget.enabled == true && widget.requirement == true,
+          contentPadding: widget.indented ? const EdgeInsets.only(
+            left: 40,
+            right: 15,
+          ) : null,
+          enabled: canBeChanged,
           onTap: () {
             _toggle(currentValue);
           },
@@ -76,9 +83,9 @@ class _ToggleSettingState extends State<ToggleSetting> {
           subtitle: widget.description == null ? null : Text(widget.description),
           trailing: PlatformSwitch(
             value: currentValue,
-            onChanged: (_) {
+            onChanged: canBeChanged ? (_) {
               _toggle(currentValue);
-            },
+            } : null,
             activeColor: Theme.of(context).primaryColor,
           ),
         );

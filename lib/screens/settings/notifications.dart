@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/widgets/settings/toggle.dart';
 
 class NotificationSettings extends StatefulWidget {
@@ -9,12 +8,7 @@ class NotificationSettings extends StatefulWidget {
 
 class _NotificationSettingsState extends State<NotificationSettings> {
   bool _allowNotifications = false;
-
-  @override
-  void initState() {
-    allowAllNotifications();
-    super.initState();
-  }
+  bool _allowNews = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +43,36 @@ class _NotificationSettingsState extends State<NotificationSettings> {
             requirement: _allowNotifications,
           ),
           ToggleSetting(
-            name: "News",
-            description: "Updates from the School Council",
+            name: "Remote",
+            description: "Push notifications",
             tracker: "news_notifications",
             requirement: _allowNotifications,
+            callback: (on) {
+              setState(() {
+                _allowNews = on;
+              });
+            },
+          ),
+          ToggleSetting(
+            name: "Updates",
+            description: "News & messages from the School Council",
+            tracker: "school_council_push_notifications",
+            requirement: _allowNews,
+            indented: true,
+          ),
+          ToggleSetting(
+            name: "Club ads",
+            description: "Personalised club recommendations",
+            tracker: "club_ads_push_notifications",
+            requirement: _allowNews,
+            indented: true,
+          ),
+          ToggleSetting(
+            name: "Event ads",
+            description: "Personalised event/talk recommendations",
+            tracker: "event_ads_push_notifications",
+            requirement: _allowNews,
+            indented: true,
           ),
         ],
       ),
