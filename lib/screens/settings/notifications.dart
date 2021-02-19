@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/widgets/settings/toggle.dart';
 
 class NotificationSettings extends StatefulWidget {
@@ -8,6 +9,12 @@ class NotificationSettings extends StatefulWidget {
 
 class _NotificationSettingsState extends State<NotificationSettings> {
   bool _allowNotifications = false;
+
+  @override
+  void initState() {
+    allowAllNotifications();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

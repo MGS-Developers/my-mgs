@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mymgs/notifications/push.dart';
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 const androidInitializationSettings = AndroidInitializationSettings('ic_launcher');
@@ -8,7 +10,13 @@ const InitializationSettings initializationSettings = InitializationSettings(
   iOS: iosInitializationSettings,
 );
 
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 Future<void> setupNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  print("init complete");
+
+  _firebaseMessaging.configure(
+    onMessage: pushHandler,
+    onBackgroundMessage: pushHandler,
+  );
 }

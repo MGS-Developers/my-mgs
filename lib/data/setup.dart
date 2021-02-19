@@ -2,6 +2,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:mymgs/notifications/permissions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseFunctions _firebaseFunctions = FirebaseFunctions.instanceFor(region: 'europe-west2');
@@ -77,6 +78,7 @@ Future<bool> processQR(String rawData) async {
   }
 
   try {
+    await allowAllNotifications();
     _firebaseAuth.signInWithCustomToken(authToken);
     return true;
   } catch (e) {
