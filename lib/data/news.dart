@@ -20,6 +20,8 @@ Future<NewsItem> getNewsItem(String id) async {
       .doc(id)
       .get();
 
+  if (!doc.exists) return null;
+
   return NewsItem.fromJson({
     ...doc.data(),
     "id": doc.id,
