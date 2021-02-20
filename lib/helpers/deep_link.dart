@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/news.dart';
-import 'package:mymgs/screens/catering.dart';
+import 'package:mymgs/screens/catering/catering.dart';
 import 'package:mymgs/screens/news/news_item.dart';
 import 'package:uni_links/uni_links.dart';
 

@@ -77,12 +77,18 @@ class App extends StatelessWidget {
     scaffoldBackgroundColor: Colors.white,
     textTheme: textTheme,
     outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(Color(0xFF374b6a)),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
-        )
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(Color(0xFF374b6a)),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        )),
+      )
+    ),
+    cardTheme: CardTheme(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
     ),
   );
 
@@ -104,6 +110,11 @@ class App extends StatelessWidget {
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
     ),
+    cardColor: Colors.blueGrey[900],
+    iconTheme: IconThemeData(
+      color: Colors.blueGrey[200],
+    ),
+    dialogBackgroundColor: Colors.blueGrey[900],
   );
 
   // the 'build' function needs to be defined for widgets

@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:mymgs/data/catering.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
-import 'package:mymgs/screens/catering_item.dart';
+import 'package:mymgs/screens/catering/catering_item.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 

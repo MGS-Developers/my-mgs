@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/catering.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
-import 'package:mymgs/screens/catering.dart';
-import 'package:mymgs/screens/catering_item.dart';
+import 'package:mymgs/screens/catering/catering.dart';
+import 'package:mymgs/screens/catering/catering_item.dart';
 import 'package:mymgs/widgets/dashboard_cards/dashboard_card.dart';
 import 'package:mymgs/widgets/spinner.dart';
 

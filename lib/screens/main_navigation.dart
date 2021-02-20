@@ -15,7 +15,7 @@ import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/safeguarding/dashboard.dart';
 import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
-import 'package:mymgs/screens/talks.dart';
+import 'package:mymgs/screens/events/events.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 // this is a lil complicated
@@ -61,7 +61,7 @@ class _MainNavigationState extends State<MainNavigation> {
   // these are just the screens we want to be navigable within our app drawer
   static const List<Widget> screens = [
     Dashboard(),
-    Talks(),
+    Events(),
     Clubs(),
     Diary(),
     SafeguardingDashboard(),
@@ -186,7 +186,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 onTap: () => _selectPage(0),
               ),
               ListTile(
-                title: const Text('Talks'),
+                title: const Text('Talks & events'),
                 onTap: () => _selectPage(1),
               ),
               ListTile(
