@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/widgets/dashboard_cards/todays_events_card.dart';
 import 'package:mymgs/widgets/dashboard_cards/homework.dart';
 import 'package:mymgs/widgets/dashboard_cards/news.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
@@ -20,6 +21,7 @@ class Dashboard extends StatelessWidget {
             TodaysMenuCard(),
             NewsCard(),
             HomeworkCard(),
+            TodaysEventsCard(),
           ],
         ),
       ),

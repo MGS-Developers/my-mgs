@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/event.dart';
@@ -12,16 +13,12 @@ class EventScreen extends StatelessWidget {
     @required this.event,
   });
 
-  void _toggleReminder() {
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return ImageScaffold(
       title: event.title,
       appBarLabel: "Event",
-      image: NetworkImage(event.imageUrl),
+      image: CachedNetworkImageProvider(event.imageUrl),
       children: [
         if (event.club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

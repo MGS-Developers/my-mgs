@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
@@ -31,7 +32,7 @@ class EventCard extends StatelessWidget {
                 bottom: 10,
               ),
               child: Image(
-                image: NetworkImage(event.imageUrl),
+                image: CachedNetworkImageProvider(event.imageUrl),
                 fit: BoxFit.cover,
               ),
             ),

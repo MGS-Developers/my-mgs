@@ -30,6 +30,8 @@ class Event {
   /// In this case, [Event.location] is optional.
   ///
   /// If [Event.clubId] is null or cannot be resolved, [Event.location] is required.
+  ///
+  /// If [Event.location] is provided AND [Event.clubId] can be resolved, [Event.location] will override [Club.location]
   String location;
 
   List<Link> links;

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
@@ -15,7 +16,7 @@ class NewsItemScreen extends StatelessWidget {
     return ImageScaffold(
       appBarLabel: "Article",
       title: newsItem.headline,
-      image: NetworkImage(newsItem.image.fullUrl),
+      image: CachedNetworkImageProvider(newsItem.image.fullUrl),
       children: [
         Padding(
           padding: EdgeInsets.all(15),

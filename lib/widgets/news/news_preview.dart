@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
@@ -24,7 +25,7 @@ class NewsPreview extends StatelessWidget {
         width: 60,
         height: 60,
         fit: BoxFit.cover,
-        image: NetworkImage(newsItem.image.thumbnailUrl),
+        image: CachedNetworkImageProvider(newsItem.image.thumbnailUrl),
       ),
       title: Text(newsItem.headline),
       subtitle: Text(previewText),
