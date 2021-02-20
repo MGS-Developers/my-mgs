@@ -7,7 +7,7 @@ import 'package:mymgs/widgets/dashboard_cards/dashboard_card.dart';
 import 'package:mymgs/widgets/news/news_preview.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
-class News extends StatelessWidget {
+class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<NewsItem>>(

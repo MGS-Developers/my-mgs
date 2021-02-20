@@ -34,6 +34,28 @@ class MainNavigation extends StatefulWidget {
   _MainNavigationState createState() => _MainNavigationState();
 }
 
+typedef DrawerNavigationFunction = void Function(int index);
+// this class helps us pass data down to other children widgets easily.
+// it's a little complicated, so look at the docs if you want to learn more: https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html
+class DrawerSwitcher extends InheritedWidget {
+  final DrawerNavigationFunction switchTo;
+  final Widget child;
+  const DrawerSwitcher({
+    Key key,
+    @required this.switchTo,
+    @required this.child,
+  }) : super(key: key, child: child);
+
+  static DrawerSwitcher of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<DrawerSwitcher>();
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+    return false;
+  }
+}
+
 class _MainNavigationState extends State<MainNavigation> {
   // our list of screens never changes, so why not make it a compile-time constant?
   // these are just the screens we want to be navigable within our app drawer
@@ -190,9 +212,16 @@ class _MainNavigationState extends State<MainNavigation> {
       // IndexedStack just helps us switch between screens easily, and performs a lot of memory optimisation under the hood
       // children is a list of possible screens/widgets
       // and index is which one of those screens/widgets to show
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
+      body: DrawerSwitcher(
+        switchTo: (newIndex) {
+          setState(() {
+            currentIndex = newIndex;
+          });
+        },
+        child: IndexedStack(
+          index: currentIndex,
+          children: screens,
+        ),
       ),
     );
   }

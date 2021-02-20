@@ -103,6 +103,8 @@ class DiaryEntryController {
 
   Future<void> deleteHomework(int index) async {
     final dayEntry = await _getEntryForDay(date);
+    if (!dayEntry.subjectEntries.asMap().containsKey(index)) return;
+
     _deleteHomeworkReminder(dayEntry.subjectEntries[index]);
     dayEntry.subjectEntries.removeAt(index);
     await write(dayEntry);

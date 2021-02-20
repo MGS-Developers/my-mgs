@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/widgets/dashboard_cards/homework.dart';
 import 'package:mymgs/widgets/dashboard_cards/news.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 import 'package:mymgs/widgets/dashboard_cards/todays_menu.dart';
@@ -16,8 +17,9 @@ class Dashboard extends StatelessWidget {
         ).copyWith(bottom: 10),
         child: Column(
           children: [
-            TodaysMenu(),
-            News(),
+            TodaysMenuCard(),
+            NewsCard(),
+            HomeworkCard(),
           ],
         ),
       ),

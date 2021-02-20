@@ -7,8 +7,10 @@ import 'package:mymgs/screens/diary/add_entry.dart';
 
 class EntryList extends StatefulWidget {
   final DiaryEntryController diaryEntryController;
+  final bool showNewButton;
   const EntryList({
     @required this.diaryEntryController,
+    this.showNewButton = true,
   });
 
   _EntryList createState() => _EntryList();
@@ -87,7 +89,7 @@ class _EntryList extends State<EntryList> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(height: 10),
-                PlatformButton(
+                if (widget.showNewButton) PlatformButton(
                   child: Text("Add new"),
                   onPressed: () {
                     Navigator.of(context).push(platformPageRoute(
