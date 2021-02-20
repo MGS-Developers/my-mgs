@@ -52,6 +52,13 @@ class App extends StatelessWidget {
     ),
   );
 
+  static final buttonStyle = ButtonStyle(
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    )),
+  );
+  static final materialStateColorLight = MaterialStateProperty.all(Color(0xFF374b6a));
+
   // Themes!
   // our app can run in two modes: dark mode and light mode.
   // we don't just support dark mode because it 'looks cool' (but yeah it does)
@@ -77,12 +84,14 @@ class App extends StatelessWidget {
     scaffoldBackgroundColor: Colors.white,
     textTheme: textTheme,
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Color(0xFF374b6a)),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        )),
+      style: buttonStyle.copyWith(
+        foregroundColor: materialStateColorLight,
       )
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: buttonStyle.copyWith(
+        backgroundColor: materialStateColorLight,
+      ),
     ),
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,

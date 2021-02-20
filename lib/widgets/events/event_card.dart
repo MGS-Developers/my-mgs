@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
-import 'package:mymgs/widgets/text_icon.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;

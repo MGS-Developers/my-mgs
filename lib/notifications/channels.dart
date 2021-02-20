@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -72,6 +74,22 @@ class MGSChannels {
       ),
       iOS: IOSNotificationDetails(
         attachments: notificationAttachment != null ? [notificationAttachment] : null,
+      ),
+    );
+  }
+
+  static String eventReminderDetails(Event event) {
+    return "${event.title} — ${event.location} — ${Jiffy(event.startTime.toDate()).jm}";
+  }
+
+  static NotificationDetails event(Event event) {
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        "events",
+        "Events",
+        "Reminders for events you selected.",
+        importance: Importance.max,
+        styleInformation: BigTextStyleInformation(eventReminderDetails(event)),
       ),
     );
   }

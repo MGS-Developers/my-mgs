@@ -4,6 +4,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:mymgs/data/catering.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/screens/catering/catering_item.dart';
+import 'package:mymgs/widgets/grouped_list_separator.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 
@@ -36,16 +37,9 @@ class Catering extends StatelessWidget {
           return GroupedListView<CateringItem, int>(
             elements: snapshot.data,
             groupBy: (e) => e.week,
-            groupSeparatorBuilder: (int value) => Container(
-              color: Theme.of(context).primaryColorDark,
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-              child: Text(
-                'Week $value',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+            groupSeparatorBuilder: (int value) => GroupedListSeparator(
+              label: 'Week $value',
+              contrastBackground: true,
             ),
             useStickyGroupSeparators: true,
             itemBuilder: (context, item) {

@@ -6,8 +6,10 @@ import 'package:mymgs/widgets/text_icon.dart';
 
 class EventLogistics extends StatelessWidget {
   final Event event;
+  final bool showFullDate;
   const EventLogistics({
     @required this.event,
+    this.showFullDate = false,
   });
 
   @override
@@ -30,6 +32,8 @@ class EventLogistics extends StatelessWidget {
       locationText += " (${event.club.name})";
     }
 
+    final parsedDate = Jiffy(event.startTime.toDate());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,7 +42,7 @@ class EventLogistics extends StatelessWidget {
             TextIcon(icon: PlatformIcons(context).time),
             const SizedBox(width: 5),
             Text(
-              Jiffy(event.startTime.toDate()).jm,
+              showFullDate ? parsedDate.yMMMdjm : parsedDate.jm,
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Text(

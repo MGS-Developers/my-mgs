@@ -19,7 +19,12 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     ..club = json['club'] == null
         ? null
         : Club.fromJson(json['club'] as Map<String, dynamic>)
-    ..clubId = json['clubId'] as String;
+    ..clubId = json['clubId'] as String
+    ..location = json['location'] as String
+    ..links = (json['links'] as List)
+        ?.map(
+            (e) => e == null ? null : Link.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -33,4 +38,6 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'endTime': noopTransform(instance.endTime),
       'club': instance.club,
       'clubId': instance.clubId,
+      'location': instance.location,
+      'links': instance.links,
     };

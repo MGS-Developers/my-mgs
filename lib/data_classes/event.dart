@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club.dart';
+import 'package:mymgs/data_classes/link.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'event.g.dart';
@@ -30,6 +31,8 @@ class Event {
   ///
   /// If [Event.clubId] is null or cannot be resolved, [Event.location] is required.
   String location;
+
+  List<Link> links;
 
   Event();
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

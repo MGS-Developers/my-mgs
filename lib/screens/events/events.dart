@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/events.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 import 'package:mymgs/widgets/events/event_card.dart';
+import 'package:mymgs/widgets/grouped_list_separator.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Events extends StatefulWidget {
@@ -54,7 +57,7 @@ class _EventsState extends State<Events> {
                 );
               }
 
-              if (!snapshot.hasData) {
+              if (!snapshot.hasData || snapshot.data.length == 0) {
                 return Center(
                   child: Text(
                     "No events found.",
@@ -63,12 +66,13 @@ class _EventsState extends State<Events> {
                 );
               }
 
-              return ListView.builder(
-                padding: EdgeInsets.all(10),
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return EventCard(event: snapshot.data[index]);
-                }
+              return GroupedListView<Event, DateTime>(
+                elements: snapshot.data,
+                groupBy: (e) => e.startTime.toDate(),
+                itemBuilder: (context, event) {
+                  return EventCard(event: event);
+                },
+                groupSeparatorBuilder: (date) => GroupedListSeparator(label: Jiffy(date).yMMMEd),
               );
             }
           );
