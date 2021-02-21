@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { v4 as uuid } from 'uuid';
 import QRCode from 'qrcode';
-import { encryptTotpKey, getCurrentToken, getPublicKey, getTotpSecret } from './helpers';
+import {encryptTotpKey, getCurrentToken, getPublicKey, getTotpSecret, hashAdminToken} from './helpers';
 import { totp } from 'otplib';
 
 admin.initializeApp();
@@ -25,6 +25,31 @@ export const getSignInToken = functions
 
         const userId = uuid();
         return await admin.auth().createCustomToken(userId);
+    });
+
+interface AdminSignInData {
+    token?: string;
+}
+
+export const getAdminSignInToken = functions
+    .region('europe-west2')
+    .https.onCall(async (data: AdminSignInData) => {
+        if (!data.token) {
+            return null;
+        }
+
+        const hashedToken = hashAdminToken(data.token);
+        const response = await admin.firestore().collection('tokens')
+            .doc(hashedToken)
+            .get();
+
+        if (!response.exists) {
+            return null;
+        }
+
+        return await admin.auth().createCustomToken(hashedToken, {
+            adminEnabled: true,
+        });
     });
 
 interface QrCodeData {
