@@ -5,7 +5,7 @@ import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/data_classes/term.dart';
 
 // how long a catering cycle is, in weeks
-const CATERING_CYCLE_LENGTH = 3;
+const CATERING_CYCLE_LENGTH = 2;
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

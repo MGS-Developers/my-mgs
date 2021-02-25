@@ -83,7 +83,7 @@ class _SafeguardingReportState extends State<SafeguardingReport> {
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                   SelectableText(
-                    getSafeguardingKey(),
+                    getSafeguardingPGP(),
                     style: TextStyle(
                       fontFamily: "monospace",
                     ),
@@ -93,7 +93,7 @@ class _SafeguardingReportState extends State<SafeguardingReport> {
                     "Key type",
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
-                  SelectableText("RSA 2048"),
+                  SelectableText(getSafeguardingKeyType()),
                 ],
               )
             ),

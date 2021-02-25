@@ -1,24 +1,17 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:encrypt/encrypt.dart';
 import 'package:mymgs/keys.dart';
+import 'package:openpgp/openpgp.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 Future<void> encryptAndSubmitReport(String report) async {
-  final publicKeyString = getSafeguardingKey();
-  final publicKey = RSAKeyParser().parse(publicKeyString);
-
-  final encryptor = RSA(
-    publicKey: publicKey,
-  );
-  final encrypted = encryptor.encrypt(Uint8List.fromList(report.codeUnits));
+  final publicKeyString = getSafeguardingPGP();
+  final encryptedMessage = await OpenPGP.encrypt(report, publicKeyString);
 
   await _firestore.collection('reports').add({
-    "message": encrypted.base64,
+    "message": encryptedMessage,
     "publicKey": publicKeyString,
-    "encryption": "RSA2048",
+    "encryption": getSafeguardingKeyType(),
     "createdAt": Timestamp.now(),
   });
 }
