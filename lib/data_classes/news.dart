@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/image.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
+import 'link.dart';
+
 part 'news.g.dart';
 
 @JsonSerializable()
@@ -14,6 +16,7 @@ class NewsItem {
   @JsonKey(fromJson: noopTransform, toJson: noopTransform)
   Timestamp createdAt;
   String authorName;
+  List<Link> links;
 
   NewsItem();
   factory NewsItem.fromJson(Map<String, dynamic> json) => _$NewsItemFromJson(json);

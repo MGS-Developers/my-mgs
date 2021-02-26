@@ -15,7 +15,11 @@ NewsItem _$NewsItemFromJson(Map<String, dynamic> json) {
         ? null
         : MGSImage.fromJson(json['image'] as Map<String, dynamic>)
     ..createdAt = noopTransform(json['createdAt'])
-    ..authorName = json['authorName'] as String;
+    ..authorName = json['authorName'] as String
+    ..links = (json['links'] as List)
+        ?.map(
+            (e) => e == null ? null : Link.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$NewsItemToJson(NewsItem instance) => <String, dynamic>{
@@ -25,4 +29,5 @@ Map<String, dynamic> _$NewsItemToJson(NewsItem instance) => <String, dynamic>{
       'image': instance.image,
       'createdAt': noopTransform(instance.createdAt),
       'authorName': instance.authorName,
+      'links': instance.links,
     };
