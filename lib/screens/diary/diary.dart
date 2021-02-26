@@ -21,6 +21,7 @@ class _DiaryState extends State<Diary> {
   }
 
   void _changeDate(DateTime newDate) {
+    _diaryEntryController.dispose();
     setState(() {
       _diaryEntryController = getControllerForDay(newDate);
     });

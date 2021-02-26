@@ -21,12 +21,12 @@ class NewsPreview extends StatelessWidget {
         vertical: 5,
         horizontal: 10,
       ),
-      leading: Image(
+      leading: newsItem.image.thumbnailUrl != null && newsItem.image.thumbnailUrl != '' ? Image(
         width: 60,
         height: 60,
         fit: BoxFit.cover,
         image: CachedNetworkImageProvider(newsItem.image.thumbnailUrl),
-      ),
+      ) : null,
       title: Text(newsItem.headline),
       subtitle: Text(previewText),
       onTap: () {

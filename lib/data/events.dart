@@ -46,7 +46,7 @@ Future<List<Event>> getEvents({
   final response = await _firestore
       .collection('events')
       .where('yearGroups', arrayContains: yearGroup)
-      .where('startTime', isGreaterThan: Timestamp.now())
+      .where('startTime', isGreaterThan: Jiffy().startOf(Units.DAY))
       .orderBy('startTime', descending: false)
       .limit(limit)
       .get();

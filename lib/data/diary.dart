@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
@@ -17,7 +18,8 @@ String _stringify(DiaryEntry diaryEntry) {
 
 DiaryEntry _parse(String entry) {
   if (entry == null) {
-    return null;
+    return DiaryEntry()
+      ..subjectEntries = [];
   }
 
   return DiaryEntry.fromJson(jsonDecode(entry));
@@ -36,19 +38,17 @@ Future<DiaryEntry> _getEntryForDay(DateTime date) async {
 }
 
 class DiaryEntryController {
-  StreamController<DiaryEntry> streamController;
+  TransformedStreamController<DiaryEntry> streamController;
   DateTime date;
 
-  DiaryEntryController(this.date) : streamController = StreamController<DiaryEntry>();
+  DiaryEntryController(this.date);
 
   void dispose() {
-    streamController.close();
+    streamController.dispose();
   }
 
   Future<void> write(DiaryEntry newEntry) async {
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setString(_dayToKey(date), _stringify(newEntry));
-    streamController.add(newEntry);
+    return set(_dayToKey(date), newEntry, _stringify);
   }
 
   void _createHomeworkReminder(SubjectEntry subjectEntry) async {
@@ -132,13 +132,12 @@ class DiaryEntryController {
 
 DiaryEntryController getControllerForDay(DateTime day) {
   final diaryEntryController = DiaryEntryController(day);
-
-  final initialEntry = _getEntryForDay(day);
-  if (initialEntry == null) {
-    diaryEntryController.streamController.close();
-    return diaryEntryController;
-  }
-
-  diaryEntryController.streamController.addStream(initialEntry.asStream());
+  diaryEntryController.streamController = watch<DiaryEntry>(
+      _dayToKey(day),
+      parser: _parse,
+      placeholderValue: DiaryEntry()
+        ..day = day
+        ..subjectEntries = []
+  );
   return diaryEntryController;
 }

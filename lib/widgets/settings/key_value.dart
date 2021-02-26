@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data/settings.dart';
 
 typedef TrackerMapper = String Function(dynamic value);
@@ -11,7 +12,7 @@ class KeyValueSetting extends StatelessWidget {
   final String description;
 
   final String tracker;
-  final StreamController _streamController;
+  final TransformedStreamController _streamController;
   final TrackerMapper trackerMapper;
 
   final VoidCallback onTap;
@@ -35,7 +36,7 @@ class KeyValueSetting extends StatelessWidget {
         value,
         style: Theme.of(context).textTheme.bodyText1,
       ) : tracker != null ? StreamBuilder(
-        stream: _streamController.stream,
+        stream: _streamController.streamController.stream,
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData) return const SizedBox();
 

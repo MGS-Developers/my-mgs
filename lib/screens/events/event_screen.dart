@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
-import 'package:mymgs/screens/catering/catering.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 import 'package:mymgs/widgets/events/event_reminder_button.dart';
 import 'package:mymgs/widgets/hero/image_scaffold.dart';
@@ -36,6 +34,7 @@ class EventScreen extends StatelessWidget {
             },
           ),
         ),
+        if (event.club == null) const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: MarkdownBody(

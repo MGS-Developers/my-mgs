@@ -14,6 +14,8 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasImage = event.imageUrl != null && event.imageUrl != '';
+
     return Card(
       child: InkWell(
         onTap: () {
@@ -25,7 +27,7 @@ class EventCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (event.imageUrl != null) Container(
+            if (hasImage) Container(
               height: 120,
               width: double.infinity,
               padding: EdgeInsets.only(
@@ -36,6 +38,7 @@ class EventCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            if (!hasImage) const SizedBox(height: 15),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 15),
               child: Column(

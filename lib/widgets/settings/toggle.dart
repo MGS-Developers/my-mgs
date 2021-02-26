@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data/settings.dart';
 
 typedef ToggleCallback = void Function(bool on);
@@ -31,7 +32,7 @@ class ToggleSetting extends StatefulWidget {
 }
 
 class _ToggleSettingState extends State<ToggleSetting> {
-  StreamController<bool> _streamController;
+  TransformedStreamController<bool> _streamController;
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
 
   @override
   void dispose() {
-    _streamController.close();
+    _streamController.dispose();
     super.dispose();
   }
 

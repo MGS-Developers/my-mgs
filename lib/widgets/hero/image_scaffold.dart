@@ -61,15 +61,10 @@ class _ImageScaffoldState extends State<ImageScaffold> {
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
-                          stops: [
-                            0.0,
-                            0.6,
-                            1.0,
-                          ],
                           colors: [
-                            Color(0x90000000),
+                            Color(0x60000000),
                             Colors.transparent,
-                            Color(0x90000000),
+                            Color(0x80000000),
                           ],
                         ),
                       ),
