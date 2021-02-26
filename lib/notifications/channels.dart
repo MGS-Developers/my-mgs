@@ -51,8 +51,8 @@ class MGSChannels {
     );
   }
 
-  static Future<NotificationDetails> news([String image]) async {
-    BigPictureStyleInformation styleInformation;
+  static Future<NotificationDetails> news([String image, String body]) async {
+    StyleInformation styleInformation;
     IOSNotificationAttachment notificationAttachment;
     if (image != null) {
       final imagePath = await _downloadImage(image);
@@ -62,6 +62,8 @@ class MGSChannels {
         hideExpandedLargeIcon: true,
       );
       notificationAttachment = IOSNotificationAttachment(imagePath);
+    } else if (body != null) {
+      styleInformation = BigTextStyleInformation(body);
     }
 
     return NotificationDetails(

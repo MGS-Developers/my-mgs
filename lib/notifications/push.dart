@@ -21,13 +21,17 @@ Future<void> pushHandler(Map<String, dynamic> message) async {
   if (!(await isPushTopicAllowed(topic))) return;
   if (title == null || body == null) return;
 
-  final deepLink = DeepLink(DeepLinkResource.values[int.parse(resource)], id);
+  String deepLinkString;
+  if (resource != null && id != null) {
+    final deepLink = DeepLink(DeepLinkResource.values[int.parse(resource)], id);
+    deepLinkString = deepLink.toPayloadString();
+  }
 
   flutterLocalNotificationsPlugin.show(
     Random().nextInt(10000),
     title,
     body,
-    await MGSChannels.news(imageUrl),
-    payload: deepLink.toPayloadString(),
+    await MGSChannels.news(imageUrl, body),
+    payload: deepLinkString,
   );
 }

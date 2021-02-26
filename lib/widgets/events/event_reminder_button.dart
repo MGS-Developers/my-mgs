@@ -27,7 +27,7 @@ class _EventReminderButtonState extends State<EventReminderButton> {
     final sharedPreferences = await SharedPreferences.getInstance();
     final _reminderScheduled = sharedPreferences.getBool("reminder-${widget.event.id}");
 
-    if (_reminderScheduled) {
+    if (_reminderScheduled != null && _reminderScheduled) {
       setState(() {
         reminderScheduled = true;
       });
