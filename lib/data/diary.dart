@@ -1,54 +1,46 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/notifications/reminders.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sembast/sembast.dart';
+import 'package:mymgs/data/local_database.dart';
+
+final store = StoreRef<String, Map<String, dynamic>>('diary');
 
 String _dayToKey(DateTime date) {
   return date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString();
 }
 
-String _stringify(DiaryEntry diaryEntry) {
-  return jsonEncode(diaryEntry.toJson());
-}
-
-DiaryEntry _parse(String entry) {
-  if (entry == null) {
-    return DiaryEntry()
-      ..subjectEntries = [];
-  }
-
-  return DiaryEntry.fromJson(jsonDecode(entry));
-}
-
 Future<DiaryEntry> _getEntryForDay(DateTime date) async {
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final existingEntry = _parse(sharedPreferences.getString(_dayToKey(date)));
-  if (existingEntry == null) {
+  final db = await getDb();
+  final rawEntry = await store.record(_dayToKey(date)).get(db);
+  if (rawEntry == null) {
     return DiaryEntry()
-      ..day = date
-      ..subjectEntries = [];
+        ..day = date
+        ..subjectEntries = [];
   } else {
-    return existingEntry;
+    return DiaryEntry.fromJson(rawEntry);
   }
+}
+
+Stream<DiaryEntry> _getStreamForDay(DateTime day) async* {
+  final db = await getDb();
+  yield* store.record(_dayToKey(day)).onSnapshot(db)
+      .map((e) => e?.value)
+      .map((e) => DiaryEntry.fromJson(e));
 }
 
 class DiaryEntryController {
-  TransformedStreamController<DiaryEntry> streamController;
+  Stream<DiaryEntry> stream;
   DateTime date;
 
   DiaryEntryController(this.date);
 
-  void dispose() {
-    streamController.dispose();
-  }
-
   Future<void> write(DiaryEntry newEntry) async {
-    return set(_dayToKey(date), newEntry, _stringify);
+    final db = await getDb();
+    return store.record(_dayToKey(date)).put(db, newEntry.toJson());
   }
 
   void _createHomeworkReminder(SubjectEntry subjectEntry) async {
@@ -132,12 +124,6 @@ class DiaryEntryController {
 
 DiaryEntryController getControllerForDay(DateTime day) {
   final diaryEntryController = DiaryEntryController(day);
-  diaryEntryController.streamController = watch<DiaryEntry>(
-      _dayToKey(day),
-      parser: _parse,
-      placeholderValue: DiaryEntry()
-        ..day = day
-        ..subjectEntries = []
-  );
+  diaryEntryController.stream = _getStreamForDay(day);
   return diaryEntryController;
 }

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mymgs/data/local_database.dart';
+import 'package:sembast/sembast.dart';
 
 final _firebaseMessaging = FirebaseMessaging();
+final store = StoreRef<String, dynamic>('settings');
 
 Future<void> saveSetting(String key, dynamic value) async {
   if (value is bool) {
@@ -16,13 +18,18 @@ Future<void> saveSetting(String key, dynamic value) async {
       }
     }
   }
-  await set(key, value);
+
+  final db = await getDb();
+  await store.record(key).put(db, value);
 }
 
-TransformedStreamController<T> watchSetting<T>(String key) {
-  return watch<T>(key);
+Stream<T> watchSetting<T>(String key) async* {
+  final db = await getDb();
+  yield* store.record(key).onSnapshot(db).map((event) => event?.value);
 }
 
 Future<T> getSetting<T>(String key) async {
-  return get<T>(key);
+  final db = await getDb();
+  final value = await store.record(key).get(db);
+  return value as T;
 }

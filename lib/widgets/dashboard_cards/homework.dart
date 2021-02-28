@@ -19,12 +19,6 @@ class _HomeworkCardState extends State<HomeworkCard> {
   }
 
   @override
-  void dispose() {
-    _diaryEntryController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DashboardCard(
       title: "Homework",

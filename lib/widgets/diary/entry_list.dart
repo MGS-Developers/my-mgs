@@ -36,12 +36,6 @@ class _EntryList extends State<EntryList> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    widget.diaryEntryController.dispose();
-    super.dispose();
-  }
-
   void _showEntryMenu(MapEntry<int, SubjectEntry> entry) {
     showPlatformDialog(
       context: context,
@@ -73,7 +67,7 @@ class _EntryList extends State<EntryList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DiaryEntry>(
-      stream: widget.diaryEntryController.streamController.stream,
+      stream: widget.diaryEntryController.stream,
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container();

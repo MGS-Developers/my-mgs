@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data/settings.dart';
 
 typedef ToggleCallback = void Function(bool on);
@@ -32,22 +31,23 @@ class ToggleSetting extends StatefulWidget {
 }
 
 class _ToggleSettingState extends State<ToggleSetting> {
-  TransformedStreamController<bool> _streamController;
+  Stream<bool> _stream;
+  StreamSubscription<bool> _streamSubscription;
 
   @override
   void initState() {
     setState(() {
-      _streamController = watchSetting<bool>(widget.tracker);
+      _stream = watchSetting<bool>(widget.tracker).asBroadcastStream();
     });
 
-    _streamController.stream.listen(widget.callback);
+    _streamSubscription = _stream.listen(widget.callback);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    _streamController.dispose();
+    _streamSubscription.cancel();
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
-      stream: _streamController.stream,
+      stream: _stream,
       builder: (BuildContext context, snapshot) {
         final bool currentValue = snapshot.data ?? false;
         final bool canBeChanged = widget.enabled == true && widget.requirement == true;

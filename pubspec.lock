@@ -656,12 +656,19 @@ packages:
     source: hosted
     version: "2.1.5"
   rxdart:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.25.0"
+  sembast:
+    dependency: "direct main"
+    description:
+      name: sembast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.10+3"
   shared_preferences:
     dependency: "direct main"
     description:

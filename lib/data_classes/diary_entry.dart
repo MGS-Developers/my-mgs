@@ -28,9 +28,14 @@ class SubjectEntry {
   }
 }
 
+List<dynamic> mapSubjectEntries([List e]) {
+  return e?.map((v) => (v as SubjectEntry).toJson())?.toList();
+}
+
 @JsonSerializable()
 class DiaryEntry {
   DateTime day;
+  @JsonKey(toJson: mapSubjectEntries)
   List<SubjectEntry> subjectEntries;
 
   DiaryEntry();

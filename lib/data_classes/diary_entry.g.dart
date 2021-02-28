@@ -36,5 +36,5 @@ DiaryEntry _$DiaryEntryFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DiaryEntryToJson(DiaryEntry instance) =>
     <String, dynamic>{
       'day': instance.day?.toIso8601String(),
-      'subjectEntries': instance.subjectEntries,
+      'subjectEntries': mapSubjectEntries(instance.subjectEntries),
     };
