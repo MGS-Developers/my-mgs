@@ -13,13 +13,17 @@ String _dayToKey(DateTime date) {
   return date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString();
 }
 
+DiaryEntry _blankDiaryEntry(DateTime day) {
+  return DiaryEntry()
+      ..day = day
+      ..subjectEntries = [];
+}
+
 Future<DiaryEntry> _getEntryForDay(DateTime date) async {
   final db = await getDb();
   final rawEntry = await store.record(_dayToKey(date)).get(db);
   if (rawEntry == null) {
-    return DiaryEntry()
-        ..day = date
-        ..subjectEntries = [];
+    return _blankDiaryEntry(date);
   } else {
     return DiaryEntry.fromJson(rawEntry);
   }
@@ -29,7 +33,13 @@ Stream<DiaryEntry> _getStreamForDay(DateTime day) async* {
   final db = await getDb();
   yield* store.record(_dayToKey(day)).onSnapshot(db)
       .map((e) => e?.value)
-      .map((e) => DiaryEntry.fromJson(e));
+      .map((e) {
+        if (e == null) {
+          return _blankDiaryEntry(day);
+        } else {
+          return DiaryEntry.fromJson(e);
+        }
+      });
 }
 
 class DiaryEntryController {

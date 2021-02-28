@@ -66,13 +66,13 @@ class _EventsState extends State<Events> {
                 );
               }
 
-              return GroupedListView<Event, DateTime>(
+              return GroupedListView<Event, String>(
                 elements: snapshot.data,
-                groupBy: (e) => e.startTime.toDate(),
+                groupBy: (e) => Jiffy(e.startTime.toDate()).yMMMEd,
                 itemBuilder: (context, event) {
                   return EventCard(event: event);
                 },
-                groupSeparatorBuilder: (date) => GroupedListSeparator(label: Jiffy(date).yMMMEd),
+                groupSeparatorBuilder: (date) => GroupedListSeparator(label: date),
               );
             }
           );

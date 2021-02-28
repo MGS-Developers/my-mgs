@@ -26,18 +26,19 @@ dependencies:
 
   # firebase modules
   firebase_core: ^0.7.0
-  cloud_firestore: ^0.16.0
+  cloud_firestore: ^0.16.0+1
   firebase_remote_config: ^0.6.0
   cloud_functions: ^0.9.0
-  firebase_auth: ^0.20.0+1
+  firebase_auth: ^0.20.1
   firebase_messaging: ^6.0.16
 
   # everything else
-  qr_code_scanner: ^0.3.4
+  qr_code_scanner: ^0.3.5
   grouped_list: ^3.7.1
+  infinite_listview: ^1.0.1+1
   jiffy: ^3.0.1
   flutter_markdown: ^0.5.2
-  flutter_local_notifications: ^4.0.1
+  flutter_local_notifications: ^4.0.1+1
   convert: ^2.1.1
   flutter_platform_widgets: ^0.72.0
   json_annotation: ^3.1.1
