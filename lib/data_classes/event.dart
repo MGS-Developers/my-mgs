@@ -4,11 +4,15 @@ import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/link.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
+import 'identifiable.dart';
+
 part 'event.g.dart';
 
 @JsonSerializable()
-class Event {
-  String id;
+class Event with Identifiable {
+  @JsonKey(ignore: true)
+  final String collection = "events";
+
   String title;
   /// short, plaintext summary (<50 words)
   String summary;

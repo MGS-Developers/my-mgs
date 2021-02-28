@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/widgets/hero/image_scaffold.dart';
+import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 
 class NewsItemScreen extends StatelessWidget {
@@ -34,11 +35,12 @@ class NewsItemScreen extends StatelessWidget {
           ),
         ),
         if (newsItem.links != null) Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 10),
           child: Links(
             links: newsItem.links,
           ),
-        )
+        ),
+        InfoDisclaimer(identifiable: newsItem, hPadding: 15),
       ],
     );
   }

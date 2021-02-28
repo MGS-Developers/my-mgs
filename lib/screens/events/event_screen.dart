@@ -5,6 +5,7 @@ import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 import 'package:mymgs/widgets/events/event_reminder_button.dart';
 import 'package:mymgs/widgets/hero/image_scaffold.dart';
+import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 
 class EventScreen extends StatelessWidget {
@@ -66,6 +67,7 @@ class EventScreen extends StatelessWidget {
           child: Links(links: event.links),
         ),
         if (event.links != null) const SizedBox(height: 10),
+        InfoDisclaimer(hPadding: 15, identifiable: event),
       ],
     );
   }

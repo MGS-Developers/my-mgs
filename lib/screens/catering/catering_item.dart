@@ -85,7 +85,7 @@ class CateringItemScreen extends StatelessWidget {
               const SizedBox(height: 20),
               ...getMenuWidgets(context),
               const SizedBox(height: 30),
-              const InfoDisclaimer(),
+              InfoDisclaimer(identifiable: cateringItem),
             ],
           ),
         ),

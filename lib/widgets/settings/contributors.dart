@@ -15,21 +15,27 @@ class Contributors extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "This app was made possible by:",
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.center,
-              ),
-              ...contributors.map((name) => Padding(
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 24,
+              ...contributors.keys.map((category) => Column(
+                children: [
+                  Text(
+                    category,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ))
+                  const SizedBox(height: 5),
+                  ...contributors[category].map((name) => Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )),
+                  const SizedBox(height: 15),
+                ],
+              )),
             ],
           ),
         ),

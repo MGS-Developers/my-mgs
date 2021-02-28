@@ -12,7 +12,18 @@ Copyright © 2020-2021, The """ + appName + """ Authors. All rights reserved.
 Source code available under MIT license at https://github.com/My-MGS/my-mgs.
 """;
 
-const contributors = [
-  "Pal Kerecsenyi",
-  "Jude Waide",
-];
+const contributors = {
+  "Code": [
+    "Pal K",
+    "Jude W",
+    "Sam P",
+    "Chike N",
+    "John S",
+  ],
+  "Design": [
+    "Basit K"
+  ],
+  "Concept & testing": [
+    "The MGS School Council",
+  ],
+};
