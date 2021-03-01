@@ -131,6 +131,17 @@ class _ClubsState extends State<Clubs> {
                                     BorderRadius.all(Radius.circular(10)),
                                 color: Theme.of(context).primaryColor,
                               ),
+                              child: OutlineButton(onPressed: () {
+                                //Sam, add constructor for your page below in builder: (replacing null), and pass in 'club'
+                                //Obviously comment the code below back in. You can remove the debug print as well
+                                /**
+                                Navigator.of(context).push(platformPageRoute(
+                                    context: context,
+                                    builder: null),
+                                );
+                                    **/
+                                print("Button pressed! club:" + club.name);
+                              },
                               child: Column(
                                 children: [
                                   Text(
@@ -138,7 +149,7 @@ class _ClubsState extends State<Clubs> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color:
-                                          Theme.of(context).primaryColorLight,
+                                      Theme.of(context).primaryColorLight,
                                       fontSize: 20,
                                     ),
                                   ),
@@ -147,12 +158,12 @@ class _ClubsState extends State<Clubs> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color:
-                                          Theme.of(context).primaryColorLight,
+                                      Theme.of(context).primaryColorLight,
                                       fontSize: 16,
                                     ),
                                   ),
                                 ],
-                              ),
+                              )),
                             );
                           },
                         )),
