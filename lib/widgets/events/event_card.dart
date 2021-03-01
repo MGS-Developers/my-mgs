@@ -2,15 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/helpers/animation.dart';
 import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
-  const EventCard({
+  final String heroKey;
+  EventCard({
     Key key,
     @required this.event,
-  });
+  }) : heroKey = randomHeroKey();
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +23,27 @@ class EventCard extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(platformPageRoute(
             context: context,
-            builder: (_) => EventScreen(event: event),
+            builder: (_) => EventScreen(
+              event: event,
+              heroKey: heroKey,
+            ),
           ));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (hasImage) Container(
-              height: 120,
-              width: double.infinity,
-              padding: EdgeInsets.only(
-                bottom: 10,
-              ),
-              child: Image(
-                image: CachedNetworkImageProvider(event.imageUrl),
-                fit: BoxFit.cover,
+            if (hasImage) Hero(
+              tag: heroKey,
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                ),
+                child: Image(
+                  image: CachedNetworkImageProvider(event.imageUrl),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             if (!hasImage) const SizedBox(height: 15),

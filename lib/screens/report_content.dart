@@ -82,7 +82,7 @@ class _ReportContentState extends State<ReportContent> {
               ),
               const SizedBox(height: 15),
               Text(
-                "Your report will be sent anonymously",
+                "Your report will be sent anonymously. Please don't include personal details.",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(height: 15),

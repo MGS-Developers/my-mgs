@@ -8,8 +8,10 @@ import 'package:mymgs/widgets/links.dart';
 
 class NewsItemScreen extends StatelessWidget {
   final NewsItem newsItem;
+  final String heroKey;
   const NewsItemScreen({
     @required this.newsItem,
+    this.heroKey,
     Key key,
   });
 
@@ -19,6 +21,7 @@ class NewsItemScreen extends StatelessWidget {
       appBarLabel: "Article",
       title: newsItem.headline,
       image: CachedNetworkImageProvider(newsItem.image.fullUrl),
+      heroKey: heroKey,
       children: [
         Padding(
           padding: EdgeInsets.all(15),

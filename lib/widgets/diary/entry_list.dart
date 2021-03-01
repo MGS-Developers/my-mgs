@@ -4,6 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/diary.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/screens/diary/add_entry.dart';
+import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/diary/day_entry.dart';
 
 class EntryList extends StatefulWidget {
@@ -38,8 +39,8 @@ class _EntryList extends State<EntryList> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(height: 10),
-                if (widget.showNewButton) PlatformButton(
-                  child: Text("Add new"),
+                if (widget.showNewButton) MGSButton(
+                  label: "Add new",
                   onPressed: () {
                     Navigator.of(context).push(platformPageRoute(
                       context: context,
