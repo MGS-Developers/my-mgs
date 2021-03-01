@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
@@ -41,18 +42,14 @@ class ClubTime {
   TimeOfDay time;
 
   String toDisplayString() {
+    return ("Every " + dayOfWeek.toString() + " at " + getDisplayTime());
+  }
+
+  String getDisplayTime() {
     // TimeOfDay stores an hour and minute value in 24hr time. The 'hourOfPeriod' function returns the stored hour value in 12hr time (24hr - 12).
     // The below code then combines the 12 hour value with the minute value, as well as the period value which stores if the time is am or pm.
-    String period;
-    if (time.period == DayPeriod.am){
-      period = "am";
-    }
-    else{
-      period = "pm";
-    }
 
-    String displayTime = time.hourOfPeriod.toString() + ":" + time.minute.toString() + period;
-    return ("Every " + dayOfWeek.toString() + " at " + displayTime);
+    return Jiffy(DateTime(0, 0, 0, time.hour, time.minute)).jm;
   }
 
   ClubTime();
