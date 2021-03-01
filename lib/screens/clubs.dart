@@ -18,12 +18,11 @@ class _ClubsState extends State<Clubs> {
   Future<List<Club>> clubsFuture;
 
   //Stored the day currently selected by the user. First value in the DayOfWeek enum by default (currently Monday)
-  DayOfWeek selectedDay = DayOfWeek.values.first;
+  DayOfWeek selectedDay;
 
   // https://stackoverflow.com/a/52300307/9043010
   @override
   void initState() {
-    super.initState();
     // this function gets which year group the user has said they're in
     getYearGroup().then((value) {
       // once we've found out, we need to update the `clubsFuture` state variable with a call to `getClubs`, passing in the year group
@@ -32,6 +31,10 @@ class _ClubsState extends State<Clubs> {
         clubsFuture = getClubs(yearGroup: value);
       });
     });
+
+    selectedDay = DayOfWeek.values[DateTime.now().weekday - 1];
+
+    super.initState();
   }
 
   List<Club> filterForDay(List<Club> clubs, DayOfWeek day) {
@@ -70,8 +73,7 @@ class _ClubsState extends State<Clubs> {
               return Text("An error occurred");
             }
 
-            final List<Club> filteredList =
-            filterForDay(snapshot.data, selectedDay);
+            final List<Club> filteredList = filterForDay(snapshot.data, selectedDay);
 
             //This column stores the dropdown widget and the container for the scrollable list
             //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
@@ -80,6 +82,7 @@ class _ClubsState extends State<Clubs> {
               children: [
                 //Expanded widget holding the dropdown menu
                 DropdownButton<DayOfWeek>(
+                  dropdownColor: Theme.of(context).backgroundColor,
                   items: DayOfWeek.values.map((day) => DropdownMenuItem(
                     child: Text(EnumHelper.getStringValue(day)),
                     value: day,
@@ -102,20 +105,15 @@ class _ClubsState extends State<Clubs> {
                   ),
                 if (filteredList.isNotEmpty)
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                      child: ListView.builder(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 5,
-                        ),
-                        shrinkWrap: true,
-                        itemCount: filteredList.length,
-                        itemBuilder: (context, index) {
-                          final club = filteredList[index];
-                          return ClubCard(club: club);
-                        },
-                      ),
-                    )
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      shrinkWrap: true,
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        final club = filteredList[index];
+                        return ClubCard(club: club);
+                      },
+                    ),
                   ),
               ],
             );

@@ -98,6 +98,7 @@ class App extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     ),
   );
 

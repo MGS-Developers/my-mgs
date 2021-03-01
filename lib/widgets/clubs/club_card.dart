@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/club.dart';
+import 'package:mymgs/widgets/text_icon.dart';
 
 class ClubCard extends StatelessWidget {
   final Club club;
@@ -10,14 +12,10 @@ class ClubCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          color: Theme.of(context).primaryColor,
-        ),
-        child: OutlinedButton(
-          onPressed: () {
+      padding: const EdgeInsets.only(top: 5),
+      child: Card(
+        child: InkWell(
+          onTap: () {
             //Sam, add constructor for your page below in builder: (replacing null), and pass in 'club'
             //Obviously comment the code below back in. You can remove the debug print as well
             /**
@@ -29,27 +27,46 @@ class ClubCard extends StatelessWidget {
              **/
             print("Button pressed! club:" + club.name);
           },
-          child: Column(
-            children: [
-              Text(
-                club.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color:
-                  Theme.of(context).primaryColorLight,
-                  fontSize: 20,
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  club.name,
+                  style: Theme.of(context).textTheme.headline6,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              Text(
-                club.time.getDisplayTime(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color:
-                  Theme.of(context).primaryColorLight,
-                  fontSize: 16,
+                Text(
+                  club.description,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    TextIcon(icon: PlatformIcons(context).time),
+                    const SizedBox(width: 5),
+                    Text(
+                      club.time.getDisplayTime(),
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    TextIcon(icon: PlatformIcons(context).person),
+                    const SizedBox(width: 5),
+                    Text(
+                      club.staffName,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
