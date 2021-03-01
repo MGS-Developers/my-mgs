@@ -1,0 +1,6 @@
+syntax = "proto3";
+package mymgs;
+
+message Magazine {
+  string title = 1;
+}
