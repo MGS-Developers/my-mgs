@@ -4,6 +4,7 @@ import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/helpers/enum_helpers.dart';
+import 'package:mymgs/widgets/clubs/club_card.dart';
 import 'package:mymgs/widgets/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -56,7 +57,6 @@ class _ClubsState extends State<Clubs> {
           //When the class is initialised a Future<List<Club>> is commenced, which will make a database query and return a list of clubs depending on the user's yeargroup
           future: clubsFuture,
           builder: (BuildContext context, snapshot) {
-            // TODO: add code for GitHub issue #1 here
             // refer to FutureBuilder docs for the contents of 'snapshot'
             // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
             // once populated, snapshot.data will contain a `List` of `Club` class instances
@@ -64,14 +64,14 @@ class _ClubsState extends State<Clubs> {
 
             if (snapshot.connectionState != ConnectionState.done) {
               //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
-              return Center(child: new Spinner());
+              return Center(child: Spinner());
             } else if (snapshot.hasError || snapshot.data == null) {
               //Checks for errors and null. A list of clubs is now safe and ready to use.
               return Text("An error occurred");
             }
 
             final List<Club> filteredList =
-                filterForDay(snapshot.data, selectedDay);
+            filterForDay(snapshot.data, selectedDay);
 
             //This column stores the dropdown widget and the container for the scrollable list
             //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
@@ -80,19 +80,17 @@ class _ClubsState extends State<Clubs> {
               children: [
                 //Expanded widget holding the dropdown menu
                 DropdownButton<DayOfWeek>(
-                    items: DayOfWeek.values
-                        .map((day) => DropdownMenuItem(
-                              child: Text(EnumHelper.getStringValue(day)),
-                              value: day,
-                            ))
-                        .toList(),
-                    value: selectedDay,
-                    onChanged: (DayOfWeek newValue) {
-                      setState(() {
-                        selectedDay = newValue;
-                      });
-                    }),
-
+                  items: DayOfWeek.values.map((day) => DropdownMenuItem(
+                    child: Text(EnumHelper.getStringValue(day)),
+                    value: day,
+                  )).toList(),
+                  value: selectedDay,
+                  onChanged: (DayOfWeek newValue) {
+                    setState(() {
+                      selectedDay = newValue;
+                    });
+                  },
+                ),
                 if (filteredList.isEmpty)
                   Padding(
                     padding: EdgeInsets.all(10),
@@ -104,70 +102,21 @@ class _ClubsState extends State<Clubs> {
                   ),
                 if (filteredList.isNotEmpty)
                   Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                            border: Border(
-                                left: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 4),
-                                right: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 4))),
-                        child: ListView.builder(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 5,
-                          ),
-                          shrinkWrap: true,
-                          itemCount: filteredList.length,
-                          itemBuilder: (context, index) {
-                            Club club = filteredList[index];
-                            return Container(
-                              margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              child: OutlineButton(onPressed: () {
-                                //Sam, add constructor for your page below in builder: (replacing null), and pass in 'club'
-                                //Obviously comment the code below back in. You can remove the debug print as well
-                                /**
-                                Navigator.of(context).push(platformPageRoute(
-                                    context: context,
-                                    builder: null),
-                                );
-                                    **/
-                                print("Button pressed! club:" + club.name);
-                              },
-                              child: Column(
-                                children: [
-                                  Text(
-                                    club.name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color:
-                                      Theme.of(context).primaryColorLight,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    club.time.getDisplayTime(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color:
-                                      Theme.of(context).primaryColorLight,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              )),
-                            );
-                          },
-                        )),
-                  ))
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 5,
+                        ),
+                        shrinkWrap: true,
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          final club = filteredList[index];
+                          return ClubCard(club: club);
+                        },
+                      ),
+                    )
+                  ),
               ],
             );
           },
