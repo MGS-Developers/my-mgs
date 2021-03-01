@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/helpers/app_name.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/setup/intro.dart';
 import 'package:mymgs/screens/setup/scan_code.dart';
 import 'package:mymgs/screens/setup/select_year_group.dart';

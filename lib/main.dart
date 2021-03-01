@@ -8,9 +8,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymgs/notifications/init.dart';
 import 'package:mymgs/screens/main_navigation.dart';
 import 'package:mymgs/widgets/spinner.dart';
-import 'helpers/app_name.dart';
+import 'helpers/app_metadata.dart';
 
 // this is the function Dart automatically calls to start the app — it's known as the entrypoint
 // trying to run _anything_ before runApp() will cause a fatal error
@@ -18,6 +19,8 @@ import 'helpers/app_name.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
+
+  setupNotifications();
 }
 
 // this is our first class!
@@ -28,13 +31,13 @@ class App extends StatelessWidget {
   // before we can use Firebase's modules, we need to initialise it
   // initialisation uses a Future, so we need to make sure the app doesn't load until it has completed
   // obviously, this process takes less than a millisecond
-  final Future<FirebaseApp> _firebaseInit =
-      Firebase.initializeApp().then((value) {
-    // turn on data persistence — allows data to be saved to phone automatically and queried locally if there's no connection
-    // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
-    FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
-    return Future.value(Firebase.apps[0]);
-  });
+  final Future<FirebaseApp> _firebaseInit = Firebase.initializeApp()
+    .then((value) {
+      // turn on data persistence — allows data to be saved to phone automatically and queried locally if there's no connection
+      // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
+      FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+      return Future.value(Firebase.apps[0]);
+    });
 
   // Futures play a pretty major role in any Dart-based application, since it's a primarily asynchronous language
   // if you've ever used JavaScript, a Future is the exact same thing as a Promise.
@@ -47,8 +50,14 @@ class App extends StatelessWidget {
       color: Colors.black54,
       fontWeight: FontWeight.normal,
     ),
-
   );
+
+  static final buttonStyle = ButtonStyle(
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    )),
+  );
+  static final materialStateColorLight = MaterialStateProperty.all(Color(0xFF374b6a));
 
   // Themes!
   // our app can run in two modes: dark mode and light mode.
@@ -75,12 +84,21 @@ class App extends StatelessWidget {
     scaffoldBackgroundColor: Colors.white,
     textTheme: textTheme,
     outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(Color(0xFF374b6a)),
-      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      )),
-    )),
+      style: buttonStyle.copyWith(
+        foregroundColor: materialStateColorLight,
+      )
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: buttonStyle.copyWith(
+        backgroundColor: materialStateColorLight,
+      ),
+    ),
+    cardTheme: CardTheme(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
@@ -101,6 +119,11 @@ class App extends StatelessWidget {
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
     ),
+    cardColor: Colors.blueGrey[900],
+    iconTheme: IconThemeData(
+      color: Colors.blueGrey[200],
+    ),
+    dialogBackgroundColor: Colors.blueGrey[900],
   );
 
   // the 'build' function needs to be defined for widgets
@@ -117,27 +140,28 @@ class App extends StatelessWidget {
     // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
     // FutureBuilder is making a traditionally imperative piece of code be declarative, meaning that we get to write less code
     return FutureBuilder(
-        future: _firebaseInit,
-        builder: (BuildContext context, snapshot) {
-          // if the Future hasn't finished, display a loading spinner thing
-          if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
-              // Spinner is a widget made by pal
-              // pro tip: cmd/ctrl+click a function or variable to jump to its definition (in Android Studio)
-              child: Spinner(),
-            );
-          }
-
-          // MaterialApp builds up the basics of our app, like the header bar and the colours, allowing us to use these without rewriting code every time
-          return MaterialApp(
-            title: appName,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            // have no clue what ThemeMode.system means? try cmd/ctrl + clicking on 'system' to see where it's defined (in Android Studio)
-            // the vast majority of Flutter's definitions come with extensive code comments!
-            themeMode: ThemeMode.system,
-            home: const MainNavigation(),
+      future: _firebaseInit,
+      builder: (BuildContext context, snapshot) {
+        // if the Future hasn't finished, display a loading spinner thing
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(
+            // Spinner is a widget made by pal
+            // pro tip: cmd/ctrl+click a function or variable to jump to its definition (in Android Studio)
+            child: Spinner(),
           );
-        });
+        }
+
+        // MaterialApp builds up the basics of our app, like the header bar and the colours, allowing us to use these without rewriting code every time
+        return MaterialApp(
+          title: appName,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          // have no clue what ThemeMode.system means? try cmd/ctrl + clicking on 'system' to see where it's defined (in Android Studio)
+          // the vast majority of Flutter's definitions come with extensive code comments!
+          themeMode: ThemeMode.system,
+          home: const MainNavigation(),
+        );
+      }
+    );
   }
 }

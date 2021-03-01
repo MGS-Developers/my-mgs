@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mymgs/data/setup.dart';
+import 'package:mymgs/data/settings.dart';
 
 class SelectYearGroup extends StatefulWidget {
   final VoidCallback onComplete;
@@ -15,7 +15,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
   int yearGroup;
 
   void _save() async {
-    await saveYearGroup(yearGroup);
+    await saveSetting("year-group", yearGroup);
     widget.onComplete();
   }
 

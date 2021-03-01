@@ -3,14 +3,19 @@
 // you'll find the code for the fancy sidebar thing (called a 'drawer') here, as well as the code that selects which page to display
 // https://flutter.dev/docs/cookbook/design/drawer
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/setup.dart';
-import 'package:mymgs/helpers/app_name.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs.dart';
 import 'package:mymgs/screens/dashboard.dart';
-import 'package:mymgs/screens/diary.dart';
+import 'package:mymgs/screens/diary/diary.dart';
+import 'package:mymgs/screens/safeguarding/dashboard.dart';
+import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
-import 'package:mymgs/screens/talks.dart';
+import 'package:mymgs/screens/events/events.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 // this is a lil complicated
@@ -29,14 +34,38 @@ class MainNavigation extends StatefulWidget {
   _MainNavigationState createState() => _MainNavigationState();
 }
 
+typedef DrawerNavigationFunction = void Function(int index);
+// this class helps us pass data down to other children widgets easily.
+// it's a little complicated, so look at the docs if you want to learn more: https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html
+class DrawerSwitcher extends InheritedWidget {
+  final DrawerNavigationFunction switchTo;
+  final Widget child;
+  const DrawerSwitcher({
+    Key key,
+    @required this.switchTo,
+    @required this.child,
+  }) : super(key: key, child: child);
+
+  static DrawerSwitcher of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<DrawerSwitcher>();
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+    return false;
+  }
+}
+
 class _MainNavigationState extends State<MainNavigation> {
   // our list of screens never changes, so why not make it a compile-time constant?
   // these are just the screens we want to be navigable within our app drawer
   static const List<Widget> screens = [
     Dashboard(),
-    Talks(),
+    Events(),
     Clubs(),
     Diary(),
+    SafeguardingDashboard(),
+    SettingsScreen(),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -57,6 +86,8 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   SetupStatus setupStatus = SetupStatus.Determining;
+  DeepLinkStatus deepLinkStatus = DeepLinkStatus.Determining;
+  StreamSubscription<DeepLink> _deepLinkListener;
 
   // this is a special function that gets called when the widget is initialised
   // in here, we can run any code want to to set the widget up
@@ -70,6 +101,32 @@ class _MainNavigationState extends State<MainNavigation> {
         setupStatus = value;
       });
     });
+
+    // this is our custom way to detect link while the app is open and when it first opens.
+    // it's a little confusing, but rarely needs tweaking, so don't worry about it.
+    _deepLinkListener = watchDeepLink().stream.listen((deepLink) {
+      if (deepLink == null) {
+        setState(() {
+          deepLinkStatus = DeepLinkStatus.NoLink;
+        });
+        return;
+      }
+
+      deepLink.getRoute(context)
+      .then((route) {
+        Navigator.of(context).push(route);
+      });
+
+      setState(() {
+        deepLinkStatus = DeepLinkStatus.YesLink;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _deepLinkListener.cancel();
+    super.dispose();
   }
 
   // our setup screen will call this function when it's finished
@@ -81,7 +138,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    if (setupStatus == SetupStatus.Determining) {
+    if (setupStatus == SetupStatus.Determining || deepLinkStatus == DeepLinkStatus.Determining) {
       return Scaffold(
         body: Center(
           child: Spinner(),
@@ -129,7 +186,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 onTap: () => _selectPage(0),
               ),
               ListTile(
-                title: const Text('Talks'),
+                title: const Text('Talks & events'),
                 onTap: () => _selectPage(1),
               ),
               ListTile(
@@ -139,6 +196,14 @@ class _MainNavigationState extends State<MainNavigation> {
               ListTile(
                 title: const Text('Homework Diary'),
                 onTap: () => _selectPage(3),
+              ),
+              ListTile(
+                title: const Text('Safeguarding'),
+                onTap: () => _selectPage(4),
+              ),
+              ListTile(
+                title: const Text('Settings'),
+                onTap: () => _selectPage(5),
               )
             ],
           ),
@@ -147,9 +212,16 @@ class _MainNavigationState extends State<MainNavigation> {
       // IndexedStack just helps us switch between screens easily, and performs a lot of memory optimisation under the hood
       // children is a list of possible screens/widgets
       // and index is which one of those screens/widgets to show
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
+      body: DrawerSwitcher(
+        switchTo: (newIndex) {
+          setState(() {
+            currentIndex = newIndex;
+          });
+        },
+        child: IndexedStack(
+          index: currentIndex,
+          children: screens,
+        ),
       ),
     );
   }

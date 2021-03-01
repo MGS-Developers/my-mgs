@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/data_classes/club_time.dart';
@@ -86,7 +85,7 @@ class CateringItemScreen extends StatelessWidget {
               const SizedBox(height: 20),
               ...getMenuWidgets(context),
               const SizedBox(height: 30),
-              const InfoDisclaimer(),
+              InfoDisclaimer(identifiable: cateringItem),
             ],
           ),
         ),

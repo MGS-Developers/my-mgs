@@ -2,6 +2,7 @@ import forge from "node-forge";
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { totp } from 'otplib';
+import shajs from "sha.js";
 
 export const getPublicKey = async (): Promise<[forge.util.ByteStringBuffer, forge.util.ByteStringBuffer]> => {
     const config = await admin.remoteConfig().getTemplate();
@@ -35,4 +36,8 @@ export const encryptTotpKey = (
     const encryptedAes = cipher.output.toHex();
 
     return Buffer.from(encryptedAes, 'hex').toString('base64');
+}
+
+export const hashAdminToken = (token: string): string => {
+    return shajs('sha256').update(token).digest('hex');
 }

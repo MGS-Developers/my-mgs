@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+dynamic noopTransform(dynamic value) {
+  return value;
+}
+
+const NoopKey = JsonKey(fromJson: noopTransform, toJson: noopTransform);
 
 String timeOfDayToString(TimeOfDay value) {
   // this one's easy — just stringify the hours and the minutes
