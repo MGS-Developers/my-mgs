@@ -50,6 +50,7 @@ dependencies:
   flutter_web_browser: ^0.13.1
   cached_network_image: ^2.5.0
   sembast: ^2.4.10+3
+  protobuf: ^1.1.3
 
   openpgp: ^1.1.5
   encrypt: ^4.1.0

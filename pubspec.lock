@@ -628,7 +628,7 @@ packages:
     source: hosted
     version: "3.0.13"
   protobuf:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: protobuf
       url: "https://pub.dartlang.org"
