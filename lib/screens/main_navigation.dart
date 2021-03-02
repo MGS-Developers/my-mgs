@@ -10,7 +10,7 @@ import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs.dart';
-import 'package:mymgs/screens/dashboard.dart';
+import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/safeguarding/dashboard.dart';
 import 'package:mymgs/screens/settings/settings.dart';
@@ -59,13 +59,13 @@ class DrawerSwitcher extends InheritedWidget {
 class _MainNavigationState extends State<MainNavigation> {
   // our list of screens never changes, so why not make it a compile-time constant?
   // these are just the screens we want to be navigable within our app drawer
-  static const List<Widget> screens = [
-    Dashboard(),
-    Events(),
-    Clubs(),
-    Diary(),
-    SafeguardingDashboard(),
-    SettingsScreen(),
+  static const List<List<dynamic>> screens = [
+    ["Dashboard", Dashboard()],
+    ["Events", Events()],
+    ["Clubs", Clubs()],
+    ["Homework Diary", Diary()],
+    ["Safeguarding", SafeguardingDashboard()],
+    ["Settings", SettingsScreen()],
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -166,45 +166,44 @@ class _MainNavigationState extends State<MainNavigation> {
       drawer: Drawer(
         child: Container(
           // Theme.of(context) lets us access the current theme — when the phone switches between dark/light mode, this will automatically update
-          color: Theme.of(context).backgroundColor,
+          color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.black.withOpacity(0.8) : Colors.transparent,
           child: ListView(
             // EdgeInsets.zero ensures that there's no padding — preventing any borders from appearing around the inner edge of our drawer
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                child: const Text(
+                child: Text(
                   appName,
-                  style: TextStyle(color: Colors.white),
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
                 decoration: BoxDecoration(
                   // here, we're making the drawer's header's background colour be our current theme's primary colour
-                  color: Theme.of(context).primaryColor,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Color(0xFF5b67ad),
+                    ]
+                  )
                 ),
               ),
-              ListTile(
-                title: const Text('Dashboard'),
-                onTap: () => _selectPage(0),
-              ),
-              ListTile(
-                title: const Text('Talks & events'),
-                onTap: () => _selectPage(1),
-              ),
-              ListTile(
-                title: const Text('Clubs'),
-                onTap: () => _selectPage(2),
-              ),
-              ListTile(
-                title: const Text('Homework Diary'),
-                onTap: () => _selectPage(3),
-              ),
-              ListTile(
-                title: const Text('Safeguarding'),
-                onTap: () => _selectPage(4),
-              ),
-              ListTile(
-                title: const Text('Settings'),
-                onTap: () => _selectPage(5),
-              )
+              for (final screen in screens)
+                ListTile(
+                  selected: screens.indexOf(screen) == currentIndex,
+                  selectedTileColor: Theme.of(context).primaryColor,
+                  title: Text(
+                    screen[0],
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                      color: screens.indexOf(screen) == currentIndex ? Colors.white : null,
+                    ),
+                  ),
+                  onTap: () => _selectPage(screens.indexOf(screen)),
+                )
             ],
           ),
         )
@@ -220,7 +219,7 @@ class _MainNavigationState extends State<MainNavigation> {
         },
         child: IndexedStack(
           index: currentIndex,
-          children: screens,
+          children: screens.map((e) => e[1] as Widget).toList(),
         ),
       ),
     );

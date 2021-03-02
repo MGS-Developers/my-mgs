@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/diary.dart';
+import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/diary/due_date.dart';
 import 'package:mymgs/widgets/diary/select_subject.dart';
 
@@ -88,8 +89,8 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
               ),
             ),
             const SizedBox(height: 20),
-            PlatformButton(
-              child: Text("Save"),
+            MGSButton(
+              label: "Save",
               onPressed: _save,
             ),
           ],

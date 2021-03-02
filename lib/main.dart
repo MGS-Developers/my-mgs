@@ -114,6 +114,9 @@ class App extends StatelessWidget {
         color: Colors.white70,
         fontWeight: FontWeight.normal,
       ),
+      bodyText2: TextStyle(
+        color: Colors.white70,
+      ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: lightTheme.outlinedButtonTheme.style.copyWith(

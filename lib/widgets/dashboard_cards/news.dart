@@ -8,6 +8,9 @@ import 'package:mymgs/widgets/news/news_preview.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class NewsCard extends StatelessWidget {
+  final Key key;
+  const NewsCard(this.key);
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<NewsItem>>(

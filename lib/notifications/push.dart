@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/notifications/channels.dart';
@@ -7,10 +8,10 @@ import 'package:mymgs/notifications/permissions.dart';
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-Future<void> pushHandler(Map<String, dynamic> message) async {
+Future<void> pushHandler(RemoteMessage message) async {
   if (!(await isNotificationAllowed("news"))) return;
 
-  final data = message["data"];
+  final data = message.data;
   final String title = data["title"];
   final String body = data["body"];
   final String imageUrl = data["imageUrl"];

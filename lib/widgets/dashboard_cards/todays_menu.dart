@@ -8,7 +8,8 @@ import 'package:mymgs/widgets/dashboard_cards/dashboard_card.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class TodaysMenuCard extends StatelessWidget {
-  TodaysMenuCard();
+  final Key key;
+  TodaysMenuCard(this.key);
 
   final cateringItemFuture = getTodaysMenu();
 

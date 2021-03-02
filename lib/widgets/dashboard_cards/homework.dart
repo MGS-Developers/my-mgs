@@ -5,7 +5,8 @@ import 'package:mymgs/widgets/dashboard_cards/dashboard_card.dart';
 import 'package:mymgs/widgets/diary/entry_list.dart';
 
 class HomeworkCard extends StatefulWidget {
-  const HomeworkCard();
+  final Key key;
+  const HomeworkCard(this.key);
   _HomeworkCardState createState() => _HomeworkCardState();
 }
 

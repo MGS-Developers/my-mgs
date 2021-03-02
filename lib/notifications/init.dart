@@ -11,8 +11,6 @@ const InitializationSettings initializationSettings = InitializationSettings(
   iOS: iosInitializationSettings,
 );
 
-final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
 Future<void> setupNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
@@ -26,8 +24,6 @@ Future<void> setupNotifications() async {
     }
   );
 
-  _firebaseMessaging.configure(
-    onMessage: pushHandler,
-    onBackgroundMessage: pushHandler,
-  );
+  FirebaseMessaging.onBackgroundMessage(pushHandler);
+  FirebaseMessaging.onMessage.listen(pushHandler);
 }
