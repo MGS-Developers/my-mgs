@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/setup.dart';
+import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs.dart';
@@ -89,6 +90,7 @@ class _MainNavigationState extends State<MainNavigation> {
   SetupStatus setupStatus = SetupStatus.Determining;
   DeepLinkStatus deepLinkStatus = DeepLinkStatus.Determining;
   StreamSubscription<DeepLink> _deepLinkListener;
+  StreamSubscription<bool> _signOutListener;
 
   // this is a special function that gets called when the widget is initialised
   // in here, we can run any code want to to set the widget up
@@ -120,6 +122,12 @@ class _MainNavigationState extends State<MainNavigation> {
 
       setState(() {
         deepLinkStatus = DeepLinkStatus.YesLink;
+      });
+    });
+
+    _signOutListener = listenToSignOut(() {
+      setState(() {
+        setupStatus = SetupStatus.Incomplete;
       });
     });
   }

@@ -33,3 +33,16 @@ Future<T> getSetting<T>(String key) async {
   final value = await store.record(key).get(db);
   return value as T;
 }
+
+final _signOutController = StreamController<bool>();
+void signOutNotify() {
+  _signOutController.add(true);
+}
+
+StreamSubscription<bool> listenToSignOut(void Function() callback) {
+  return _signOutController.stream.listen((event) {
+    if (event == true) {
+      callback();
+    }
+  });
+}

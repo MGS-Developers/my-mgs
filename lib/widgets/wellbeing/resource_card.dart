@@ -89,7 +89,7 @@ class WellbeingResourceCard extends StatelessWidget {
         ),
         Text(
           organisation.caption,
-          maxLines: 3,
+          maxLines: 4,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: TextStyle(

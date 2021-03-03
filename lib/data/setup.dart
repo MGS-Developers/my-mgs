@@ -78,7 +78,7 @@ Future<bool> processQR(String rawData) async {
 
   try {
     await allowAllNotifications();
-    _firebaseAuth.signInWithCustomToken(authToken);
+    await _firebaseAuth.signInWithCustomToken(authToken);
     return true;
   } catch (e) {
     return false;

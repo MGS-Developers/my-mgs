@@ -7,6 +7,7 @@ import 'package:mymgs/screens/settings/notifications.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/settings/contributors.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
+import 'package:mymgs/widgets/settings/remove_license.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen();
@@ -79,8 +80,9 @@ class SettingsScreen extends StatelessWidget {
               _changeYearGroup(context);
             },
           ),
+          const RemoveLicenseSetting(),
           KeyValueSetting(
-            name: "About " + appName,
+            name: "About $appName",
             onTap: () {
               _showAbout(context);
             }

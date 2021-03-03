@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/setup/intro.dart';
 import 'package:mymgs/screens/setup/scan_code.dart';
