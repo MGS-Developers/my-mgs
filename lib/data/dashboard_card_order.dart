@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mymgs/data/local_database.dart';
+import 'package:mymgs/widgets/dashboard_cards/clubs.dart';
 import 'package:mymgs/widgets/dashboard_cards/homework.dart';
 import 'package:mymgs/widgets/dashboard_cards/news.dart';
 import 'package:mymgs/widgets/dashboard_cards/todays_events_card.dart';
@@ -8,7 +9,7 @@ import 'package:sembast/sembast.dart';
 
 final store = StoreRef("dashboard");
 
-List<String> defaultOrder = ["catering", "news", "homework", "events"];
+List<String> defaultOrder = ["homework", "events", "catering", "clubs", "news"];
 
 List<Widget> _getWidgetsForNames(List names) {
   return names.map((widgetName) {
@@ -21,6 +22,8 @@ List<Widget> _getWidgetsForNames(List names) {
         return HomeworkCard(Key('homework'));
       case 'events':
         return TodaysEventsCard(Key('events'));
+      case 'clubs':
+        return ClubsCard(Key('clubs'));
     }
   }).toList();
 }

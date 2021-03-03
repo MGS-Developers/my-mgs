@@ -69,7 +69,8 @@ class _DiaryState extends State<Diary> {
         onPressed: () {
           Navigator.of(context).push(platformPageRoute(
             context: context,
-            builder: (_) => AddDiaryEntry(diaryEntryController: _diaryEntryController)
+            builder: (_) => AddDiaryEntry(diaryEntryController: _diaryEntryController),
+            fullscreenDialog: true,
           ));
         },
       ) : null,

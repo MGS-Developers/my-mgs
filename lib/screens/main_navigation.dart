@@ -193,13 +193,15 @@ class _MainNavigationState extends State<MainNavigation> {
               for (final screen in screens)
                 ListTile(
                   selected: screens.indexOf(screen) == currentIndex,
-                  selectedTileColor: Theme.of(context).primaryColor,
+                  selectedTileColor: HSLColor.fromColor(Theme.of(context).primaryColor)
+                      .withLightness(0.9)
+                      .withSaturation(0.6)
+                      .toColor(),
                   title: Text(
                     screen[0],
                     style: Theme.of(context).textTheme.headline6.copyWith(
                       fontWeight: FontWeight.normal,
                       fontSize: 16,
-                      color: screens.indexOf(screen) == currentIndex ? Colors.white : null,
                     ),
                   ),
                   onTap: () => _selectPage(screens.indexOf(screen)),

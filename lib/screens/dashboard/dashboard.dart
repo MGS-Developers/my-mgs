@@ -38,14 +38,11 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
-          horizontal: 15
-        ).copyWith(bottom: 10),
+          horizontal: 15,
+        ).copyWith(bottom: 30, top: 8),
         child: StreamBuilder<List<Widget>>(
           stream: orderStream,
           builder: (context, snapshot) {
-            print(snapshot.error);
-            print((snapshot.error as Error)?.stackTrace);
-
             if (!snapshot.hasData) {
               return Container(
                 alignment: Alignment.center,

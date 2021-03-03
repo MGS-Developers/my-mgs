@@ -43,6 +43,7 @@ class _EntryList extends State<EntryList> {
                   onPressed: () {
                     Navigator.of(context).push(platformPageRoute(
                       context: context,
+                      fullscreenDialog: true,
                       builder: (_) => AddDiaryEntry(
                         diaryEntryController: widget.diaryEntryController,
                       ),
