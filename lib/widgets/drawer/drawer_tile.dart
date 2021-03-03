@@ -27,7 +27,7 @@ class DrawerTile extends StatelessWidget {
       bottomRight: Radius.circular(30),
     );
 
-    final selectedColor = Colors.blue[100];
+    final selectedColor = Color(0xffd0dbf2);
 
     final textColor = MediaQuery.of(context).platformBrightness == Brightness.light ?
         selected ? HSLColor.fromColor(selectedColor).withLightness(0.4).toColor() : Colors.black :

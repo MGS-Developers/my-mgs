@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/keys.dart';
 import 'package:openpgp/openpgp.dart';
 
@@ -14,4 +15,14 @@ Future<void> encryptAndSubmitReport(String report) async {
     "encryption": getSafeguardingKeyType(),
     "createdAt": Timestamp.now(),
   });
+}
+
+Future<List<WellbeingOrganisation>> getWellbeingOrganisations() async {
+  final response = await _firestore
+      .collection('wellbeing_organisations')
+      .get();
+
+  return response.docs
+      .map((doc) => WellbeingOrganisation.fromJson(doc.data()))
+      .toList();
 }

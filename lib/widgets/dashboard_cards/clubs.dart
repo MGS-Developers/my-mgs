@@ -32,7 +32,7 @@ class ClubsCard extends StatelessWidget {
         }
 
         return DashboardCard(
-          title: "Today's clubs",
+          title: "Clubs",
           onPressed: () {
             DrawerSwitcher.of(context).switchTo(2);
           },

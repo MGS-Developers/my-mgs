@@ -69,7 +69,7 @@ class TodaysMenuCard extends StatelessWidget {
         }
 
         return DashboardCard(
-          title: 'Today\'s menu',
+          title: 'Menu',
           titleMargin: 15,
           children: children,
           onPressed: onPressed,

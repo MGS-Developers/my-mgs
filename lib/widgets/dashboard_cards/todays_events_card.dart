@@ -32,7 +32,7 @@ class TodaysEventsCard extends StatelessWidget {
         }
 
         return DashboardCard(
-          title: "Today's events",
+          title: "Events",
           titleMargin: 10,
           children: children,
           onPressed: () {
