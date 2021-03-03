@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/widgets/button.dart';
 
 class Intro extends StatelessWidget {
   final VoidCallback onContinue;
@@ -30,8 +31,8 @@ class Intro extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 10),
-          PlatformButton(
-            child: const Text('Begin!'),
+          MGSButton(
+            label: 'Begin!',
             onPressed: onContinue,
           )
         ],

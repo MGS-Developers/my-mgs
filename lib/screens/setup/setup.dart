@@ -29,14 +29,6 @@ class _SetupScreenState extends State<SetupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Welcome to $appName!'),
-        actions: pageController.page == 2 ? [
-          PlatformIconButton(
-            icon: Icon(PlatformIcons(context).help),
-            onPressed: () {
-
-            },
-          )
-        ] : null,
       ),
       body: PageView(
         controller: pageController,

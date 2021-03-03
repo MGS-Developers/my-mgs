@@ -14,6 +14,7 @@ FirebaseFirestore _firestore = FirebaseFirestore.instance;
 Future<List<Club>> getClubs({
   final int yearGroup,
   final bool todayOnly,
+  final int limit,
 }) async {
   // form the basic query (CollectionReference extends Query so they can kinda be used interchangeably)
   Query clubsQuery = _firestore.collection('clubs');
@@ -28,6 +29,10 @@ Future<List<Club>> getClubs({
     clubsQuery = clubsQuery.where('time.dayOfWeek', isEqualTo: DateTime.now().weekday - 1);
   } else {
     clubsQuery = clubsQuery.orderBy('time.dayOfWeek', descending: true);
+  }
+
+  if (limit != null) {
+    clubsQuery = clubsQuery.limit(limit);
   }
 
   // because of indexing, _all_ firestore queries on the same number of documents will take the same amount of time, no matter how complex your query is

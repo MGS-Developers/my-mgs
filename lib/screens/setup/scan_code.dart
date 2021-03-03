@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/setup.dart';
+import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -40,20 +42,20 @@ class _ScanCodeState extends State<ScanCode> {
     failureTimer?.cancel();
   }
 
-  void _onQREvent(Barcode barcode) async {
+  Future<void> _tryCode(String codeData) async {
     if (verifyingCode) return;
 
     setState(() {
       verifyingCode = true;
     });
-    if(await processQR(barcode.code)) {
+    if(await processQR(codeData)) {
       widget.onComplete();
       setState(() {
         verifyingCode = false;
       });
     } else {
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: const Text('That QR code didn\'t work! Try again.'),
+        content: const Text('That code didn\'t work! Try again.'),
         duration: const Duration(seconds: 1),
       ));
 
@@ -65,9 +67,34 @@ class _ScanCodeState extends State<ScanCode> {
     }
   }
 
+  void _onQREvent(Barcode barcode) async {
+    await _tryCode(barcode.code);
+  }
+
   void _mountQRView(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen(_onQREvent);
+  }
+
+  void _manualEntry() {
+    final codeController = TextEditingController();
+    showPlatformDialog(
+      context: context,
+      builder: (_) => PlatformAlertDialog(
+        title: const Text("Enter code manually"),
+        content: PlatformTextField(
+          controller: codeController,
+          textInputAction: TextInputAction.go,
+        ),
+        actions: [PlatformDialogAction(
+          child: const Text('Submit!'),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await _tryCode(codeController.text);
+          },
+        )],
+      )
+    );
   }
 
   @override
@@ -75,12 +102,29 @@ class _ScanCodeState extends State<ScanCode> {
     return Container(
       child: verifyingCode ? Center(
         child: Spinner(),
-      ) : QRView(
-        key: _qr,
-        onQRViewCreated: _mountQRView,
-        overlay: QrScannerOverlayShape(
-          borderRadius: 15,
-        ),
+      ) : Stack(
+        children: [
+          Expanded(
+            child: QRView(
+              key: _qr,
+              onQRViewCreated: _mountQRView,
+              overlay: QrScannerOverlayShape(
+                borderRadius: 15,
+              ),
+            ),
+          ),
+          Positioned.fill(
+            top: null,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.center,
+              child: MGSButton(
+                label: "Enter code",
+                onPressed: _manualEntry,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

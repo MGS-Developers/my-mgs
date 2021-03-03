@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/widgets/button.dart';
 
 class SelectYearGroup extends StatefulWidget {
   final VoidCallback onComplete;
@@ -55,8 +56,8 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
             )).toList(),
           ),
           const SizedBox(height: 10),
-          PlatformButton(
-            child: const Text('Save'),
+          MGSButton(
+            label: 'Save',
             onPressed: yearGroup == null ? null : _save,
           )
         ],

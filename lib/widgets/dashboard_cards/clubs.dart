@@ -14,6 +14,7 @@ class ClubsCard extends StatelessWidget {
   ClubsCard(this.key) : clubsFuture = getYearGroup().then((y) => getClubs(
     yearGroup: y,
     todayOnly: true,
+    limit: 3,
   ));
 
   @override
