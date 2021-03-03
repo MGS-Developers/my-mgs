@@ -2,5 +2,284 @@ syntax = "proto3";
 package mymgs;
 
 message Magazine {
-  string title = 1;
+  enum ElementType {
+    Text = 0;
+    Image = 1;
+  }
+
+  message Unit {
+    enum UnitType {
+      Px = 0;
+      ViewportWidth = 1;
+      ViewportHeight = 2;
+    }
+
+    UnitType type = 1;
+    float value = 2;
+  }
+
+
+  message GlobalConsumer {
+    string global = 1;
+    ElementType callingAs = 2;
+    map<string, string> args = 3;
+  }
+
+  message Global {
+    message ValueAccess {
+      message ArgAccess {
+        enum AccessType {
+          Float = 0;
+          Enum = 1;
+          String = 2;
+        }
+
+        string name = 1;
+        AccessType as = 2;
+      }
+
+      oneof ValueType {
+        float float = 1;
+        int32 enum = 2;
+        string string = 3;
+
+        ArgAccess arg = 4;
+      }
+    }
+
+    message ReturnedTextData {
+      repeated ValueAccess formattingType = 1;
+      optional ValueAccess titleSize = 2;
+      optional ValueAccess textColor = 3;
+    }
+
+    message ReturnedImageData {
+      message ReferencedUnit {
+        ValueAccess type = 1;
+        ValueAccess value = 2;
+      }
+
+      message BorderData {
+        ValueAccess sides = 1;
+        ValueAccess color = 2;
+        ValueAccess width = 3;
+      }
+
+      oneof DimensionSpecification {
+        ReferencedUnit width = 1;
+        ReferencedUnit height = 2;
+      }
+
+      optional BorderData border = 4;
+      ReferencedUnit altText = 3;
+    }
+
+
+    string key = 1;
+    ElementType acceptedType = 2;
+    repeated string args = 3;
+
+    oneof ReturnedData {
+      ReturnedTextData returnsTextData = 4;
+      ReturnedImageData returnsImageData = 5;
+    }
+  }
+
+
+  message TextFormattingData {
+    enum FormattingType {
+      ITALICS = 0;
+      UNDERLINE = 1;
+      BOLD = 2;
+      STRIKETHROUGH = 3;
+      SUPERSCRIPT = 4;
+      SUBSCRIPT = 5;
+      CODE = 6;
+    }
+
+    enum TitleSize {
+      H1 = 0;
+      H2 = 1;
+      H3 = 2;
+      H4 = 3;
+      H5 = 4;
+      H6 = 5;
+    }
+
+    enum InlineAlignment {
+      Left = 0;
+      Center = 1;
+      Right = 2;
+    }
+
+    enum AbsoluteAlignment {
+      TopLeft = 0;
+      TopCenter = 1;
+      TopRight = 2;
+      MiddleLeft = 3;
+      MiddleCenter = 4;
+      MiddleRight = 5;
+      BottomLeft = 6;
+      BottomCenter = 7;
+      BottomRight = 8;
+    }
+
+    repeated FormattingType formattingType = 1;
+    optional TitleSize titleSize = 2;
+    optional string textColor = 3;
+
+    optional GlobalConsumer usingGlobal = 4;
+  }
+
+  message ImageFormattingData {
+    message BorderData {
+      enum Sides {
+        Top = 0;
+        Right = 1;
+        Bottom = 2;
+        Left = 3;
+      }
+
+      Sides sides = 1;
+      string color = 2;
+      float width = 3;
+    }
+
+    oneof DimensionSpecification {
+      Unit width = 1;
+      Unit height = 2;
+    }
+
+    string altText = 3;
+    optional BorderData border = 4;
+    optional GlobalConsumer usingGlobal = 5;
+  }
+
+
+  message ImageSpecifier {
+      string sourceUrl = 1;
+      ImageFormattingData formatting = 2;
+  }
+
+  message StructuredTextSpecifier {
+    message TextFormattingInterpolation {
+      repeated StructuredTextSpecifier text = 1;
+      TextFormattingData formatting = 2;
+    }
+
+    oneof TextValue {
+      string text = 1;
+      ImageSpecifier image = 2;
+      TextFormattingInterpolation children = 3;
+    }
+
+    int32 index = 4;
+  }
+
+
+  message Master {
+    message BakedAlignmentData {
+      oneof PlaceBakedStructure {
+        string placeAfter = 1;
+        string placeBefore = 2;
+      }
+    }
+
+    message InlineAlignmentData {
+      TextFormattingData.InlineAlignment alignment = 1;
+      bool breakLine = 2;
+    }
+
+    message Mapper {
+      string key = 1;
+      int32 index = 2;
+      ElementType type = 3;
+
+      oneof TypeSpecificSpec {
+        ImageFormattingData imageFormatting = 4;
+        TextFormattingData textFormatting = 5;
+      }
+    }
+
+    message ParameterMapper {
+      Mapper parameterData = 1;
+
+      oneof RelativePosition {
+        InlineAlignmentData inlineAlignment = 2;
+        TextFormattingData.AbsoluteAlignment absoluteAlignment = 3;
+        BakedAlignmentData bakedAlignment = 4;
+      }
+    }
+
+    message BakedElementMapper {
+      Mapper parameterData = 1;
+
+      oneof Value {
+        StructuredTextSpecifier value = 2;
+        ImageSpecifier image = 3;
+      }
+
+      oneof RelativePosition {
+        InlineAlignmentData inlineAlignment = 4;
+        TextFormattingData.AbsoluteAlignment absoluteAlignment = 5;
+      }
+    }
+
+    message PageFormattingData {
+      string themeColor = 1;
+    }
+
+    string key = 1;
+    repeated ParameterMapper parameterConsumer = 2;
+    repeated BakedElementMapper bakedElements = 3;
+    optional PageFormattingData pageFormatting = 4;
+  }
+
+  message MasterConsumer {
+    message ParamValue {
+      string param = 1;
+
+      oneof Value {
+        StructuredTextSpecifier value = 2;
+        ImageSpecifier image = 3;
+      }
+    }
+
+    string master = 1;
+    repeated ParamValue params = 2;
+  }
+
+
+  message Section {
+    message Page {
+      message StructuredTextContainer {
+        repeated StructuredTextSpecifier contents = 1;
+      }
+
+      oneof TextSpecificationType {
+        StructuredTextContainer text = 1;
+        MasterConsumer usingMaster = 2;
+      }
+
+      string title = 3;
+      int32 index = 4;
+      optional string subtitle = 5;
+      optional string author = 6;
+      optional string themeColor = 7;
+    }
+
+    string name = 1;
+    int32 index = 2;
+    optional string themeColor = 3;
+    repeated Page pages = 4;
+
+    bool hasCover = 5;
+    optional ImageSpecifier coverImage = 6;
+  }
+
+
+  repeated Global globals = 1;
+
+  repeated Master masters = 2;
+  repeated Section sections = 3;
 }
