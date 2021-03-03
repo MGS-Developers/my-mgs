@@ -22,7 +22,6 @@ class ClubsCard extends StatelessWidget {
     return FutureBuilder<List<Club>>(
       future: clubsFuture,
       builder: (context, snapshot) {
-        print(snapshot.error);
         bool loading = false;
         bool failed = false;
 

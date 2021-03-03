@@ -39,7 +39,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           ToggleSetting(
             name: "Events",
             description: "Attendance reminders before events",
-            tracker: "event_notifications",
+            tracker: "events_notifications",
             requirement: _allowNotifications,
           ),
           ToggleSetting(

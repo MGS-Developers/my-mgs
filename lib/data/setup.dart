@@ -2,8 +2,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/notifications/permissions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseFunctions _firebaseFunctions = FirebaseFunctions.instanceFor(region: 'europe-west2');
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -24,8 +24,7 @@ Future<SetupStatus> getSetupComplete() async {
 }
 
 Future<int> getYearGroup() async {
-  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  return sharedPreferences.getInt('year-group');
+  return getSetting('year-group');
 }
 
 // generate a MyMGS-compatible QR code with an encrypted private key: https://repl.it/@palk/mymgs-key-gen

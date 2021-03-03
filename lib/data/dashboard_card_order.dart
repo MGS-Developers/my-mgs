@@ -9,7 +9,7 @@ import 'package:sembast/sembast.dart';
 
 final store = StoreRef("dashboard");
 
-List<String> defaultOrder = ["homework", "events", "catering", "clubs", "news"];
+List<String> defaultOrder = ["catering", "news", "events", "clubs", "homework"];
 
 List<Widget> _getWidgetsForNames(List names) {
   return names.map((widgetName) {

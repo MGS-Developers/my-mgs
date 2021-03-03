@@ -41,7 +41,7 @@ class _EventReminderButtonState extends State<EventReminderButton> {
   }
 
   void _toggleReminder() async {
-    if (!(await isNotificationAllowed("event"))) {
+    if (!(await isNotificationAllowed("events"))) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Please allow event notifications"),
         action: SnackBarAction(

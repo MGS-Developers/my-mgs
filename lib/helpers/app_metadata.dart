@@ -9,7 +9,7 @@ const appVersion = "0.0.1";
 
 const appLegalese = """
 Copyright © 2020-2021, The """ + appName + """ Authors. All rights reserved.
-Source code available under MIT license at https://github.com/My-MGS/my-mgs.
+Source code available under MIT license at https://github.com/MGS-School-Council/my-mgs.
 """;
 
 const contributors = {
@@ -21,7 +21,8 @@ const contributors = {
     "John S",
   ],
   "Design": [
-    "Basit K"
+    "Basit K",
+    "Geza K",
   ],
   "Concept & testing": [
     "The MGS School Council",

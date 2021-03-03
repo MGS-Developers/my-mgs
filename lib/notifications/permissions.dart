@@ -2,7 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/notifications/channels.dart';
 
-final _firebaseMessaging = FirebaseMessaging();
+final _firebaseMessaging = FirebaseMessaging.instance;
 
 Future<bool> isNotificationAllowed(String groupId) async {
   final response = await getSetting<bool>(groupId + "_notifications");
@@ -25,6 +25,8 @@ Future<bool> isPushTopicAllowed(String topic) async {
 }
 
 Future<void> allowAllNotifications() async {
+  await saveSetting('allow_notifications', true);
+
   for (final channel in MGSChannels.channels) {
     await saveSetting(channel + "_notifications", true);
   }

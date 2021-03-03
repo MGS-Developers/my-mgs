@@ -90,7 +90,7 @@ class _ScanCodeState extends State<ScanCode> {
           child: const Text('Submit!'),
           onPressed: () async {
             Navigator.of(context).pop();
-            await _tryCode(codeController.text);
+            await _tryCode("mymgs-privkey-${codeController.text}");
           },
         )],
       )
@@ -119,7 +119,7 @@ class _ScanCodeState extends State<ScanCode> {
             child: Align(
               alignment: Alignment.center,
               child: MGSButton(
-                label: "Enter code",
+                label: "Enter code manually",
                 onPressed: _manualEntry,
               ),
             ),
