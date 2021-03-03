@@ -16,6 +16,7 @@ import 'package:mymgs/screens/safeguarding/dashboard.dart';
 import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
 import 'package:mymgs/screens/events/events.dart';
+import 'package:mymgs/widgets/drawer/drawer_tile.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 // this is a lil complicated
@@ -59,13 +60,13 @@ class DrawerSwitcher extends InheritedWidget {
 class _MainNavigationState extends State<MainNavigation> {
   // our list of screens never changes, so why not make it a compile-time constant?
   // these are just the screens we want to be navigable within our app drawer
-  static const List<List<dynamic>> screens = [
-    ["Dashboard", Dashboard()],
-    ["Events", Events()],
-    ["Clubs", Clubs()],
-    ["Homework Diary", Diary()],
-    ["Safeguarding", SafeguardingDashboard()],
-    ["Settings", SettingsScreen()],
+  static const List<RouteData> screens = [
+    RouteData("Dashboard", Icons.home_outlined, Icons.home, Dashboard()),
+    RouteData("Events", Icons.event_outlined, Icons.event, Events()),
+    RouteData("Clubs", Icons.school_outlined, Icons.school, Clubs()),
+    RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
+    RouteData("Safeguarding", Icons.support_outlined, Icons.support, SafeguardingDashboard()),
+    RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
@@ -190,21 +191,16 @@ class _MainNavigationState extends State<MainNavigation> {
                   )
                 ),
               ),
+              const SizedBox(height: 10),
+              // this is a for loop... inside a list literal! insane, right?
+              // it means we don't have to struggle with merging lists all the time,
+              // and keeps our code super neat.
               for (final screen in screens)
-                ListTile(
-                  selected: screens.indexOf(screen) == currentIndex,
-                  selectedTileColor: HSLColor.fromColor(Theme.of(context).primaryColor)
-                      .withLightness(0.9)
-                      .withSaturation(0.6)
-                      .toColor(),
-                  title: Text(
-                    screen[0],
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                    ),
-                  ),
-                  onTap: () => _selectPage(screens.indexOf(screen)),
+                DrawerTile(
+                  data: screen,
+                  selected: currentIndex == screens.indexOf(screen),
+                  index: screens.indexOf(screen),
+                  onSelect: _selectPage,
                 )
             ],
           ),
@@ -221,7 +217,7 @@ class _MainNavigationState extends State<MainNavigation> {
         },
         child: IndexedStack(
           index: currentIndex,
-          children: screens.map((e) => e[1] as Widget).toList(),
+          children: screens.map((e) => e.widget).toList(),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/dashboard_card_order.dart';
 import 'package:mymgs/screens/dashboard/reorder.dart';
-import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Dashboard extends StatefulWidget {

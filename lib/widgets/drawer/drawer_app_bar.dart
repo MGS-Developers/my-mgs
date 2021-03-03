@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/widgets/drawer_icon_body.dart';
+import 'package:mymgs/widgets/drawer/drawer_icon_body.dart';
 
 class DrawerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

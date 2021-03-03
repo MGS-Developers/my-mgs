@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/screens/safeguarding/report.dart';
-import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 
 class SafeguardingDashboard extends StatelessWidget {
   const SafeguardingDashboard();

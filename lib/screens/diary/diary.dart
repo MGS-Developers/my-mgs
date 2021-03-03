@@ -5,7 +5,7 @@ import 'package:mymgs/screens/diary/add_entry.dart';
 import 'package:mymgs/widgets/diary/date_selector.dart';
 import 'package:mymgs/widgets/diary/day_list.dart';
 import 'package:mymgs/widgets/diary/entry_list.dart';
-import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 
 enum DiaryView {
   SingleDay,

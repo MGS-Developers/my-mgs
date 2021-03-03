@@ -5,7 +5,7 @@ import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/helpers/enum_helpers.dart';
 import 'package:mymgs/widgets/clubs/club_card.dart';
-import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Clubs extends StatefulWidget {

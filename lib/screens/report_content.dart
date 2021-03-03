@@ -70,6 +70,7 @@ class _ReportContentState extends State<ReportContent> {
                 "What's the problem with this item?",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
+              const SizedBox(height: 15),
               PlatformTextField(
                 controller: controller,
                 maxLines: null,

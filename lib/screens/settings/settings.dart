@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
-import 'package:mymgs/widgets/drawer_app_bar.dart';
+import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/settings/contributors.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
 

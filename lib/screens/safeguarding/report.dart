@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/keys.dart';
+import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/hidden_banner.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -60,6 +61,7 @@ class _SafeguardingReportState extends State<SafeguardingReport> {
               "Your report will be sent with end-to-end encryption. Only authorised safeguarding staff can see what you enter.",
               style: Theme.of(context).textTheme.bodyText1,
             ),
+            const SizedBox(height: 15),
             PlatformTextField(
               controller: _input,
               keyboardType: TextInputType.multiline,
@@ -67,8 +69,9 @@ class _SafeguardingReportState extends State<SafeguardingReport> {
               maxLines: 8,
               enabled: !_loading,
             ),
-            PlatformButton(
-              child: Text("Submit"),
+            const SizedBox(height: 15),
+            MGSButton(
+              label: "Submit",
               onPressed: _canSubmit && !_loading ? _submit : null,
             ),
             if (_loading) Spinner(),

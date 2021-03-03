@@ -66,7 +66,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
                 });
               }
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             DueDate(
               selectedDate: _dueDate,
               dateCallback: (DateTime newDate) {
@@ -75,7 +75,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
                 });
               },
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             PlatformTextField(
               controller: _homework,
               keyboardType: TextInputType.multiline,

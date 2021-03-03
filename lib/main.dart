@@ -119,6 +119,12 @@ class App extends StatelessWidget {
       ),
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      alignLabelWithHint: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    )
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
@@ -147,6 +153,11 @@ class App extends StatelessWidget {
       color: Colors.blueGrey[200],
     ),
     dialogBackgroundColor: Colors.blueGrey[900],
+    inputDecorationTheme: lightTheme.inputDecorationTheme.copyWith(
+      labelStyle: TextStyle(
+        color: Colors.white70,
+      ),
+    ),
   );
 
   // the 'build' function needs to be defined for widgets
