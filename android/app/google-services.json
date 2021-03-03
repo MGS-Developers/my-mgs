@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "17850139100",
+    "firebase_url": "https://my-mgs-app.firebaseio.com",
+    "project_id": "my-mgs-app",
+    "storage_bucket": "my-mgs-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17850139100:android:a3af0fa4d731a400988f19",
+        "android_client_info": {
+          "package_name": "org.mgs.my"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17850139100-8q8qg22q1lvhekgufcb7kcqskp3daj0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDai891bP0I6v5iAQhrI1OoZZb8iEawJ1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17850139100-8q8qg22q1lvhekgufcb7kcqskp3daj0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
