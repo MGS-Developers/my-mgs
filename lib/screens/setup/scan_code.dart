@@ -104,13 +104,11 @@ class _ScanCodeState extends State<ScanCode> {
         child: Spinner(),
       ) : Stack(
         children: [
-          Expanded(
-            child: QRView(
-              key: _qr,
-              onQRViewCreated: _mountQRView,
-              overlay: QrScannerOverlayShape(
-                borderRadius: 15,
-              ),
+          QRView(
+            key: _qr,
+            onQRViewCreated: _mountQRView,
+            overlay: QrScannerOverlayShape(
+              borderRadius: 15,
             ),
           ),
           Positioned.fill(

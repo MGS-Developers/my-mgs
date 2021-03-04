@@ -24,8 +24,10 @@
 // I (Pal) have put in some helpful comments to try and guide you through what everything here is doing
 // unless you're a flutter pro 😎, pls read my comments carefully
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/notifications/init.dart';
 import 'package:mymgs/screens/main_navigation.dart';
@@ -51,11 +53,19 @@ class App extends StatelessWidget {
   // initialisation uses a Future, so we need to make sure the app doesn't load until it has completed
   // obviously, this process takes less than a millisecond
   final Future<FirebaseApp> _firebaseInit = Firebase.initializeApp()
-    .then((value) {
+    .then((value) async {
       // turn on data persistence — allows data to be saved to phone automatically and queried locally if there's no connection
       // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
       FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
-      return Future.value(Firebase.apps[0]);
+
+      if (kDebugMode) {
+        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+      } else {
+        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      }
+
+      return Firebase.apps[0];
     });
 
   // Futures play a pretty major role in any Dart-based application, since it's a primarily asynchronous language

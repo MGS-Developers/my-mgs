@@ -17,7 +17,8 @@ Future<List<Club>> getClubs({
   final int limit,
 }) async {
   // form the basic query (CollectionReference extends Query so they can kinda be used interchangeably)
-  Query clubsQuery = _firestore.collection('clubs');
+  Query clubsQuery = _firestore.collection('clubs')
+      .orderBy('time.time', descending: false);
 
   if (yearGroup != null) {
     // where() has many filtering methods
@@ -27,8 +28,6 @@ Future<List<Club>> getClubs({
   
   if (todayOnly != null) {
     clubsQuery = clubsQuery.where('time.dayOfWeek', isEqualTo: DateTime.now().weekday - 1);
-  } else {
-    clubsQuery = clubsQuery.orderBy('time.dayOfWeek', descending: true);
   }
 
   if (limit != null) {
