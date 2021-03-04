@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/helpers/widget_helpers.dart';
 import 'package:mymgs/widgets/tappable_card.dart';
 
 class DashboardCard extends StatelessWidget {

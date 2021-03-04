@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mymgs/data/local_database.dart';
 import 'package:sembast/sembast.dart';
 
-final _firebaseMessaging = FirebaseMessaging();
+final _firebaseMessaging = FirebaseMessaging.instance;
 final store = StoreRef<String, dynamic>('settings');
 
 Future<void> saveSetting(String key, dynamic value) async {

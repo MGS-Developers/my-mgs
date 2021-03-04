@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/dashboard_card_order.dart';
-import 'package:mymgs/screens/main_navigation.dart';
-import 'package:mymgs/widgets/button.dart';
 
 class ReorderDashboard extends StatefulWidget {
   _ReorderDashboardState createState() => _ReorderDashboardState();

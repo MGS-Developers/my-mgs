@@ -1,7 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/notifications/permissions.dart';
 
@@ -27,60 +25,24 @@ Future<int> getYearGroup() async {
   return getSetting('year-group');
 }
 
-// generate a MyMGS-compatible QR code with an encrypted private key: https://repl.it/@palk/mymgs-key-gen
+Future<String> sendEmail(String address) async {
+  final functionResponse = await _firebaseFunctions.httpsCallable('sendEmail').call({
+    'email': address.trim(),
+  });
 
-/// returns whether the processing was successful
-Future<bool> processQR(String rawData) async {
-  if (!rawData.startsWith('mymgs-privkey-')) {
-    return false;
-  }
+  return functionResponse.data;
+}
 
-  Encrypted encryptedData;
-  try {
-    encryptedData = Encrypted.fromBase64(
-        rawData.replaceFirst('mymgs-privkey-', '')
-    );
-  } catch (e) {
-    return false;
-  }
+Future<void> confirmCode(String code, String sessionId) async {
+  final functionResponse = await _firebaseFunctions.httpsCallable('confirmEmail').call({
+    'code': code,
+    'sessionId': sessionId,
+  });
 
-  final RemoteConfig remoteConfig = await RemoteConfig.instance;
-  final String publicKeyString = remoteConfig.getString('enrollment_public_key');
-  final String ivString = remoteConfig.getString('enrollment_iv');
-
-  if (publicKeyString == null) {
-    return false;
-  }
-
-  String decryptedData;
-  try {
-    final Key publicKey = Key.fromUtf8(publicKeyString);
-    final IV iv = IV.fromUtf8(ivString);
-    final encrypter = Encrypter(AES(publicKey, mode: AESMode.cbc));
-    decryptedData = encrypter.decrypt(encryptedData, iv: iv);
-  } catch (e) {
-    return false;
-  }
-
-  String authToken;
-  try {
-    final functionResponse = await _firebaseFunctions.httpsCallable('getSignInToken').call({
-      'privateKey': decryptedData,
-    });
-    authToken = functionResponse.data;
-  } catch (e) {
-    return false;
-  }
-
-  if (authToken == null) {
-    return false;
-  }
-
-  try {
+  if (functionResponse.data == null) {
+    throw Exception("incorrect_code");
+  } else {
     await allowAllNotifications();
-    await _firebaseAuth.signInWithCustomToken(authToken);
-    return true;
-  } catch (e) {
-    return false;
+    await _firebaseAuth.signInWithCustomToken(functionResponse.data);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/widgets/button.dart';
 
 class Intro extends StatelessWidget {
@@ -17,24 +17,23 @@ class Intro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Scan a QR code to start',
+            'Confirm your email to start',
             style: Theme.of(context).textTheme.headline5,
           ),
           const SizedBox(height: 10),
           Text(
-            'Your form tutor will show you a barcode — tap \'Begin!\', select your year group, and scan it!',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'When prompted, make sure you enable camera permissions to use the QR code scanner.',
+            'Select your year group, confirm your @mgs.org email, and start using $appName!',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 10),
-          MGSButton(
-            label: 'Begin!',
-            onPressed: onContinue,
-          )
+          ButtonBar(
+            children: [
+              MGSButton(
+                label: 'Begin!',
+                onPressed: onContinue,
+              ),
+            ],
+          ),
         ],
       ),
     );

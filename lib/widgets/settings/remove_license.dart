@@ -20,7 +20,7 @@ class RemoveLicenseSetting extends StatelessWidget {
       context: context,
       builder: (_) => PlatformAlertDialog(
         title: const Text('Are you sure?'),
-        content: const Text('You\'ll need to scan a QR code to use $appName again.'),
+        content: const Text('You\'ll need to confirm your email again to continue using $appName.'),
         actions: [
           PlatformDialogAction(
             cupertino: (_, __) => CupertinoDialogActionData(
@@ -47,7 +47,7 @@ class RemoveLicenseSetting extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyValueSetting(
       name: "Remove license",
-      description: "Forget the QR code you used to set up $appName",
+      description: "Sign out of $appName completely.",
       onTap: () {
         _confirmRemove(context);
       },

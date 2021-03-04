@@ -1,9 +1,8 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { v4 as uuid } from 'uuid';
-import QRCode from 'qrcode';
-import {encryptTotpKey, getCurrentToken, getPublicKey, getTotpSecret, hashAdminToken} from './helpers';
-import { totp } from 'otplib';
+import {hashAdminToken, randomCode} from './helpers';
+import { createTransport } from 'nodemailer';
 
 admin.initializeApp();
 
@@ -64,26 +63,6 @@ export const sendNotification = functions
         return true;
     });
 
-interface SignInTokenData {
-    privateKey?: string;
-}
-
-export const getSignInToken = functions
-    .region('europe-west2')
-    .https.onCall(async (data: SignInTokenData) => {
-        if(!data.privateKey) {
-            return null;
-        }
-
-        const secret = getTotpSecret();
-        if (!totp.check(data.privateKey, secret)) {
-            return null;
-        }
-
-        const userId = uuid();
-        return await admin.auth().createCustomToken(userId);
-    });
-
 interface AdminSignInData {
     token?: string;
 }
@@ -109,31 +88,79 @@ export const getAdminSignInToken = functions
         });
     });
 
-interface QrCodeData {
-    password?: string;
+interface SendEmailData {
+    email?: string;
 }
-
-export const getQrCode = functions
+export const sendEmail = functions
     .region('europe-west2')
-    .https.onCall(async (data: QrCodeData) => {
-        const password = data.password as string;
-
-        if (!password) {
-            return null;
+    .https.onCall(async (data: SendEmailData): Promise<string | undefined> => {
+        if (!data.email || !data.email.endsWith('@mgs.org')) {
+            return;
         }
 
-        const correctPassword = functions.config().mgsauth.sitepassword;
-        if (password !== correctPassword) {
-            return null;
-        }
+        const code = randomCode(6);
+        const sessionId = uuid();
+        await admin.firestore()
+            .collection('setup_codes')
+            .doc(sessionId)
+            .set({
+                code,
+                createdAt: admin.firestore.Timestamp.now(),
+            });
 
-        const token = getCurrentToken();
-        const [publicKey, iv] = await getPublicKey();
-        const encryptedAes = encryptTotpKey(publicKey, iv, token);
-
-        return await QRCode.toString('mymgs-privkey-' + encryptedAes, {
-            width: 400,
-            margin: 0,
-            type: 'svg',
+        const transporter = createTransport({
+            host: functions.config().smtp.host,
+            port: parseInt(functions.config().smtp.port),
+            auth: {
+                user: functions.config().smtp.user,
+                pass: functions.config().smtp.pass,
+            }
         });
+
+        try {
+            await transporter.sendMail({
+                from: functions.config().smtp.sender,
+                sender: functions.config().smtp.sender,
+                to: data.email,
+                replyTo: functions.config().smtp.reply_to,
+                subject: 'Confirm your email for MyMGS',
+                text: `Your MyMGS setup code is ${code}`,
+            });
+        } catch (e) {
+            return;
+        }
+
+        return sessionId;
+    });
+
+interface ConfirmEmailData {
+    sessionId?: string;
+    code?: string;
+}
+export const confirmEmail = functions
+    .region('europe-west2')
+    .https.onCall(async (data: ConfirmEmailData): Promise<string | undefined> => {
+        if (!data.sessionId || !data.code) {
+            return;
+        }
+
+        const sessionResponse = await admin.firestore()
+            .collection('setup_codes')
+            .doc(data.sessionId)
+            .get();
+
+        if (!sessionResponse.exists) {
+            return;
+        }
+
+        if (sessionResponse.data()?.code !== data.code) {
+            return;
+        }
+
+        // delete the setup session for security
+        await sessionResponse.ref.delete();
+
+        // generate a new uuid to avoid any accidental path of association with the user's email address
+        const userId = uuid();
+        return admin.auth().createCustomToken(userId);
     });

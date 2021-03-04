@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/widgets/button.dart';
 
@@ -40,6 +39,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           const SizedBox(height: 5),
           DropdownButton<int>(
             dropdownColor: Theme.of(context).backgroundColor,
+            isExpanded: true,
             hint: Text(
               'Tap to choose',
               style: Theme.of(context).textTheme.bodyText1,
@@ -56,10 +56,14 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
             )).toList(),
           ),
           const SizedBox(height: 10),
-          MGSButton(
-            label: 'Save',
-            onPressed: yearGroup == null ? null : _save,
-          )
+          ButtonBar(
+            children: [
+              MGSButton(
+                label: 'Save',
+                onPressed: yearGroup == null ? null : _save,
+              ),
+            ],
+          ),
         ],
       ),
     );

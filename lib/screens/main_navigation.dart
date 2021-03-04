@@ -135,6 +135,7 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   void dispose() {
     _deepLinkListener.cancel();
+    _signOutListener.cancel();
     super.dispose();
   }
 

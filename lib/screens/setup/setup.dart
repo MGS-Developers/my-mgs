@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
+import 'package:mymgs/screens/setup/confirm_email.dart';
 import 'package:mymgs/screens/setup/intro.dart';
-import 'package:mymgs/screens/setup/scan_code.dart';
 import 'package:mymgs/screens/setup/select_year_group.dart';
 
 class SetupScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _SetupScreenState extends State<SetupScreen> {
             onContinue: _nextPage,
           ),
           SelectYearGroup(onComplete: _nextPage),
-          ScanCode(onComplete: widget.quitSetup),
+          ConfirmEmail(onComplete: widget.quitSetup),
         ],
       ),
     );
