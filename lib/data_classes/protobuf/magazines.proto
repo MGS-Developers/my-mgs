@@ -2,11 +2,12 @@ syntax = "proto3";
 package mymgs;
 
 message Magazine {
+  // Util for handling mixed image/text types
   enum ElementType {
     Text = 0;
     Image = 1;
   }
-
+  // Util for relative vs absolute units
   message Unit {
     enum UnitType {
       Px = 0;
@@ -87,7 +88,7 @@ message Magazine {
 
 
   message TextFormattingData {
-    enum FormattingType {
+    enum TextFormattingType {
       ITALICS = 0;
       UNDERLINE = 1;
       BOLD = 2;
@@ -124,7 +125,7 @@ message Magazine {
       BottomRight = 8;
     }
 
-    repeated FormattingType formattingType = 1;
+    repeated TextFormattingType formattingType = 1;
     optional TitleSize titleSize = 2;
     optional string textColor = 3;
 
@@ -151,8 +152,9 @@ message Magazine {
     }
 
     string altText = 3;
-    optional BorderData border = 4;
-    optional GlobalConsumer usingGlobal = 5;
+    optional string description = 4;
+    optional BorderData border = 5;
+    optional GlobalConsumer usingGlobal = 6;
   }
 
 
