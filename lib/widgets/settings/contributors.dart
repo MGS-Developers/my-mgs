@@ -23,7 +23,7 @@ class Contributors extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 5),
-                  ...contributors[category].map((name) => Padding(
+                  ...contributors[category]!.map((name) => Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: Text(
                       name,

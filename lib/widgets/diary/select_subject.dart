@@ -41,15 +41,15 @@ class SelectSubject extends StatefulWidget {
   final SubjectCallback subjectCallback;
 
   const SelectSubject({
-    @required this.selectedSubject,
-    @required this.subjectCallback,
+    required this.selectedSubject,
+    required this.subjectCallback,
   });
 
   _SelectSubjectState createState() => _SelectSubjectState();
 }
 
 class _SelectSubjectState extends State<SelectSubject> {
-  TextEditingController _otherSubject;
+  late TextEditingController _otherSubject;
   @override
   void initState() {
     _otherSubject = TextEditingController();
@@ -111,12 +111,12 @@ class _SelectSubjectState extends State<SelectSubject> {
         style: Theme.of(context).textTheme.bodyText1,
       ),
       items: combinedSubjects.map((subject) => DropdownMenuItem<String>(
-        child: Text(subject ?? ""),
+        child: Text(subject),
         value: subject,
-      )).toList() + [
+      )).toList(),
+      onChanged: (String? newValue) {
+        if (newValue == null) return;
 
-      ],
-      onChanged: (String newValue) {
         if (newValue == "Other...") {
           _selectOtherSubject(context);
         } else {

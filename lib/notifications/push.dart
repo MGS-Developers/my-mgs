@@ -12,17 +12,17 @@ Future<void> pushHandler(RemoteMessage message) async {
   if (!(await isNotificationAllowed("news"))) return;
 
   final data = message.data;
-  final String title = data["title"];
-  final String body = data["body"];
-  final String imageUrl = data["imageUrl"];
-  final String topic = data["topic"];
-  final String resource = data["resourceType"];
-  final String id = data["resourceId"];
+  final String? title = data["title"];
+  final String? body = data["body"];
+  final String? imageUrl = data["imageUrl"];
+  final String? topic = data["topic"];
+  final String? resource = data["resourceType"];
+  final String? id = data["resourceId"];
 
   if (!(await isPushTopicAllowed(topic))) return;
   if (title == null || body == null) return;
 
-  String deepLinkString;
+  String? deepLinkString;
   if (resource != null && id != null) {
     final deepLink = DeepLink(DeepLinkResource.values[int.parse(resource)], id);
     deepLinkString = deepLink.toPayloadString();

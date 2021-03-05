@@ -7,17 +7,17 @@ import 'package:mymgs/widgets/button.dart';
 class ConfirmEmail extends StatefulWidget {
   final VoidCallback onComplete;
   const ConfirmEmail({
-    @required this.onComplete,
+    required this.onComplete,
   });
 
   _ConfirmEmailState createState() => _ConfirmEmailState();
 }
 
 class _ConfirmEmailState extends State<ConfirmEmail> {
-  String emailError;
-  TextEditingController email;
-  TextEditingController code;
-  String sessionId;
+  String? emailError;
+  String? sessionId;
+  late TextEditingController email;
+  late TextEditingController code;
   bool loading = false;
 
   @override
@@ -43,7 +43,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
     try {
       final _sessionId = await sendEmail(email.text);
       if (_sessionId == null) {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text("That doesn't look like a valid email address!"),
         ));
       } else {
@@ -53,7 +53,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       }
     } catch (e) {
       print(e);
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("Something went wrong! Please try again later."),
       ));
     }
@@ -68,10 +68,11 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       loading = true;
     });
     try {
-      await confirmCode(code.text, sessionId);
+      await confirmCode(code.text, sessionId!);
       widget.onComplete();
     } catch (e) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("That code is incorrect! Please try again."),
       ));
     }
@@ -142,6 +143,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 mask: '######',
               ),
             ],
+            onSubmitted: (_) => _confirm(),
           ),
           const SizedBox(height: 10),
           ButtonBar(

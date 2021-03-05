@@ -19,9 +19,15 @@ class NewsItem with Identifiable {
   @JsonKey(fromJson: noopTransform, toJson: noopTransform)
   Timestamp createdAt;
   String authorName;
-  List<Link> links;
+  List<Link>? links;
 
-  NewsItem();
+  NewsItem({
+    required this.headline,
+    required this.body,
+    required this.image,
+    required this.createdAt,
+    required this.authorName,
+  });
   factory NewsItem.fromJson(Map<String, dynamic> json) => _$NewsItemFromJson(json);
   Map<String, dynamic> toJson() => _$NewsItemToJson(this);
 }

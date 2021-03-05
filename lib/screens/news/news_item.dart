@@ -1,34 +1,36 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/widgets/hero/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
+import 'package:mymgs/widgets/nullable_image.dart';
 
 class NewsItemScreen extends StatelessWidget {
   final NewsItem newsItem;
-  final String heroKey;
+  final String? heroKey;
   const NewsItemScreen({
-    @required this.newsItem,
+    required this.newsItem,
     this.heroKey,
-    Key key,
+    Key? key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final links = newsItem.links;
+
     return ImageScaffold(
       appBarLabel: "Article",
       title: newsItem.headline,
-      image: CachedNetworkImageProvider(newsItem.image.fullUrl),
+      image: nullableImageProvider(url: newsItem.image.fullUrl),
       heroKey: heroKey,
       children: [
         Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: MarkdownBody(
             data: newsItem.body,
             styleSheet: MarkdownStyleSheet(
-              p: TextStyle(
+              p: const TextStyle(
                 fontSize: 17,
                 fontFamily: "Newsreader",
                 fontWeight: FontWeight.normal,
@@ -37,10 +39,10 @@ class NewsItemScreen extends StatelessWidget {
             ),
           ),
         ),
-        if (newsItem.links != null) Padding(
+        if (links != null) Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 10),
           child: Links(
-            links: newsItem.links,
+            links: links,
           ),
         ),
         InfoDisclaimer(identifiable: newsItem, hPadding: 15),

@@ -17,16 +17,18 @@ class TodaysEventsCard extends StatelessWidget {
     return FutureBuilder<List<Event>>(
       future: _future,
       builder: (context, snapshot) {
+        final data = snapshot.data;
+
         List<Widget> children;
         if (snapshot.connectionState == ConnectionState.waiting) {
           children = [Spinner()];
-        } else if (!snapshot.hasData || snapshot.data.length == 0) {
+        } else if (data == null || data.length == 0) {
           children = [Text(
             "No events today.",
             style: Theme.of(context).textTheme.bodyText1,
           )];
         } else {
-          children = snapshot.data.map((event) => EventCard(
+          children = data.map((event) => EventCard(
             event: event,
           )).toList();
         }
@@ -36,7 +38,7 @@ class TodaysEventsCard extends StatelessWidget {
           titleMargin: 10,
           children: children,
           onPressed: () {
-            DrawerSwitcher.of(context).switchTo(1);
+            DrawerSwitcher.of(context)?.switchTo(1);
           },
         );
       }

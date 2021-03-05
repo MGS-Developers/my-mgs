@@ -12,9 +12,9 @@ FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 // yearGroup is the year group to filter clubs for. it's optional, but when provided only applicable clubs will be shown
 Future<List<Club>> getClubs({
-  final int yearGroup,
-  final bool todayOnly,
-  final int limit,
+  final int? yearGroup,
+  final bool? todayOnly,
+  final int? limit,
 }) async {
   // form the basic query (CollectionReference extends Query so they can kinda be used interchangeably)
   Query clubsQuery = _firestore.collection('clubs')
@@ -42,6 +42,6 @@ Future<List<Club>> getClubs({
   return response.docs.map((e) => Club.fromJson({
     'id': e.id,
     // spread operator https://www.woolha.com/tutorials/dart-using-triple-dot-spread-operator-examples#:~:text=Usage%20on%20Map
-    ...e.data(),
+    ...?e.data(),
   })).toList(growable: false);
 }

@@ -4,15 +4,15 @@ part 'term.g.dart';
 
 @JsonSerializable()
 class Term {
-  @JsonKey(nullable: false)
   int startWeek;
-  @JsonKey(nullable: false)
   int endWeek;
 
-  @JsonKey(nullable: true)
-  int cateringWeek;
+  int? cateringWeek;
 
-  Term();
+  Term({
+    required this.startWeek,
+    required this.endWeek,
+  });
   factory Term.fromJson(Map<String, dynamic> json) => _$TermFromJson(json);
   Map<String, dynamic> toJson() => _$TermToJson(this);
 }

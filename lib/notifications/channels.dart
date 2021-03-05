@@ -13,7 +13,7 @@ Future<String> _downloadImage(String url) async {
   final fileName = Uuid().v4();
   final path = '${directory.path}/$fileName.jpg';
 
-  final response = await http.get(url);
+  final response = await http.get(Uri.parse(url));
 
   final file = File(path);
   await file.writeAsBytes(response.bodyBytes);
@@ -34,8 +34,8 @@ class MGSChannels {
   ];
 
   static NotificationDetails homework({
-    String subject,
-    String homework,
+    required String subject,
+    required String homework,
   }) {
     return NotificationDetails(
       android: AndroidNotificationDetails(
@@ -51,9 +51,9 @@ class MGSChannels {
     );
   }
 
-  static Future<NotificationDetails> news([String image, String body]) async {
+  static Future<NotificationDetails> news([String? image, String? body]) async {
     StyleInformation styleInformation;
-    IOSNotificationAttachment notificationAttachment;
+    IOSNotificationAttachment? notificationAttachment;
     if (image != null) {
       final imagePath = await _downloadImage(image);
       styleInformation = BigPictureStyleInformation(
@@ -62,8 +62,8 @@ class MGSChannels {
         hideExpandedLargeIcon: true,
       );
       notificationAttachment = IOSNotificationAttachment(imagePath);
-    } else if (body != null) {
-      styleInformation = BigTextStyleInformation(body);
+    } else {
+      styleInformation = BigTextStyleInformation(body!);
     }
 
     return NotificationDetails(

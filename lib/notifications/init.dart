@@ -15,6 +15,8 @@ Future<void> setupNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onSelectNotification: (payload) async {
+      if (payload == null) return;
+
       // ignore: close_sinks
       final controller = getLinkController();
       final deepLink = DeepLink.fromPayloadString(payload);

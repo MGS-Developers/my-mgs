@@ -15,7 +15,7 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-  Future<List<Event>> _eventsFuture;
+  Future<List<Event>>? _eventsFuture;
 
   @override
   void initState() {
@@ -57,7 +57,8 @@ class _EventsState extends State<Events> {
                 );
               }
 
-              if (!snapshot.hasData || snapshot.data.length == 0) {
+              final data = snapshot.data;
+              if (data == null || data.length == 0) {
                 return Center(
                   child: Text(
                     "No events found.",
@@ -67,7 +68,7 @@ class _EventsState extends State<Events> {
               }
 
               return GroupedListView<Event, String>(
-                elements: snapshot.data,
+                elements: data,
                 groupBy: (e) => Jiffy(e.startTime.toDate()).yMMMEd,
                 itemBuilder: (context, event) {
                   return EventCard(event: event);

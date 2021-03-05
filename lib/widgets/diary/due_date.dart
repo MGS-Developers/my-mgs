@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:mymgs/widgets/date_picker.dart';
 
 typedef DateCallback = void Function(DateTime newDate);
 
@@ -9,17 +11,17 @@ class DueDate extends StatelessWidget {
   final DateCallback dateCallback;
 
   const DueDate({
-    Key key,
-    @required this.selectedDate,
-    @required this.dateCallback,
+    Key? key,
+    required this.selectedDate,
+    required this.dateCallback,
   });
 
   void _showDatePicker(BuildContext context) async {
-    final DateTime newDate = await showDatePicker(
+    final DateTime? newDate = await showDateTimePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.utc(3000),
+      mode: DateTimePickerMode.date,
+      initialDateTime: selectedDate,
+      minDateTime: DateTime.now().subtract(Duration(hours: DateTime.now().hour)),
     );
 
     if (newDate != null) {

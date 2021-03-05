@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 BoxDecoration getCardDecoration(BuildContext context, {
   double borderRadius = 20,
-  Color color,
+  Color? color,
 }) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(borderRadius),

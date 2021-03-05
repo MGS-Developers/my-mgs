@@ -7,11 +7,13 @@ part of 'menu_item.dart';
 // **************************************************************************
 
 MenuItem _$MenuItemFromJson(Map<String, dynamic> json) {
-  return MenuItem()
-    ..name = json['name'] as String
-    ..description = json['description'] as String
-    ..imageUrl = json['imageUrl'] as String
-    ..flags = (json['flags'] as List)?.map((e) => e as String)?.toList();
+  return MenuItem(
+    name: json['name'] as String,
+  )
+    ..description = json['description'] as String?
+    ..imageUrl = json['imageUrl'] as String?
+    ..flags =
+        (json['flags'] as List<dynamic>?)?.map((e) => e as String).toList();
 }
 
 Map<String, dynamic> _$MenuItemToJson(MenuItem instance) => <String, dynamic>{

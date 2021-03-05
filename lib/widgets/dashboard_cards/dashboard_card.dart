@@ -4,11 +4,11 @@ import 'package:mymgs/widgets/tappable_card.dart';
 class DashboardCard extends StatelessWidget {
   final String title;
   final List<Widget> children;
-  final double titleMargin;
-  final VoidCallback onPressed;
+  final double? titleMargin;
+  final VoidCallback? onPressed;
   const DashboardCard({
-    @required this.title,
-    @required this.children,
+    required this.title,
+    required this.children,
     this.titleMargin,
     this.onPressed,
   });
@@ -26,7 +26,7 @@ class DashboardCard extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               title.toUpperCase(),
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
                 fontSize: 12,
               ),
             ),

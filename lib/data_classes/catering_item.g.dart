@@ -7,15 +7,17 @@ part of 'catering_item.dart';
 // **************************************************************************
 
 CateringItem _$CateringItemFromJson(Map<String, dynamic> json) {
-  return CateringItem()
-    ..id = json['id'] as String
-    ..week = json['week'] as int
-    ..yearGroups = (json['yearGroups'] as List).map((e) => e as int).toList()
-    ..dayOfWeek = _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek'])
-    ..menuItems = (json['menuItems'] as List)
+  return CateringItem(
+    week: json['week'] as int,
+    dayOfWeek: _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek']),
+    menuItems: (json['menuItems'] as List<dynamic>)
         .map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..location = json['location'] as String;
+        .toList(),
+  )
+    ..id = json['id'] as String
+    ..yearGroups =
+        (json['yearGroups'] as List<dynamic>?)?.map((e) => e as int).toList()
+    ..location = json['location'] as String?;
 }
 
 Map<String, dynamic> _$CateringItemToJson(CateringItem instance) =>
@@ -28,25 +30,30 @@ Map<String, dynamic> _$CateringItemToJson(CateringItem instance) =>
       'location': instance.location,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$DayOfWeekEnumMap = {

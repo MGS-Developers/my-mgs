@@ -3,12 +3,12 @@ import 'package:mymgs/helpers/widget_helpers.dart';
 
 class TappableCard extends StatelessWidget {
   final List<Widget> children;
-  final VoidCallback onPressed;
-  final Color color;
+  final VoidCallback? onPressed;
+  final Color? color;
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisAlignment mainAxisAlignment;
   const TappableCard({
-    @required this.children,
+    required this.children,
     this.onPressed,
     this.color,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -17,10 +17,9 @@ class TappableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color splashColor;
-    Color highlightColor;
+    Color? splashColor;
     if (color != null) {
-      final hslColor = HSLColor.fromColor(color);
+      final hslColor = HSLColor.fromColor(color!);
       splashColor = hslColor.withLightness(hslColor.lightness + 0.2).withAlpha(0.5).toColor();
     }
 
@@ -28,7 +27,6 @@ class TappableCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       onTap: onPressed,
       splashColor: splashColor,
-      highlightColor: highlightColor,
       child: Ink(
         padding: EdgeInsets.all(15),
         decoration: getCardDecoration(

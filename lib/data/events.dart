@@ -15,12 +15,12 @@ Future<void> _transformEvent(Event event) async {
 
   if (!clubResponse.exists) return;
   event.club = Club.fromJson({
-    ...clubResponse.data(),
+    ...?clubResponse.data(),
     'id': clubResponse.id,
   });
 
-  if (event.location == null && event.club.location != null) {
-    event.location = event.club.location;
+  if (event.location == null && event.club?.location != null) {
+    event.location = event.club!.location;
   }
 
   return;
@@ -28,7 +28,7 @@ Future<void> _transformEvent(Event event) async {
 
 Future<List<Event>> _mapEventList(QuerySnapshot response) async {
   final events = response.docs.map((e) => Event.fromJson({
-    ...e.data(),
+    ...?e.data(),
     'id': e.id,
   })).toList();
 
@@ -40,13 +40,13 @@ Future<List<Event>> _mapEventList(QuerySnapshot response) async {
 }
 
 Future<List<Event>> getEvents({
-  int yearGroup,
+  int? yearGroup,
   int limit = 25,
 }) async {
   final response = await _firestore
       .collection('events')
       .where('yearGroups', arrayContains: yearGroup)
-      .where('startTime', isGreaterThan: Jiffy().startOf(Units.DAY))
+      .where('startTime', isGreaterThan: Timestamp.fromDate((Jiffy()..startOf(Units.DAY)).dateTime))
       .orderBy('startTime', descending: false)
       .limit(limit)
       .get();
@@ -59,8 +59,8 @@ Future<List<Event>> getTodaysEvents() async {
   final response = await _firestore
       .collection('events')
       .where('yearGroups', arrayContains: yearGroup)
-      .where('startTime', isGreaterThan: Jiffy().startOf(Units.DAY))
-      .where('startTime', isLessThan: Jiffy().endOf(Units.DAY))
+      .where('startTime', isGreaterThan: Timestamp.fromDate((Jiffy()..startOf(Units.DAY)).dateTime))
+      .where('startTime', isLessThan: Timestamp.fromDate((Jiffy()..endOf(Units.DAY)).dateTime))
       .orderBy('startTime', descending: false)
       .get();
 

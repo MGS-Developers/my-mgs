@@ -4,9 +4,9 @@ import 'package:mymgs/widgets/drawer/drawer_icon_body.dart';
 class DrawerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Size preferredSize;
-  final List<Widget> actions;
+  final List<Widget>? actions;
   DrawerAppBar(this.title, {
-    Key key,
+    Key? key,
     this.actions,
   }): preferredSize = AppBar().preferredSize;
 

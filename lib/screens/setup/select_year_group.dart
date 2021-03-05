@@ -5,14 +5,14 @@ import 'package:mymgs/widgets/button.dart';
 class SelectYearGroup extends StatefulWidget {
   final VoidCallback onComplete;
   const SelectYearGroup({
-    @required this.onComplete,
+    required this.onComplete,
   });
 
   _SelectYearGroupState createState() => _SelectYearGroupState();
 }
 
 class _SelectYearGroupState extends State<SelectYearGroup> {
-  int yearGroup;
+  int? yearGroup;
 
   void _save() async {
     await saveSetting("year-group", yearGroup);
@@ -44,7 +44,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
               'Tap to choose',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            onChanged: (int newValue) {
+            onChanged: (int? newValue) {
               setState(() {
                 yearGroup = newValue;
               });

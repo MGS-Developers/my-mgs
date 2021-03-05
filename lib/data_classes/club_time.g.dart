@@ -7,9 +7,9 @@ part of 'club_time.dart';
 // **************************************************************************
 
 ClubTime _$ClubTimeFromJson(Map<String, dynamic> json) {
-  return ClubTime()
-    ..dayOfWeek = _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek'])
-    ..time = timeOfDayFromString(json['time'] as String);
+  return ClubTime(
+    time: timeOfDayFromString(json['time'] as String),
+  )..dayOfWeek = _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek']);
 }
 
 Map<String, dynamic> _$ClubTimeToJson(ClubTime instance) => <String, dynamic>{
@@ -17,25 +17,41 @@ Map<String, dynamic> _$ClubTimeToJson(ClubTime instance) => <String, dynamic>{
       'time': timeOfDayToString(instance.time),
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
 
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
   }
-  return value ?? unknownValue;
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DayOfWeekEnumMap = {

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class CateringItemFlags extends StatelessWidget {
   final List<String> flags;
   const CateringItemFlags({
-    @required this.flags,
+    required this.flags,
   });
 
   Widget _buildFlag(String flag, BuildContext context) {
     String flagText = '';
-    Color color = Theme.of(context).textTheme.bodyText2.color;
+    Color? color = Theme.of(context).textTheme.bodyText2?.color;
 
     switch(flag) {
       case 'v':
@@ -48,6 +48,7 @@ class CateringItemFlags extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
       children: flags.map((e) => _buildFlag(e, context)).toList(),
     );
   }

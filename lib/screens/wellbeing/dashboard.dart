@@ -29,7 +29,8 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
             );
           }
 
-          if (!snapshot.hasData || snapshot.data?.length == 0) {
+          final data = snapshot.data;
+          if (data == null || snapshot.data?.length == 0) {
             return Container();
           }
 
@@ -70,7 +71,7 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
-                children: snapshot.data.map((organisation) => WellbeingResourceCard(
+                children: data.map((organisation) => WellbeingResourceCard(
                   organisation: organisation,
                 )).toList(),
               ),

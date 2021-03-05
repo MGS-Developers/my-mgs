@@ -21,11 +21,11 @@ Future<SetupStatus> getSetupComplete() async {
   }
 }
 
-Future<int> getYearGroup() async {
+Future<int?> getYearGroup() async {
   return getSetting('year-group');
 }
 
-Future<String> sendEmail(String address) async {
+Future<String?> sendEmail(String address) async {
   final functionResponse = await _firebaseFunctions.httpsCallable('sendEmail').call({
     'email': address.trim(),
   });

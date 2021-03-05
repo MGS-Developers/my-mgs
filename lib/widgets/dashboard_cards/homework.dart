@@ -11,7 +11,7 @@ class HomeworkCard extends StatefulWidget {
 }
 
 class _HomeworkCardState extends State<HomeworkCard> {
-  DiaryEntryController _diaryEntryController;
+  late DiaryEntryController _diaryEntryController;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
       title: "Homework",
       titleMargin: 10,
       onPressed: () {
-        DrawerSwitcher.of(context).switchTo(3);
+        DrawerSwitcher.of(context)?.switchTo(3);
       },
       children: [
         EntryList(

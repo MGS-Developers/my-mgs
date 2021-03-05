@@ -4,17 +4,17 @@ import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/screens/report_content.dart';
 
 class InfoDisclaimer extends StatelessWidget {
-  final double hPadding;
+  final double? hPadding;
   final Identifiable identifiable;
   const InfoDisclaimer({
     this.hPadding,
-    this.identifiable,
+    required this.identifiable,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: hPadding != null ? EdgeInsets.symmetric(horizontal: hPadding).copyWith(bottom: 20) : EdgeInsets.zero,
+      padding: hPadding != null ? EdgeInsets.symmetric(horizontal: hPadding!).copyWith(bottom: 20) : EdgeInsets.zero,
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(platformPageRoute(

@@ -14,9 +14,10 @@ String _dayToKey(DateTime date) {
 }
 
 DiaryEntry _blankDiaryEntry(DateTime day) {
-  return DiaryEntry()
-      ..day = day
-      ..subjectEntries = [];
+  return DiaryEntry(
+    subjectEntries: [],
+  )
+      ..day = day;
 }
 
 Future<DiaryEntry> _getEntryForDay(DateTime date) async {
@@ -43,14 +44,14 @@ Stream<DiaryEntry> _getStreamForDay(DateTime day) async* {
 }
 
 class DiaryEntryController {
-  Stream<DiaryEntry> stream;
+  Stream<DiaryEntry>? stream;
   DateTime date;
 
   DiaryEntryController(this.date);
 
   Future<void> write(DiaryEntry newEntry) async {
     final db = await getDb();
-    return store.record(_dayToKey(date)).put(db, newEntry.toJson());
+    await store.record(_dayToKey(date)).put(db, newEntry.toJson());
   }
 
   void _createHomeworkReminder(SubjectEntry subjectEntry) async {
@@ -58,7 +59,7 @@ class DiaryEntryController {
 
     final dueDate = subjectEntry.dueDate;
     final scheduleTime = DateTime(
-      dueDate.year,
+      dueDate!.year,
       dueDate.month,
       dueDate.day - 1,
       18,
@@ -70,10 +71,10 @@ class DiaryEntryController {
       reminderId,
       when: scheduleTime,
       title: subjectEntry.subject + " is due tomorrow",
-      subtitle: subjectEntry.homework,
+      subtitle: subjectEntry.homework!,
       notificationDetails: MGSChannels.homework(
         subject: subjectEntry.subject,
-        homework: subjectEntry.homework,
+        homework: subjectEntry.homework!,
       ),
     );
   }
@@ -84,19 +85,16 @@ class DiaryEntryController {
   }
 
   Future<void> addHomework({
-    String subject,
-    String homework,
-    DateTime dueDate,
+    required String subject,
+    required String homework,
+    required DateTime dueDate,
   }) async {
     final dayEntry = await _getEntryForDay(date);
-    final SubjectEntry subjectEntry = SubjectEntry()
-      ..subject = subject
+    final SubjectEntry subjectEntry = SubjectEntry(
+      subject: subject,
+    )
       ..homework = homework
       ..dueDate = dueDate;
-
-    if (dayEntry.subjectEntries == null) {
-      dayEntry.subjectEntries = [];
-    }
 
     dayEntry.subjectEntries.add(subjectEntry);
     _createHomeworkReminder(subjectEntry);
@@ -105,27 +103,24 @@ class DiaryEntryController {
 
   Future<void> deleteHomework(int index) async {
     final dayEntry = await _getEntryForDay(date);
-    if (!dayEntry.subjectEntries.asMap().containsKey(index)) return;
+    final subjectEntries = dayEntry.subjectEntries;
+    if (!subjectEntries.asMap().containsKey(index)) return;
 
-    _deleteHomeworkReminder(dayEntry.subjectEntries[index]);
-    dayEntry.subjectEntries.removeAt(index);
+    _deleteHomeworkReminder(subjectEntries[index]);
+    subjectEntries.removeAt(index);
     await write(dayEntry);
   }
 
   Future<void> toggleHomework(int index) async {
     final dayEntry = await _getEntryForDay(date);
-    if (!dayEntry.subjectEntries.asMap().containsKey(index)) return;
+    final subjectEntries = dayEntry.subjectEntries;
+    if (!subjectEntries.asMap().containsKey(index)) return;
 
-    if (dayEntry.subjectEntries[index].complete == null) {
-      dayEntry.subjectEntries[index].complete = true;
+    subjectEntries[index].complete = !subjectEntries[index].complete;
+    if (subjectEntries[index].complete) {
+      _deleteHomeworkReminder(subjectEntries[index]);
     } else {
-      dayEntry.subjectEntries[index].complete = !dayEntry.subjectEntries[index].complete;
-    }
-
-    if (dayEntry.subjectEntries[index].complete) {
-      _deleteHomeworkReminder(dayEntry.subjectEntries[index]);
-    } else {
-      _createHomeworkReminder(dayEntry.subjectEntries[index]);
+      _createHomeworkReminder(subjectEntries[index]);
     }
 
     await write(dayEntry);

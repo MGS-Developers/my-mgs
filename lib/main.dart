@@ -41,7 +41,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
 
-  setupNotifications();
+  if (!kIsWeb) {
+    setupNotifications();
+  }
 }
 
 // this is our first class!
@@ -58,11 +60,13 @@ class App extends StatelessWidget {
       // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
       FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
 
-      if (kDebugMode) {
-        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-      } else {
-        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      if (!kIsWeb) {
+        if (kDebugMode) {
+          await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+        } else {
+          await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+          FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+        }
       }
 
       return Firebase.apps[0];
@@ -111,6 +115,12 @@ class App extends StatelessWidget {
     accentColor: Color(0xFFb4bbc7),
     backgroundColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
+    shadowColor: Colors.black.withOpacity(0.5),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
     textTheme: textTheme,
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: buttonStyle.copyWith(
@@ -134,7 +144,10 @@ class App extends StatelessWidget {
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-    )
+    ),
+    appBarTheme: AppBarTheme(
+      brightness: Brightness.light,
+    ),
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
@@ -154,7 +167,7 @@ class App extends StatelessWidget {
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: lightTheme.outlinedButtonTheme.style.copyWith(
+      style: lightTheme.outlinedButtonTheme.style!.copyWith(
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
     ),

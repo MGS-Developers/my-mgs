@@ -6,11 +6,14 @@ import 'package:mymgs/widgets/text_icon.dart';
 class ClubCard extends StatelessWidget {
   final Club club;
   const ClubCard({
-    @required this.club,
+    required this.club,
   });
 
   @override
   Widget build(BuildContext context) {
+    final description = club.description;
+    final staffName = club.staffName;
+
     return Padding(
       padding: const EdgeInsets.only(top: 5),
       child: Card(
@@ -38,8 +41,8 @@ class ClubCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Text(
-                  club.description,
+                if (description != null) Text(
+                  description,
                   style: Theme.of(context).textTheme.bodyText1,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -55,12 +58,12 @@ class ClubCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
+                if (staffName != null) Row(
                   children: [
                     TextIcon(icon: PlatformIcons(context).person),
                     const SizedBox(width: 5),
                     Text(
-                      club.staffName,
+                      staffName,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ],

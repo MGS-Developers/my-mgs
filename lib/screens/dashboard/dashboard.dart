@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/dashboard_card_order.dart';
 import 'package:mymgs/screens/dashboard/reorder.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
+import 'package:mymgs/widgets/icon_button.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Dashboard extends StatefulWidget {
@@ -27,12 +28,11 @@ class _DashboardState extends State<Dashboard> {
       appBar: DrawerAppBar(
         'Dashboard',
         actions: [
-          PlatformIconButton(
-            icon: Icon(PlatformIcons(context).settings),
+          MGSIconButton(
+            icon: PlatformIcons(context).settings,
             onPressed: _reorder,
-            material: (_, __) => MaterialIconButtonData(
-              tooltip: "Reorder",
-            ),
+            tooltip: 'Reorder dashboard',
+            darkBackground: true,
           ),
         ],
       ),
@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.symmetric(
           horizontal: 15,
         ).copyWith(bottom: 30, top: 8),
-        child: StreamBuilder<List<Widget>>(
+        child: StreamBuilder<List<Widget?>>(
           stream: orderStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -52,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
             }
 
             return Column(
-              children: snapshot.data,
+              children: snapshot.data!.where((e) => e != null).toList() as List<Widget>,
             );
           },
         ),

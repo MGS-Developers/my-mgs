@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club_time.dart';
+import 'package:mymgs/data_classes/identifiable.dart';
 
 part 'club.g.dart';
 
@@ -10,22 +11,27 @@ part 'club.g.dart';
 // JsonSerializable is a build tool that generates this function for us automatically
 // If you make changes to this class's members, you'll need to run: flutter pub run build_runner build
 // this will update the club.g.dart file
-@JsonSerializable(nullable: false)
-class Club {
-  String id;
+@JsonSerializable()
+class Club with Identifiable {
+  @JsonKey(ignore: true)
+  final collection = 'clubs';
+
   String name;
-  String description;
+  String? description;
 
   // year groups allowed to attend the club
-  List<int> yearGroups;
+  List<int>? yearGroups;
   ClubTime time;
   // can be a room (e.g. 'S21') or a more generic area identifier (e.g. 'Platt Fields Park')
-  String location;
+  String? location;
 
-  String staffName;
-  String staffEmail;
+  String? staffName;
+  String? staffEmail;
 
-  Club();
+  Club({
+    required this.name,
+    required this.time,
+  });
   factory Club.fromJson(Map<String, dynamic> json) => _$ClubFromJson(json);
   Map<String, dynamic> toJson() => _$ClubToJson(this);
 }

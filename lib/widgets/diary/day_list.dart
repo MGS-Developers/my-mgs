@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:infinite_listview/infinite_listview.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/diary.dart';
@@ -8,7 +9,7 @@ import 'package:mymgs/widgets/diary/day_entry.dart';
 class DiaryDayList extends StatelessWidget {
   final void Function(DateTime _date) focusOnDay;
   const DiaryDayList({
-    @required this.focusOnDay,
+    required this.focusOnDay,
   });
 
   DateTime _getDateForIndex(int index) {
@@ -37,7 +38,9 @@ class DiaryDayList extends StatelessWidget {
                 StreamBuilder<DiaryEntry>(
                   stream: controller.stream,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data?.subjectEntries?.length == 0) {
+                    final data = snapshot.data;
+
+                    if (data == null || data.subjectEntries.length == 0) {
                       return Container(
                         child: Text(
                           'No homework',
@@ -50,7 +53,7 @@ class DiaryDayList extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10),
                       child: DayEntry(
                         deleteHomework: controller.deleteHomework,
-                        subjectEntries: snapshot.data.subjectEntries,
+                        subjectEntries: data.subjectEntries,
                         toggleHomework: controller.toggleHomework,
                       ),
                     );

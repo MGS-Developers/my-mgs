@@ -8,12 +8,13 @@ part of 'wellbeing_organisation.dart';
 
 WellbeingOrganisation _$WellbeingOrganisationFromJson(
     Map<String, dynamic> json) {
-  return WellbeingOrganisation()
-    ..name = json['name'] as String
-    ..caption = json['caption'] as String
-    ..url = json['url'] as String
-    ..phoneNumber = json['phoneNumber'] as String
-    ..color = json['color'] as String;
+  return WellbeingOrganisation(
+    name: json['name'] as String,
+    caption: json['caption'] as String,
+    color: json['color'] as String,
+  )
+    ..url = json['url'] as String?
+    ..phoneNumber = json['phoneNumber'] as String?;
 }
 
 Map<String, dynamic> _$WellbeingOrganisationToJson(

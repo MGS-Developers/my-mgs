@@ -8,8 +8,8 @@ part of 'image.dart';
 
 MGSImage _$MGSImageFromJson(Map<String, dynamic> json) {
   return MGSImage()
-    ..thumbnailUrl = json['thumbnailUrl'] as String
-    ..fullUrl = json['fullUrl'] as String;
+    ..thumbnailUrl = json['thumbnailUrl'] as String?
+    ..fullUrl = json['fullUrl'] as String?;
 }
 
 Map<String, dynamic> _$MGSImageToJson(MGSImage instance) => <String, dynamic>{

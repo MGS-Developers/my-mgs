@@ -10,39 +10,45 @@ import 'package:mymgs/widgets/links.dart';
 
 class EventScreen extends StatelessWidget {
   final Event event;
-  final String heroKey;
+  final String? heroKey;
   EventScreen({
-    @required this.event,
+    required this.event,
     this.heroKey,
   });
 
   @override
   Widget build(BuildContext context) {
+    final description = event.description;
+    final links = event.links;
+    final imageUrl = event.imageUrl;
+    final club = event.club;
+    final clubDescription = club?.description;
+
     return ImageScaffold(
       title: event.title,
       appBarLabel: "Event",
-      image: CachedNetworkImageProvider(event.imageUrl),
+      image: imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
       heroKey: heroKey,
       children: [
-        if (event.club != null) Padding(
+        if (club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: ListTile(
-            title: Text(event.club.name),
-            subtitle: Text(
-              event.club.description,
+            title: Text(club.name),
+            subtitle: clubDescription != null ? Text(
+              clubDescription,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-            ),
+            ) : null,
             onTap: () {
               // link to club screen
             },
           ),
         ),
         if (event.club == null) const SizedBox(height: 10),
-        Padding(
+        if (description != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: MarkdownBody(
-            data: event.description,
+            data: description,
             selectable: true,
             styleSheet: MarkdownStyleSheet(
               p: TextStyle(
@@ -65,9 +71,9 @@ class EventScreen extends StatelessWidget {
           child: EventReminderButton(event: event),
         ),
         const SizedBox(height: 15),
-        if (event.links != null) Padding(
+        if (links != null) Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Links(links: event.links),
+          child: Links(links: links),
         ),
         if (event.links != null) const SizedBox(height: 10),
         InfoDisclaimer(hPadding: 15, identifiable: event),

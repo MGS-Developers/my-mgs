@@ -12,7 +12,7 @@ class SafeguardingReport extends StatefulWidget {
 }
 
 class _SafeguardingReportState extends State<SafeguardingReport> {
-  TextEditingController _input;
+  late TextEditingController _input;
   bool _canSubmit = false;
   bool _loading = false;
 

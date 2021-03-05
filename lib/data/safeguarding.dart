@@ -23,6 +23,6 @@ Future<List<WellbeingOrganisation>> getWellbeingOrganisations() async {
       .get();
 
   return response.docs
-      .map((doc) => WellbeingOrganisation.fromJson(doc.data()))
+      .map((doc) => WellbeingOrganisation.fromJson({...?doc.data()}))
       .toList();
 }

@@ -8,9 +8,9 @@ class HeroAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
   const HeroAppBar({
-    @required this.controller,
-    @required this.title,
-    Key key,
+    required this.controller,
+    required this.title,
+    Key? key,
   });
 
   _HeroAppBarState createState() => _HeroAppBarState();

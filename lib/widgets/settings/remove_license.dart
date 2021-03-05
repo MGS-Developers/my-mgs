@@ -18,6 +18,7 @@ class RemoveLicenseSetting extends StatelessWidget {
   void _confirmRemove(BuildContext context) {
     showPlatformDialog(
       context: context,
+      materialBarrierColor: Theme.of(context).shadowColor,
       builder: (_) => PlatformAlertDialog(
         title: const Text('Are you sure?'),
         content: const Text('You\'ll need to confirm your email again to continue using $appName.'),

@@ -27,17 +27,19 @@ class TodaysMenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<CateringItem>(
+    return FutureBuilder<CateringItem?>(
       future: cateringItemFuture,
       builder: (BuildContext context, snapshot) {
         List<Widget> children;
-        VoidCallback onPressed;
+        VoidCallback? onPressed;
+
+        final data = snapshot.data;
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           children = [
             Spinner(),
           ];
-        } else if (!snapshot.hasData) {
+        } else if (data == null) {
           children = [
             Text(
               'It looks like today isn\'t a school day.',
@@ -50,17 +52,17 @@ class TodaysMenuCard extends StatelessWidget {
           onPressed = () {
             Navigator.of(context).push(platformPageRoute(
               context: context,
-              builder: (_) => CateringItemScreen(cateringItem: snapshot.data),
+              builder: (_) => CateringItemScreen(cateringItem: data),
             ));
           };
 
           children = [
             Text(
-              snapshot.data.menuItems.first.name,
+              data.menuItems.first.name,
               style: Theme.of(context).textTheme.headline5,
             ),
             Text(
-              '+ ${(snapshot.data.menuItems.length - 1).toString()} more',
+              '+ ${(data.menuItems.length - 1).toString()} more',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(height: 5),

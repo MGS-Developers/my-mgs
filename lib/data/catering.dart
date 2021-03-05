@@ -21,7 +21,7 @@ Future<List<CateringItem>> getCateringItems() async {
 
   final cateringItems = cateringResponse.docs.map((e) => CateringItem.fromJson({
     'id': e.id,
-    ...e.data(),
+    ...?e.data(),
   })).toList();
 
   cateringItems.sort((a, b) {
@@ -31,8 +31,8 @@ Future<List<CateringItem>> getCateringItems() async {
   return cateringItems;
 }
 
-int _calculateCycle(int startWeek, int weeksSinceStart) {
-  int currentWeek = startWeek;
+int _calculateCycle(int? startWeek, int weeksSinceStart) {
+  int currentWeek = startWeek ?? 1;
   for (var i = currentWeek; i < weeksSinceStart; i++) {
     if (currentWeek == CATERING_CYCLE_LENGTH) {
       currentWeek = 1;
@@ -44,20 +44,20 @@ int _calculateCycle(int startWeek, int weeksSinceStart) {
   return currentWeek;
 }
 
-Future<int> getCateringWeek() async {
+Future<int?> getCateringWeek() async {
   final termsResponse = await _firestore
       .collection('terms')
       .get();
 
   final terms = termsResponse.docs.map((e) => Term.fromJson({
     'id': e.id,
-    ...e.data(),
+    ...?e.data(),
   })).toList();
 
   final currentDate = DateTime.now();
   final currentWeekNumber = Jiffy(currentDate).week;
 
-  final currentTerm = terms.firstWhere((term) {
+  final Term? currentTerm = terms.firstWhere((term) {
     return currentWeekNumber >= term.startWeek && currentWeekNumber <= term.endWeek;
   });
 
@@ -71,7 +71,7 @@ Future<int> getCateringWeek() async {
   );
 }
 
-Future<CateringItem> getTodaysMenu() async {
+Future<CateringItem?> getTodaysMenu() async {
   // if you're debugging outside of term/week times, override these values
   // make sure not to actually commit your override!
   final cateringWeek = await getCateringWeek();
@@ -96,6 +96,6 @@ Future<CateringItem> getTodaysMenu() async {
 
   return CateringItem.fromJson({
     'id': cateringItemResponse.docs[0].id,
-    ...cateringItemResponse.docs[0].data(),
+    ...?cateringItemResponse.docs[0].data(),
   });
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -6,10 +5,10 @@ import 'package:timezone/timezone.dart' as tz;
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void scheduleReminder(int id, {
-  @required String title,
-  @required String subtitle,
-  @required NotificationDetails notificationDetails,
-  @required DateTime when,
+  required String title,
+  required String subtitle,
+  required NotificationDetails notificationDetails,
+  required DateTime when,
 }) {
   tz.initializeTimeZones();
   final location = tz.getLocation("Europe/London");

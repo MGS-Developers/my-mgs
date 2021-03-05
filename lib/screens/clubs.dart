@@ -15,10 +15,10 @@ class Clubs extends StatefulWidget {
 }
 
 class _ClubsState extends State<Clubs> {
-  Future<List<Club>> clubsFuture;
+  Future<List<Club>>? clubsFuture;
 
   //Stored the day currently selected by the user. First value in the DayOfWeek enum by default (currently Monday)
-  DayOfWeek selectedDay;
+  DayOfWeek selectedDay = DayOfWeek.values[DateTime.now().weekday - 1];
 
   // https://stackoverflow.com/a/52300307/9043010
   @override
@@ -32,13 +32,11 @@ class _ClubsState extends State<Clubs> {
       });
     });
 
-    selectedDay = DayOfWeek.values[DateTime.now().weekday - 1];
-
     super.initState();
   }
 
   List<Club> filterForDay(List<Club> clubs, DayOfWeek day) {
-    List<Club> returnList = new List<Club>();
+    List<Club> returnList = [];
     for (Club club in clubs) {
       if (club.time.dayOfWeek == day) {
         returnList.add(club);
@@ -65,15 +63,16 @@ class _ClubsState extends State<Clubs> {
             // once populated, snapshot.data will contain a `List` of `Club` class instances
             // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
 
+            final data = snapshot.data;
             if (snapshot.connectionState != ConnectionState.done) {
               //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
               return Center(child: Spinner());
-            } else if (snapshot.hasError || snapshot.data == null) {
+            } else if (snapshot.hasError || data == null) {
               //Checks for errors and null. A list of clubs is now safe and ready to use.
               return Text("An error occurred");
             }
 
-            final List<Club> filteredList = filterForDay(snapshot.data, selectedDay);
+            final List<Club> filteredList = filterForDay(data, selectedDay);
 
             //This column stores the dropdown widget and the container for the scrollable list
             //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
@@ -88,7 +87,8 @@ class _ClubsState extends State<Clubs> {
                     value: day,
                   )).toList(),
                   value: selectedDay,
-                  onChanged: (DayOfWeek newValue) {
+                  onChanged: (DayOfWeek? newValue) {
+                    if (newValue == null) return;
                     setState(() {
                       selectedDay = newValue;
                     });

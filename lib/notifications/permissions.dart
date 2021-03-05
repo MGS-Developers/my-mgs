@@ -1,11 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/notifications/channels.dart';
 
 final _firebaseMessaging = FirebaseMessaging.instance;
 
 Future<bool> isNotificationAllowed(String groupId) async {
-  final response = await getSetting<bool>(groupId + "_notifications");
+  final response = await getSetting<bool?>(groupId + "_notifications");
   if (response == null) {
     return false;
   } else {
@@ -13,13 +14,18 @@ Future<bool> isNotificationAllowed(String groupId) async {
   }
 }
 
-Future<bool> isPushTopicAllowed(String topic) async {
-  final response = await getSetting<bool>(topic + "_push_notifications");
+Future<bool> isPushTopicAllowed(String? topic) async {
+  if (topic == null) return false;
+
+  final response = await getSetting<bool?>(topic + "_push_notifications");
   if (response == null) {
-    await _firebaseMessaging.unsubscribeFromTopic(topic);
+    if (!kIsWeb) {
+      await _firebaseMessaging.unsubscribeFromTopic(topic);
+    }
+
     return false;
   } else {
-    if (response == false) await _firebaseMessaging.unsubscribeFromTopic(topic);
+    if (response == false && !kIsWeb) await _firebaseMessaging.unsubscribeFromTopic(topic);
     return response;
   }
 }
@@ -33,6 +39,8 @@ Future<void> allowAllNotifications() async {
 
   for (final topic in MGSChannels.pubSubTopics) {
     await saveSetting(topic + "_push_notifications", true);
-    await _firebaseMessaging.subscribeToTopic(topic);
+    if (!kIsWeb) {
+      await _firebaseMessaging.subscribeToTopic(topic);
+    }
   }
 }

@@ -8,10 +8,11 @@ part of 'link.dart';
 
 Link _$LinkFromJson(Map<String, dynamic> json) {
   $checkKeys(json, requiredKeys: const ['url']);
-  return Link()
-    ..label = json['label'] as String
-    ..important = json['important'] as bool
-    ..url = json['url'] as String;
+  return Link(
+    url: json['url'] as String,
+  )
+    ..label = json['label'] as String?
+    ..important = json['important'] as bool;
 }
 
 Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{

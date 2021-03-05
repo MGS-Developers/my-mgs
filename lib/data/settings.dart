@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mymgs/data/local_database.dart';
 import 'package:sembast/sembast.dart';
 
@@ -9,7 +10,7 @@ final store = StoreRef<String, dynamic>('settings');
 
 Future<void> saveSetting(String key, dynamic value) async {
   if (value is bool) {
-    if (key.endsWith("push_notifications")) {
+    if (key.endsWith("push_notifications") && !kIsWeb) {
       final topicName = key.replaceFirst('_push_notifications', '');
       if (value) {
         await _firebaseMessaging.subscribeToTopic(topicName);
@@ -23,7 +24,11 @@ Future<void> saveSetting(String key, dynamic value) async {
   await store.record(key).put(db, value);
 }
 
-Stream<T> watchSetting<T>(String key) async* {
+Stream<T> watchSetting<T>(String? key) async* {
+  if (key == null) {
+    return;
+  }
+
   final db = await getDb();
   yield* store.record(key).onSnapshot(db).map((event) => event?.value);
 }

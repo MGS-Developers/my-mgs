@@ -7,6 +7,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/news.dart';
 import 'package:mymgs/screens/catering/catering.dart';
 import 'package:mymgs/screens/news/news_item.dart';
+// uni_links doesn't have a null safety version available yet
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:uni_links/uni_links.dart';
 
 final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -32,7 +34,7 @@ class DeepLink {
   String toPayloadString() {
     return resource.index.toString() + "-" + id;
   }
-  factory DeepLink.fromPayloadString(String payloadString) {
+  static DeepLink? fromPayloadString(String payloadString) {
     if (!payloadString.contains("-")) return null;
 
     final splitString = payloadString.split("-");
@@ -43,7 +45,7 @@ class DeepLink {
   }
 
   Future<PageRoute> getRoute(BuildContext context) async {
-    Widget page;
+    Widget? page;
 
     switch(resource) {
       case DeepLinkResource.newsItem:
@@ -61,28 +63,33 @@ class DeepLink {
 
     return platformPageRoute(
       context: context,
-      builder: (_) => page,
+      builder: (_) => page!,
     );
   }
 }
 
-Future<DeepLink> _getFLNLink() async {
+Future<DeepLink?> _getFLNLink() async {
   final response = await _flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-  if (!response.didNotificationLaunchApp || response.payload == null) {
+  if (response == null) {
     return null;
   }
 
-  return DeepLink.fromPayloadString(response.payload);
+  final payload = response.payload;
+  if (!response.didNotificationLaunchApp || payload == null) {
+    return null;
+  }
+
+  return DeepLink.fromPayloadString(payload);
 }
 
-DeepLink _nativeUriToDeepLink(Uri nativeUri) {
+DeepLink? _nativeUriToDeepLink(Uri? nativeUri) {
   if (nativeUri == null) return null;
   if (nativeUri.scheme != "mymgs") return null;
 
   return DeepLink.fromPayloadString(nativeUri.host);
 }
 
-Future<DeepLink> _getNativeLink() async {
+Future<DeepLink?> _getNativeLink() async {
   try {
     final response = await getInitialUri();
     return _nativeUriToDeepLink(response);
@@ -91,15 +98,15 @@ Future<DeepLink> _getNativeLink() async {
   }
 }
 
-final _linkController = StreamController<DeepLink>();
+final _linkController = StreamController<DeepLink?>();
 var _lock = false;
-StreamController<DeepLink> getLinkController() {
+StreamController<DeepLink?> getLinkController() {
   return _linkController;
 }
 
 /// Can only be called once in the app's lifecycle.
 /// Trying to call [watchDeepLink] more than once will result in an exception.
-StreamController<DeepLink> watchDeepLink() {
+StreamController<DeepLink?> watchDeepLink() {
   if (_lock == true) {
     throw Exception("watchDeepLink has already been called.");
   }

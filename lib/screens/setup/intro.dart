@@ -5,7 +5,7 @@ import 'package:mymgs/widgets/button.dart';
 class Intro extends StatelessWidget {
   final VoidCallback onContinue;
   const Intro({
-    @required this.onContinue,
+    required this.onContinue,
   });
   
   @override

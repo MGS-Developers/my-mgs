@@ -6,6 +6,7 @@ import 'package:mymgs/widgets/diary/date_selector.dart';
 import 'package:mymgs/widgets/diary/day_list.dart';
 import 'package:mymgs/widgets/diary/entry_list.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
+import 'package:mymgs/widgets/icon_button.dart';
 
 enum DiaryView {
   SingleDay,
@@ -18,7 +19,7 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
-  DiaryEntryController _diaryEntryController;
+  late DiaryEntryController? _diaryEntryController;
   DiaryView _diaryView = DiaryView.SingleDay;
 
   @override
@@ -53,12 +54,11 @@ class _DiaryState extends State<Diary> {
       appBar: DrawerAppBar(
         'Homework Diary',
         actions: [
-          PlatformIconButton(
-            icon: _diaryView == DiaryView.SingleDay ? Icon(Icons.calendar_view_day) : Icon(Icons.view_array),
+          MGSIconButton(
+            icon: _diaryView == DiaryView.SingleDay ? Icons.calendar_view_day : Icons.view_array,
             onPressed: _toggleView,
-            material: (_, __) => MaterialIconButtonData(
-              tooltip: "Toggle view",
-            ),
+            tooltip: 'Toggle view',
+            darkBackground: true,
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class _DiaryState extends State<Diary> {
         onPressed: () {
           Navigator.of(context).push(platformPageRoute(
             context: context,
-            builder: (_) => AddDiaryEntry(diaryEntryController: _diaryEntryController),
+            builder: (_) => AddDiaryEntry(diaryEntryController: _diaryEntryController!),
             fullscreenDialog: true,
           ));
         },
@@ -78,13 +78,13 @@ class _DiaryState extends State<Diary> {
         child: _diaryView == DiaryView.SingleDay ? Column(
           children: [
             DateSelector(
-              selectedDate: _diaryEntryController.date,
+              selectedDate: _diaryEntryController!.date,
               dateCallback: _changeDate,
             ),
             const SizedBox(height: 20),
             Expanded(
               child: EntryList(
-                diaryEntryController: _diaryEntryController,
+                diaryEntryController: _diaryEntryController!,
               ),
             ),
           ],

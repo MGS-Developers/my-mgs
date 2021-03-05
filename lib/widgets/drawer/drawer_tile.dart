@@ -14,10 +14,10 @@ class DrawerTile extends StatelessWidget {
   final int index;
   final void Function(int index) onSelect;
   const DrawerTile({
-    @required this.data,
-    @required this.selected,
-    @required this.onSelect,
-    @required this.index,
+    required this.data,
+    required this.selected,
+    required this.onSelect,
+    required this.index,
   });
 
   @override
@@ -54,7 +54,7 @@ class DrawerTile extends StatelessWidget {
           onTap: () => onSelect(index),
           title: Text(
             data.name,
-            style: Theme.of(context).textTheme.headline6.copyWith(
+            style: Theme.of(context).textTheme.headline6?.copyWith(
               fontWeight: FontWeight.normal,
               fontSize: 16,
               color: textColor

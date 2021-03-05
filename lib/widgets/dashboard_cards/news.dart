@@ -16,17 +16,19 @@ class NewsCard extends StatelessWidget {
     return FutureBuilder<List<NewsItem>>(
       future: getNews(3),
       builder: (BuildContext context, snapshot) {
+        final data = snapshot.data;
+
         List<Widget> children;
         if (snapshot.connectionState == ConnectionState.waiting) {
           children = [Spinner()];
-        } else if (snapshot.hasData && !snapshot.hasError) {
-          if (snapshot.data.length == 0) {
+        } else if (data != null && !snapshot.hasError) {
+          if (data.length == 0) {
             children = [Text(
               "No news found.",
               style: Theme.of(context).textTheme.bodyText1,
             )];
           } else {
-            children = snapshot.data.map((item) => NewsPreview(
+            children = data.map((item) => NewsPreview(
               key: Key(item.id),
               newsItem: item,
             )).toList();

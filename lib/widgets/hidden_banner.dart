@@ -5,9 +5,9 @@ class HiddenBanner extends StatefulWidget {
   final Widget body;
 
   const HiddenBanner({
-    @required this.title,
-    @required this.body,
-    Key key,
+    required this.title,
+    required this.body,
+    Key? key,
   });
 
   _HiddenBannerState createState() => _HiddenBannerState();

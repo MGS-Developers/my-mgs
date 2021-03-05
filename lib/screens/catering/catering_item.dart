@@ -8,11 +8,14 @@ import 'package:mymgs/widgets/info_disclaimer.dart';
 class CateringItemScreen extends StatelessWidget {
   final CateringItem cateringItem;
   const CateringItemScreen({
-    @required this.cateringItem,
+    required this.cateringItem,
   });
 
   Iterable<Widget> getMenuWidgets(BuildContext context) {
     return cateringItem.menuItems.map((e) {
+      final flags = e.flags;
+      final description = e.description;
+
       return Padding(
         padding: EdgeInsets.only(bottom: 20),
         child: Container(
@@ -27,21 +30,21 @@ class CateringItemScreen extends StatelessWidget {
                   Flexible(
                     child: Text(
                       e.name,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontSize: 20,
                       ),
                     ),
                   ),
-                  if (e.flags != null && e.flags.isNotEmpty) ...[
+                  if (flags != null && flags.isNotEmpty) ...[
                     const SizedBox(width: 5),
-                    CateringItemFlags(flags: e.flags),
+                    CateringItemFlags(flags: flags),
                   ]
                 ],
               ),
-              if (e.description != null) ...[
+              if (description != null) ...[
                 const SizedBox(height: 2),
                 Text(
-                  e.description,
+                  description,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],

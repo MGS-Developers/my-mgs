@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TextIcon extends StatelessWidget {
   final IconData icon;
   const TextIcon({
-    @required this.icon,
+    required this.icon,
   });
 
   @override
@@ -11,7 +11,7 @@ class TextIcon extends StatelessWidget {
     return Icon(
       icon,
       size: 14,
-      color: Theme.of(context).textTheme.bodyText1.color,
+      color: Theme.of(context).textTheme.bodyText1?.color,
     );
   }
 }

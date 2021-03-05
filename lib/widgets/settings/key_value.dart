@@ -7,19 +7,19 @@ typedef TrackerMapper = String Function(dynamic value);
 
 class KeyValueSetting extends StatelessWidget {
   final String name;
-  final String value;
-  final String description;
+  final String? value;
+  final String? description;
 
-  final String tracker;
+  final String? tracker;
   final Stream _stream;
-  final TrackerMapper trackerMapper;
+  final TrackerMapper? trackerMapper;
 
   final VoidCallback onTap;
 
   KeyValueSetting({
-    Key key,
-    @required this.name,
-    @required this.onTap,
+    Key? key,
+    required this.name,
+    required this.onTap,
     this.value,
     this.description,
     this.tracker,
@@ -30,17 +30,18 @@ class KeyValueSetting extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(name),
-      subtitle: description == null ? null : Text(description),
+      subtitle: description == null ? null : Text(description!),
       trailing: value != null ? Text(
-        value,
+        value!,
         style: Theme.of(context).textTheme.bodyText1,
       ) : tracker != null ? StreamBuilder(
         stream: _stream,
         builder: (BuildContext context, snapshot) {
-          if (!snapshot.hasData) return const SizedBox();
+          final data = snapshot.data;
+          if (data == null) return const SizedBox();
 
           return Text(
-            trackerMapper(snapshot.data),
+            trackerMapper?.call(data) ?? data.toString(),
             style: Theme.of(context).textTheme.bodyText1,
           );
         }

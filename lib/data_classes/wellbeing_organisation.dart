@@ -8,12 +8,16 @@ class WellbeingOrganisation {
   // must be no more than 6 words
   String caption;
 
-  String url;
-  String phoneNumber;
+  String? url;
+  String? phoneNumber;
 
   String color;
 
-  WellbeingOrganisation();
+  WellbeingOrganisation({
+    required this.name,
+    required this.caption,
+    required this.color,
+  });
   factory WellbeingOrganisation.fromJson(Map<String, dynamic> json) => _$WellbeingOrganisationFromJson(json);
   Map<String, dynamic> toJson() => _$WellbeingOrganisationToJson(this);
 }

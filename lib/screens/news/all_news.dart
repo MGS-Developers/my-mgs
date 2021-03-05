@@ -20,7 +20,8 @@ class AllNews extends StatelessWidget {
             );
           }
 
-          if (!snapshot.hasData || snapshot.hasError) {
+          final data = snapshot.data;
+          if (data == null || snapshot.hasError) {
             return Center(
               child: Text(
                 "Something went wrong.",
@@ -30,9 +31,9 @@ class AllNews extends StatelessWidget {
           }
 
           return ListView.builder(
-            itemCount: snapshot.data.length,
+            itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
-              final newsItem = snapshot.data[index];
+              final newsItem = data[index];
               return NewsPreview(
                 key: Key(newsItem.id),
                 newsItem: newsItem,

@@ -5,6 +5,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data/settings.dart';
@@ -43,12 +44,12 @@ class DrawerSwitcher extends InheritedWidget {
   final DrawerNavigationFunction switchTo;
   final Widget child;
   const DrawerSwitcher({
-    Key key,
-    @required this.switchTo,
-    @required this.child,
+    Key? key,
+    required this.switchTo,
+    required this.child,
   }) : super(key: key, child: child);
 
-  static DrawerSwitcher of(BuildContext context) {
+  static DrawerSwitcher? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DrawerSwitcher>();
   }
 
@@ -89,8 +90,8 @@ class _MainNavigationState extends State<MainNavigation> {
 
   SetupStatus setupStatus = SetupStatus.Determining;
   DeepLinkStatus deepLinkStatus = DeepLinkStatus.Determining;
-  StreamSubscription<DeepLink> _deepLinkListener;
-  StreamSubscription<bool> _signOutListener;
+  late StreamSubscription<DeepLink?> _deepLinkListener;
+  late StreamSubscription<bool> _signOutListener;
 
   // this is a special function that gets called when the widget is initialised
   // in here, we can run any code want to to set the widget up
@@ -104,6 +105,19 @@ class _MainNavigationState extends State<MainNavigation> {
         setupStatus = value;
       });
     });
+
+    _signOutListener = listenToSignOut(() {
+      setState(() {
+        setupStatus = SetupStatus.Incomplete;
+      });
+    });
+
+    if (kIsWeb) {
+      setState(() {
+        deepLinkStatus = DeepLinkStatus.NoLink;
+      });
+      return;
+    }
 
     // this is our custom way to detect link while the app is open and when it first opens.
     // it's a little confusing, but rarely needs tweaking, so don't worry about it.
@@ -122,12 +136,6 @@ class _MainNavigationState extends State<MainNavigation> {
 
       setState(() {
         deepLinkStatus = DeepLinkStatus.YesLink;
-      });
-    });
-
-    _signOutListener = listenToSignOut(() {
-      setState(() {
-        setupStatus = SetupStatus.Incomplete;
       });
     });
   }
@@ -184,7 +192,7 @@ class _MainNavigationState extends State<MainNavigation> {
               DrawerHeader(
                 child: Text(
                   appName,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
+                  style: Theme.of(context).textTheme.headline6?.copyWith(
                     color: Colors.white,
                   ),
                 ),

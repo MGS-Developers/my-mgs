@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:mymgs/widgets/icon_button.dart';
 
 typedef DateCallback = void Function(DateTime newDate);
 
@@ -8,8 +9,8 @@ class DateSelector extends StatefulWidget {
   final DateTime selectedDate;
   final DateCallback dateCallback;
   const DateSelector({
-    @required this.selectedDate,
-    @required this.dateCallback,
+    required this.selectedDate,
+    required this.dateCallback,
   });
 
   _DateSelectorState createState() => _DateSelectorState();
@@ -48,10 +49,11 @@ class _DateSelectorState extends State<DateSelector> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PlatformIconButton(
-            icon: Icon(PlatformIcons(context).leftChevron),
+          MGSIconButton(
+            icon: PlatformIcons(context).leftChevron,
             onPressed: _prevDay,
             color: Theme.of(context).accentColor,
+            tooltip: 'Next',
           ),
           GestureDetector(
             onTap: _openSelector,
@@ -59,10 +61,11 @@ class _DateSelectorState extends State<DateSelector> {
               Jiffy(widget.selectedDate).yMMMEd
             ),
           ),
-          PlatformIconButton(
-            icon: Icon(PlatformIcons(context).rightChevron),
+          MGSIconButton(
+            icon: PlatformIcons(context).rightChevron,
             onPressed: _nextDay,
             color: Theme.of(context).accentColor,
+            tooltip: 'Previous',
           ),
         ],
       ),

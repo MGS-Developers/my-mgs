@@ -8,7 +8,7 @@ class EventLogistics extends StatelessWidget {
   final Event event;
   final bool showFullDate;
   const EventLogistics({
-    @required this.event,
+    required this.event,
     this.showFullDate = false,
   });
 
@@ -27,9 +27,10 @@ class EventLogistics extends StatelessWidget {
       }
     }
 
-    String locationText = event.location;
-    if (event.club != null) {
-      locationText += " (${event.club.name})";
+    String locationText = event.location ?? "";
+    final club = event.club;
+    if (club != null) {
+      locationText += " (${club.name})";
     }
 
     final parsedDate = Jiffy(event.startTime.toDate());

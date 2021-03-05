@@ -1,17 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/helpers/animation.dart';
 import 'package:mymgs/screens/news/news_item.dart';
+import 'package:mymgs/widgets/nullable_image.dart';
 
 class NewsPreview extends StatelessWidget {
   final NewsItem newsItem;
   final String heroKey;
   NewsPreview({
-    @required Key key,
-    @required this.newsItem,
+    required Key key,
+    required this.newsItem,
   }) : heroKey = randomHeroKey();
 
   @override
@@ -25,11 +25,11 @@ class NewsPreview extends StatelessWidget {
       ),
       leading: newsItem.image.thumbnailUrl != null && newsItem.image.thumbnailUrl != '' ? Hero(
         tag: heroKey,
-        child: Image(
+        child: NullableImage(
           width: 60,
           height: 60,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(newsItem.image.thumbnailUrl),
+          image: newsItem.image,
         ),
       ) : null,
       title: Text(newsItem.headline),

@@ -9,12 +9,13 @@ import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/notifications/reminders.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
+import 'package:mymgs/widgets/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EventReminderButton extends StatefulWidget {
   final Event event;
   const EventReminderButton({
-    @required this.event,
+    required this.event,
   });
 
   _EventReminderButtonState createState() => _EventReminderButtonState();
@@ -42,7 +43,7 @@ class _EventReminderButtonState extends State<EventReminderButton> {
 
   void _toggleReminder() async {
     if (!(await isNotificationAllowed("events"))) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Please allow event notifications"),
         action: SnackBarAction(
           label: "Configure",
@@ -83,11 +84,9 @@ class _EventReminderButtonState extends State<EventReminderButton> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: ElevatedButton(
+      child: MGSButton(
         onPressed: _toggleReminder,
-        child: Text(
-          reminderScheduled ? 'Cancel reminder' : 'Remind me!',
-        ),
+        label: reminderScheduled ? 'Cancel reminder' : 'Remind me!',
       )
     );
   }

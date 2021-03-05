@@ -7,7 +7,7 @@ import 'package:mymgs/screens/setup/select_year_group.dart';
 class SetupScreen extends StatefulWidget {
   final VoidCallback quitSetup;
   const SetupScreen({
-    @required this.quitSetup,
+    required this.quitSetup,
   });
   _SetupScreenState createState() => _SetupScreenState();
 }
@@ -16,8 +16,11 @@ class _SetupScreenState extends State<SetupScreen> {
   final PageController pageController = PageController();
 
   void _nextPage() {
-    pageController?.animateToPage(
-      pageController.page.toInt() + 1,
+    final currentPage = pageController.page;
+    if (currentPage == null) return;
+
+    pageController.animateToPage(
+      currentPage.toInt() + 1,
       duration: const Duration(milliseconds: 120),
       curve: Curves.easeInOut,
     );

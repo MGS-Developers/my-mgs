@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/widgets/settings/toggle.dart';
 
@@ -46,7 +47,8 @@ class _NotificationSettingsState extends State<NotificationSettings> {
             name: "Remote",
             description: "Push notifications",
             tracker: "news_notifications",
-            requirement: _allowNotifications,
+            requirement: kIsWeb ? false : _allowNotifications,
+            enabled: !kIsWeb,
             callback: (on) {
               setState(() {
                 _allowNews = on;

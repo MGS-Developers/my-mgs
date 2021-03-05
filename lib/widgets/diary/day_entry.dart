@@ -8,16 +8,16 @@ class DayEntry extends StatefulWidget {
   final Future<void> Function(int _index) toggleHomework;
   final List<SubjectEntry> subjectEntries;
   const DayEntry({
-    @required this.deleteHomework,
-    @required this.subjectEntries,
-    @required this.toggleHomework,
+    required this.deleteHomework,
+    required this.subjectEntries,
+    required this.toggleHomework,
   });
 
   _DayEntryState createState() => _DayEntryState();
 }
 
 class _DayEntryState extends State<DayEntry> {
-  List<int> expandedIndexes;
+  late List<int> expandedIndexes;
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _DayEntryState extends State<DayEntry> {
   void _showEntryMenu(MapEntry<int, SubjectEntry> entry) {
     showPlatformDialog(
       context: context,
+      materialBarrierColor: Theme.of(context).shadowColor,
       builder: (BuildContext context) => PlatformAlertDialog(
         title: Text(entry.value.subject),
         actions: [
@@ -68,54 +69,58 @@ class _DayEntryState extends State<DayEntry> {
     return SingleChildScrollView(
       child: ExpansionPanelList(
         expansionCallback: _setExpanded,
-        children: widget.subjectEntries.asMap().entries.map((entry) => ExpansionPanel(
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, _) => ListTile(
-            title: Text(
-              entry.value.subject,
-              style: entry.value.complete ? TextStyle(
-                color: MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.black54 : Colors.white70,
-                decoration: TextDecoration.lineThrough,
-              ) : null,
+        children: widget.subjectEntries.asMap().entries.map((entry) {
+          final homeworkText = entry.value.homework;
+
+          return ExpansionPanel(
+            canTapOnHeader: true,
+            headerBuilder: (BuildContext context, _) => ListTile(
+              title: Text(
+                entry.value.subject,
+                style: entry.value.complete ? TextStyle(
+                  color: MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.black54 : Colors.white70,
+                  decoration: TextDecoration.lineThrough,
+                ) : null,
+              ),
+              onLongPress: () {
+                _showEntryMenu(entry);
+              },
+              onTap: () {
+                _setExpanded(entry.key, expandedIndexes.contains(entry.key));
+              },
             ),
-            onLongPress: () {
-              _showEntryMenu(entry);
-            },
-            onTap: () {
-              _setExpanded(entry.key, expandedIndexes.contains(entry.key));
-            },
-          ),
-          isExpanded: expandedIndexes.contains(entry.key),
-          body: Container(
-            alignment: Alignment.topLeft,
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.value.homework,
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "Due: " + Jiffy(entry.value.dueDate).yMMMEd,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    fontWeight: FontWeight.bold,
+            isExpanded: expandedIndexes.contains(entry.key),
+            body: Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (homeworkText != null) Text(
+                    homeworkText,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
                   ),
-                ),
-                const SizedBox(height: 5),
-                OutlinedButton(
-                  onPressed: () {
-                    _toggleComplete(entry);
-                  },
-                  child: Text(
-                    entry.value.complete ? "Mark incomplete" : "Mark complete"
+                  Text(
+                    "Due: " + Jiffy(entry.value.dueDate).yMMMEd,
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 5),
+                  OutlinedButton(
+                    onPressed: () {
+                      _toggleComplete(entry);
+                    },
+                    child: Text(
+                        entry.value.complete ? "Mark incomplete" : "Mark complete"
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        )).toList(),
+          );
+        }).toList(),
       ),
     );
   }

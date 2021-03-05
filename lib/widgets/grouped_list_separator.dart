@@ -4,7 +4,7 @@ class GroupedListSeparator extends StatelessWidget {
   final String label;
   final bool contrastBackground;
   const GroupedListSeparator({
-    @required this.label,
+    required this.label,
     this.contrastBackground = false,
   });
 

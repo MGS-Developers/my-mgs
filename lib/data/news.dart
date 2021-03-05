@@ -10,12 +10,12 @@ Future<List<NewsItem>> getNews(int limit) async {
       .get();
 
   return newsDocs.docs.map((e) => NewsItem.fromJson({
-    ...e.data(),
+    ...?e.data(),
     "id": e.id,
   })).toList();
 }
 
-Future<NewsItem> getNewsItem(String id) async {
+Future<NewsItem?> getNewsItem(String id) async {
   final doc = await _firestore.collection("news")
       .doc(id)
       .get();
@@ -23,7 +23,7 @@ Future<NewsItem> getNewsItem(String id) async {
   if (!doc.exists) return null;
 
   return NewsItem.fromJson({
-    ...doc.data(),
+    ...?doc.data(),
     "id": doc.id,
   });
 }

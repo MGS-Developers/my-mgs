@@ -31,10 +31,10 @@ extension ParseString on DayOfWeek {
   }
 }
 
-@JsonSerializable(nullable: false)
+@JsonSerializable()
 class ClubTime {
   // an enum type
-  DayOfWeek dayOfWeek;
+  DayOfWeek? dayOfWeek;
   // TimeOfDay is independent of time zones (incl. DST), much like MGS clubs
   // since JsonSerializable doesn't know how to serialize a TimeOfDay instance, we need to tell it using @JsonKey
   // @JsonKey is an 'annotation': https://dart.dev/guides/language/language-tour#metadata
@@ -52,7 +52,7 @@ class ClubTime {
     return Jiffy(DateTime(0, 0, 0, time.hour, time.minute)).jm;
   }
 
-  ClubTime();
+  ClubTime({required this.time});
   factory ClubTime.fromJson(Map<String, dynamic> json) => _$ClubTimeFromJson(json);
   Map<String, dynamic> toJson() => _$ClubTimeToJson(this);
 }

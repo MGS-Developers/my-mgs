@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/dashboard_card_order.dart';
 
 class ReorderDashboard extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ReorderDashboardState extends State<ReorderDashboard> {
     });
 
     await setOrder(order);
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Order saved!"),
       duration: const Duration(seconds: 1),
     ));
@@ -56,7 +57,7 @@ class _ReorderDashboardState extends State<ReorderDashboard> {
                 key: Key(name),
                 trailing: Icon(Icons.reorder),
                 onTap: () {
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Tap and hold to reorder!"),
                     duration: const Duration(seconds: 1),
                   ));

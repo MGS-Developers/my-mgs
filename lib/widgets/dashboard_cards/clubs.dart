@@ -25,16 +25,18 @@ class ClubsCard extends StatelessWidget {
         bool loading = false;
         bool failed = false;
 
+        final data = snapshot.data;
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           loading = true;
-        } else if (snapshot.hasError || snapshot.data?.length == 0) {
+        } else if (snapshot.hasError || data?.length == 0) {
           failed = true;
         }
 
         return DashboardCard(
           title: "Clubs",
           onPressed: () {
-            DrawerSwitcher.of(context).switchTo(2);
+            DrawerSwitcher.of(context)?.switchTo(2);
           },
           children: [
             if (loading) Spinner(),
@@ -42,8 +44,8 @@ class ClubsCard extends StatelessWidget {
               'No clubs today.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            if (!failed && !loading)
-              for (final club in snapshot.data)
+            if (!failed && !loading && data != null)
+              for (final club in data)
                 ClubCard(club: club)
           ]
         );

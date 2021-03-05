@@ -4,14 +4,16 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class MGSButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool enabled;
   final bool outlined;
+  final bool disableCupertinoPaddingCompensation;
   const MGSButton({
-    @required this.label,
-    @required this.onPressed,
+    required this.label,
+    this.onPressed,
     this.enabled = true,
     this.outlined = false,
+    this.disableCupertinoPaddingCompensation = false,
   });
   
   @override
@@ -34,9 +36,19 @@ class MGSButton extends StatelessWidget {
         );
       },
       cupertino: (_, __) {
-        return CupertinoButton(
-          onPressed: callback,
-          child: child,
+        if (outlined) {
+          return CupertinoButton(
+            onPressed: callback,
+            child: child,
+          );
+        }
+
+        return Padding(
+          padding: disableCupertinoPaddingCompensation ? EdgeInsets.zero : EdgeInsets.symmetric(vertical: 10),
+          child: CupertinoButton.filled(
+            onPressed: callback,
+            child: child,
+          ),
         );
       },
     );

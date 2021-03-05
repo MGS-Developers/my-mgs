@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "my-mgs-app"
+  },
+  "targets": {
+    "my-mgs-app": {
+      "hosting": {
+        "my_mgs_web": [
+          "my-mgs-web"
+        ]
+      }
+    }
   }
 }

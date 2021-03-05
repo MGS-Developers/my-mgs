@@ -14,7 +14,7 @@ class ReportContent extends StatefulWidget {
 
 class _ReportContentState extends State<ReportContent> {
   bool loading = false;
-  TextEditingController controller;
+  late TextEditingController controller;
 
   @override
   void initState() {

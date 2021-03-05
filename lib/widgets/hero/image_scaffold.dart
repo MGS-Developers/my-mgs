@@ -4,22 +4,22 @@ import 'package:mymgs/widgets/hero/hero_appbar.dart';
 class ImageScaffold extends StatefulWidget {
   final List<Widget> children;
   final String appBarLabel;
-  final ImageProvider image;
+  final ImageProvider? image;
   final String title;
-  final String heroKey;
+  final String? heroKey;
 
   const ImageScaffold({
-    @required this.children,
-    @required this.title,
-    @required this.appBarLabel,
-    @required this.image,
+    required this.children,
+    required this.title,
+    required this.appBarLabel,
+    this.image,
     this.heroKey,
   });
   _ImageScaffoldState createState() => _ImageScaffoldState();
 }
 
 class _ImageScaffoldState extends State<ImageScaffold> {
-  ScrollController _controller;
+  late ScrollController _controller;
 
   @override
   void initState() {
@@ -35,6 +35,8 @@ class _ImageScaffoldState extends State<ImageScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final image = widget.image;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: HeroAppBar(
@@ -54,11 +56,11 @@ class _ImageScaffoldState extends State<ImageScaffold> {
                   width: double.infinity,
                   child: Stack(
                     children: [
-                      Image(
+                      if (image != null) Image(
                         height: double.infinity,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        image: widget.image,
+                        image: image,
                       ),
                       Container(
                         decoration: BoxDecoration(

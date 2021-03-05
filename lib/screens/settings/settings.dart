@@ -15,6 +15,7 @@ class SettingsScreen extends StatelessWidget {
   void _changeYearGroup(BuildContext context) async {
     showPlatformDialog(
       context: context,
+      materialBarrierColor: Theme.of(context).shadowColor,
       builder: (_) => PlatformAlertDialog(
         title: Text("Change year group"),
         content: Column(
@@ -22,12 +23,12 @@ class SettingsScreen extends StatelessWidget {
           children: [
             ...[7, 8, 9, 10, 11, 12, 13].map((year) => Container(
               width: double.infinity,
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () async {
                   await saveSetting("year-group", year);
                   Navigator.of(context).pop();
 
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Restart " + appName + " to get personalised content."),
                     duration: const Duration(seconds: 2),
                   ));

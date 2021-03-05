@@ -10,15 +10,15 @@ class AddDiaryEntry extends StatefulWidget {
   final DiaryEntryController diaryEntryController;
 
   const AddDiaryEntry({
-    @required this.diaryEntryController,
+    required this.diaryEntryController,
   });
   _AddDiaryEntryState createState() => _AddDiaryEntryState();
 }
 
 class _AddDiaryEntryState extends State<AddDiaryEntry> {
   String _subject = "🎨 Art";
-  TextEditingController _homework;
-  DateTime _dueDate;
+  late TextEditingController _homework;
+  late DateTime _dueDate;
 
   @override
   void initState() {

@@ -7,9 +7,10 @@ part of 'diary_entry.dart';
 // **************************************************************************
 
 SubjectEntry _$SubjectEntryFromJson(Map<String, dynamic> json) {
-  return SubjectEntry()
-    ..subject = json['subject'] as String
-    ..homework = json['homework'] as String
+  return SubjectEntry(
+    subject: json['subject'] as String,
+  )
+    ..homework = json['homework'] as String?
     ..dueDate = json['dueDate'] == null
         ? null
         : DateTime.parse(json['dueDate'] as String)
@@ -25,12 +26,11 @@ Map<String, dynamic> _$SubjectEntryToJson(SubjectEntry instance) =>
     };
 
 DiaryEntry _$DiaryEntryFromJson(Map<String, dynamic> json) {
-  return DiaryEntry()
-    ..day = json['day'] == null ? null : DateTime.parse(json['day'] as String)
-    ..subjectEntries = (json['subjectEntries'] as List)
-        ?.map((e) =>
-            e == null ? null : SubjectEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return DiaryEntry(
+    subjectEntries: (json['subjectEntries'] as List<dynamic>)
+        .map((e) => SubjectEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  )..day = json['day'] == null ? null : DateTime.parse(json['day'] as String);
 }
 
 Map<String, dynamic> _$DiaryEntryToJson(DiaryEntry instance) =>

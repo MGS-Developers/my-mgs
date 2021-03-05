@@ -9,8 +9,8 @@ typedef ToggleCallback = void Function(bool on);
 class ToggleSetting extends StatefulWidget {
   final String name;
   final String tracker;
-  final ToggleCallback callback;
-  final String description;
+  final ToggleCallback? callback;
+  final String? description;
   final bool enabled;
   final bool indented;
 
@@ -18,8 +18,8 @@ class ToggleSetting extends StatefulWidget {
   final bool requirement;
 
   const ToggleSetting({
-    @required this.name,
-    @required this.tracker,
+    required this.name,
+    required this.tracker,
     this.callback,
     this.description,
     this.enabled = true,
@@ -31,8 +31,8 @@ class ToggleSetting extends StatefulWidget {
 }
 
 class _ToggleSettingState extends State<ToggleSetting> {
-  Stream<bool> _stream;
-  StreamSubscription<bool> _streamSubscription;
+  late Stream<bool> _stream;
+  late StreamSubscription<bool> _streamSubscription;
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
 
   @override
   void didUpdateWidget(covariant ToggleSetting oldWidget) {
-    if (widget.requirement == false && oldWidget.requirement != false) {
+    if (widget.requirement == false) {
       _toggle(true);
     }
     super.didUpdateWidget(oldWidget);
@@ -81,7 +81,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
             _toggle(currentValue);
           },
           title: Text(widget.name),
-          subtitle: widget.description == null ? null : Text(widget.description),
+          subtitle: widget.description == null ? null : Text(widget.description!),
           trailing: PlatformSwitch(
             value: currentValue,
             onChanged: canBeChanged ? (_) {

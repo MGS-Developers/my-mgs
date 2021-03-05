@@ -10,7 +10,7 @@ class EntryList extends StatefulWidget {
   final DiaryEntryController diaryEntryController;
   final bool showNewButton;
   const EntryList({
-    @required this.diaryEntryController,
+    required this.diaryEntryController,
     this.showNewButton = true,
   });
 
@@ -28,7 +28,9 @@ class _EntryList extends State<EntryList> {
           return Container();
         }
 
-        if (snapshot.hasError || !snapshot.hasData || snapshot.data.subjectEntries.length == 0) {
+        final data = snapshot.data;
+
+        if (snapshot.hasError || data == null || data.subjectEntries.length == 0) {
           return Container(
             alignment: Alignment.center,
             child: Column(
@@ -57,7 +59,7 @@ class _EntryList extends State<EntryList> {
 
         return DayEntry(
           deleteHomework: widget.diaryEntryController.deleteHomework,
-          subjectEntries: snapshot.data.subjectEntries,
+          subjectEntries: data.subjectEntries,
           toggleHomework: widget.diaryEntryController.toggleHomework,
         );
       }
