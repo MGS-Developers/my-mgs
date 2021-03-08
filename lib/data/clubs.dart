@@ -3,7 +3,12 @@ This file actually uses Firestore to make a query, so take a look at the code in
  */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/club.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
+import 'package:mymgs/notifications/channels.dart';
+import 'package:mymgs/notifications/reminders.dart';
+import 'package:sembast/sembast.dart';
 
 // get a reference to firestore at import time (i.e. on app startup)
 // this is a performance optimization as we don't have to retrieve the instance on every function call
@@ -44,4 +49,38 @@ Future<List<Club>> getClubs({
     // spread operator https://www.woolha.com/tutorials/dart-using-triple-dot-spread-operator-examples#:~:text=Usage%20on%20Map
     ...?e.data(),
   })).toList(growable: false);
+}
+
+final clubSubscriptionStore = StoreRef<String, bool>("club_subscriptions");
+Future<void> subscribeToClub(Club club) async {
+  final db = await getDb();
+  await clubSubscriptionStore.record(club.id).put(db, true);
+
+  final id = stringToInt(club.id);
+  scheduleReminder(
+    id,
+    title: "Upcoming club!",
+    subtitle: MGSChannels.clubReminderDetails(club),
+    notificationDetails: MGSChannels.club(club),
+    when: club.time.next.subtract(Duration(minutes: 20)),
+  );
+}
+
+Future<void> unsubscribeFromClub(Club club) async {
+  final db = await getDb();
+  await clubSubscriptionStore.record(club.id).delete(db);
+
+  final id = stringToInt(club.id);
+  cancelReminder(id);
+}
+
+Future<bool> isSubscribedToClub(Club club) async {
+  final db = await getDb();
+  final response = await clubSubscriptionStore.record(club.id).get(db);
+
+  if (response == null) {
+    return false;
+  } else {
+    return response;
+  }
 }

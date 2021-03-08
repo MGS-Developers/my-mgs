@@ -9,6 +9,7 @@ void scheduleReminder(int id, {
   required String subtitle,
   required NotificationDetails notificationDetails,
   required DateTime when,
+  bool recursWeekly = false,
 }) {
   tz.initializeTimeZones();
   final location = tz.getLocation("Europe/London");
@@ -27,6 +28,7 @@ void scheduleReminder(int id, {
     notificationDetails,
     uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     androidAllowWhileIdle: true,
+    matchDateTimeComponents: recursWeekly ? DateTimeComponents.dayOfWeekAndTime : null,
   );
 }
 

@@ -1,10 +1,7 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/notifications/reminders.dart';
@@ -65,7 +62,7 @@ class _EventReminderButtonState extends State<EventReminderButton> {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setBool("reminder-${widget.event.id}", reminderScheduled);
 
-    final id = md5.convert(utf8.encode(widget.event.id)).hashCode;
+    final id = stringToInt(widget.event.id);
 
     if (reminderScheduled) {
       scheduleReminder(

@@ -15,7 +15,7 @@ class Contributors extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ...contributors.keys.map((category) => Column(
+              ...appContributors.keys.map((category) => Column(
                 children: [
                   Text(
                     category,
@@ -23,7 +23,7 @@ class Contributors extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 5),
-                  ...contributors[category]!.map((name) => Padding(
+                  ...appContributors[category]!.map((name) => Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: Text(
                       name,

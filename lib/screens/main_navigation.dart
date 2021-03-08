@@ -11,7 +11,7 @@ import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/deep_link.dart';
-import 'package:mymgs/screens/clubs.dart';
+import 'package:mymgs/screens/clubs/clubs.dart';
 import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/wellbeing/dashboard.dart';

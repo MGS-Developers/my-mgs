@@ -65,6 +65,7 @@ class _SelectSubjectState extends State<SelectSubject> {
   void _selectOtherSubject(BuildContext context) {
     showPlatformDialog(
       context: context,
+      materialBarrierColor: Theme.of(context).shadowColor,
       builder: (BuildContext context) => PlatformAlertDialog(
         title: Text("Other subject"),
         content: PlatformTextField(

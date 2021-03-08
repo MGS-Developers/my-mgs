@@ -25,6 +25,7 @@ class NewsPreview extends StatelessWidget {
       ),
       leading: newsItem.image.thumbnailUrl != null && newsItem.image.thumbnailUrl != '' ? Hero(
         tag: heroKey,
+        transitionOnUserGestures: true,
         child: NullableImage(
           width: 60,
           height: 60,

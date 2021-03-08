@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,6 +26,7 @@ class MGSChannels {
     "homework",
     "events",
     "news",
+    "clubs",
   ];
 
   static final pubSubTopics = [
@@ -92,6 +94,22 @@ class MGSChannels {
         "Reminders for events you selected.",
         importance: Importance.max,
         styleInformation: BigTextStyleInformation(eventReminderDetails(event)),
+      ),
+    );
+  }
+
+  static String clubReminderDetails(Club club) {
+    return "${club.name} — ${club.location} — ${Jiffy(DateTime(0, 0, 0, club.time.time.hour, club.time.time.minute)).jm}";
+  }
+
+  static NotificationDetails club(Club club) {
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        "clubs",
+        "Clubs",
+        "Recurring reminders and news from clubs you're subscribed to.",
+        importance: Importance.max,
+        styleInformation: BigTextStyleInformation(clubReminderDetails(club)),
       ),
     );
   }

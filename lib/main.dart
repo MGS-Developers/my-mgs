@@ -78,10 +78,19 @@ class App extends StatelessWidget {
 
   // base text themes
   // these get copied and modified for dark theme
-  static const TextTheme textTheme = TextTheme(
+  static final TextTheme textTheme = TextTheme(
     bodyText1: TextStyle(
       color: Colors.black54,
       fontWeight: FontWeight.normal,
+    ),
+    headline5: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 28,
+    ),
+    headline4: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.normal,
+      color: Colors.black,
     ),
   );
 
@@ -109,7 +118,7 @@ class App extends StatelessWidget {
 
     // the primaryColor is the colour we use for any interactive components, headers, and basically anything we want to draw attention to or separate
     primaryColor: Color(0xFF374b6a),
-    primaryColorLight: Colors.white,
+    primaryColorLight: Colors.white, // alert backgrounds, cards, etc. White in light mode, tinted in dark mode
     primaryColorDark: Colors.grey[200],
     primaryColorBrightness: Brightness.dark,
     accentColor: Color(0xFFb4bbc7),
@@ -146,7 +155,7 @@ class App extends StatelessWidget {
       ),
     ),
     appBarTheme: AppBarTheme(
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
     ),
   );
 
@@ -164,6 +173,9 @@ class App extends StatelessWidget {
       ),
       bodyText2: TextStyle(
         color: Colors.white70,
+      ),
+      headline4: textTheme.headline4!.copyWith(
+        color: Colors.white,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(

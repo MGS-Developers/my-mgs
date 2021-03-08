@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,4 +29,8 @@ TimeOfDay timeOfDayFromString(String value) {
     hour: hours,
     minute: minutes
   );
+}
+
+int stringToInt(String input) {
+  return md5.convert(utf8.encode(input)).hashCode;
 }

@@ -10,11 +10,13 @@ const appVersion = "0.0.1";
 const appLegalese = """
 This app is part of a family of co-curricular sites run by students and staff of the Manchester Grammar School. The main school website is at mgs.org.
 
-Copyright © 2020-2021, The $appName Authors. All rights reserved.
+Copyright © 2020-2021, The $appName Authors.
 Source code available under MIT license at https://github.com/MGS-School-Council/my-mgs.
 """;
 
-const contributors = {
+const appSourceUrl = "https://github.com/MGS-School-Council/my-mgs";
+
+const appContributors = {
   "Code": [
     "Pal K",
     "Jude W",

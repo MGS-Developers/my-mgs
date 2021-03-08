@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/club.dart';
-import 'package:mymgs/widgets/text_icon.dart';
+import 'package:mymgs/screens/clubs/club.dart';
+import 'package:mymgs/widgets/clubs/club_logistics.dart';
 
 class ClubCard extends StatelessWidget {
   final Club club;
@@ -12,23 +13,18 @@ class ClubCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final description = club.description;
-    final staffName = club.staffName;
 
     return Padding(
       padding: const EdgeInsets.only(top: 5),
       child: Card(
         child: InkWell(
           onTap: () {
-            //Sam, add constructor for your page below in builder: (replacing null), and pass in 'club'
-            //Obviously comment the code below back in. You can remove the debug print as well
-            /**
-                Navigator.of(context).push(platformPageRoute(
-                context: context,
-                builder: null
-                ),
-                );
-             **/
-            print("Button pressed! club:" + club.name);
+            Navigator.of(context).push(platformPageRoute(
+              context: context,
+              builder: (_) => ClubScreen(
+                club: club,
+              ),
+            ));
           },
           child: Padding(
             padding: EdgeInsets.all(10),
@@ -48,26 +44,7 @@ class ClubCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: [
-                    TextIcon(icon: PlatformIcons(context).time),
-                    const SizedBox(width: 5),
-                    Text(
-                      club.time.getDisplayTime(),
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ],
-                ),
-                if (staffName != null) Row(
-                  children: [
-                    TextIcon(icon: PlatformIcons(context).person),
-                    const SizedBox(width: 5),
-                    Text(
-                      staffName,
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ],
-                )
+                ClubLogistics(club: club),
               ],
             ),
           ),

@@ -59,7 +59,7 @@ class TodaysMenuCard extends StatelessWidget {
           children = [
             Text(
               data.menuItems.first.name,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headline4,
             ),
             Text(
               '+ ${(data.menuItems.length - 1).toString()} more',

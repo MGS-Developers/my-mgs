@@ -44,6 +44,12 @@ class _NotificationSettingsState extends State<NotificationSettings> {
             requirement: _allowNotifications,
           ),
           ToggleSetting(
+            name: "Clubs",
+            description: "Attendance reminders before clubs, and related updates.`",
+            tracker: "clubs_notifications",
+            requirement: _allowNotifications,
+          ),
+          ToggleSetting(
             name: "Remote",
             description: "Push notifications",
             tracker: "news_notifications",

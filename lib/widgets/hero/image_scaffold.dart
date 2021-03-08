@@ -49,6 +49,7 @@ class _ImageScaffoldState extends State<ImageScaffold> {
           children: [
             Hero(
               tag: widget.heroKey ?? '',
+              transitionOnUserGestures: true,
               child: Material(
                 elevation: 3,
                 child: Container(

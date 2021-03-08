@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
+import 'package:mymgs/data_classes/link.dart';
 
 part 'club.g.dart';
 
@@ -27,6 +28,8 @@ class Club with Identifiable {
 
   String? staffName;
   String? staffEmail;
+
+  List<Link>? links;
 
   Club({
     required this.name,

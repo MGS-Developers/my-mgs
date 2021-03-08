@@ -35,6 +35,7 @@ class EventCard extends StatelessWidget {
           children: [
             if (hasImage) Hero(
               tag: heroKey,
+              transitionOnUserGestures: true,
               child: Container(
                 height: 120,
                 width: double.infinity,

@@ -42,7 +42,7 @@ class ClubTime {
   TimeOfDay time;
 
   String toDisplayString() {
-    return ("Every " + dayOfWeek.toString() + " at " + getDisplayTime());
+    return ("Every " + dayOfWeek.toString().split('.').last + " at " + getDisplayTime());
   }
 
   String getDisplayTime() {
@@ -50,6 +50,24 @@ class ClubTime {
     // The below code then combines the 12 hour value with the minute value, as well as the period value which stores if the time is am or pm.
 
     return Jiffy(DateTime(0, 0, 0, time.hour, time.minute)).jm;
+  }
+
+  /// the next occurrence of this ClubTime as a DateTime
+  DateTime get next {
+    final _now = DateTime.now();
+    DateTime? _result;
+    for (var i = 0; i <= 6; i++) {
+      final _added = _now.add(Duration(days: i));
+      if (_added.weekday - 1 == DayOfWeek.values.indexOf(dayOfWeek!)) {
+        _result = DateTime(_added.year, _added.month, _added.day, time.hour, time.minute);
+      }
+    }
+
+    if (_result != null) {
+      return _result;
+    } else {
+      throw Exception("Couldn't get next date.");
+    }
   }
 
   ClubTime({required this.time});
