@@ -4,9 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/clubs.dart';
+import 'package:mymgs/data/events.dart';
 import 'package:mymgs/data/news.dart';
 import 'package:mymgs/screens/catering/catering.dart';
+import 'package:mymgs/screens/clubs/club.dart';
+import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/screens/news/news_item.dart';
+import 'package:mymgs/screens/wellbeing/report.dart';
 // uni_links doesn't have a null safety version available yet
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:uni_links/uni_links.dart';
@@ -22,6 +27,9 @@ enum DeepLinkStatus {
 enum DeepLinkResource {
   newsItem,
   catering,
+  club,
+  event,
+  wellbeing,
 }
 
 class DeepLink {
@@ -58,6 +66,23 @@ class DeepLink {
         break;
       case DeepLinkResource.catering:
         page = Catering();
+        break;
+      case DeepLinkResource.club:
+        final club = await getClub(id);
+        if (club == null) break;
+
+        page = ClubScreen(club: club);
+        break;
+      case DeepLinkResource.event:
+        final event = await getEvent(id);
+        if (event == null) break;
+
+        page = EventScreen(event: event);
+        break;
+      case DeepLinkResource.wellbeing:
+        if (id == 'report') {
+          page = SafeguardingReport();
+        }
         break;
     }
 

@@ -51,6 +51,18 @@ Future<List<Club>> getClubs({
   })).toList(growable: false);
 }
 
+Future<Club?> getClub(String id) async {
+  final _response = await _firestore.collection('clubs').doc(id).get();
+  if (!_response.exists) {
+    return null;
+  } else {
+    return Club.fromJson({
+      'id': _response.id,
+      ...?_response.data(),
+    });
+  }
+}
+
 final clubSubscriptionStore = StoreRef<String, bool>("club_subscriptions");
 Future<void> subscribeToClub(Club club) async {
   final db = await getDb();

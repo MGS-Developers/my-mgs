@@ -66,3 +66,15 @@ Future<List<Event>> getTodaysEvents() async {
 
   return _mapEventList(response);
 }
+
+Future<Event?> getEvent(String id) async {
+  final _response = await _firestore.collection('events').doc(id).get();
+  if (!_response.exists) {
+    return null;
+  } else {
+    return Event.fromJson({
+      'id': _response.id,
+      ...?_response.data(),
+    });
+  }
+}
