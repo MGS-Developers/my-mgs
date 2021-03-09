@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
+import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/screens/wellbeing/report.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
+import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/wellbeing/resource_card.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -75,6 +77,9 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                   organisation: organisation,
                 )).toList(),
               ),
+
+              const SizedBox(height: 20),
+              InfoDisclaimer(identifiable: customIdentifiable('wellbeing')),
             ],
           );
         },

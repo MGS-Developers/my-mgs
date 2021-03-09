@@ -9,3 +9,11 @@ mixin Identifiable {
     return _firestore.collection(collection).doc(id);
   }
 }
+
+class _CustomIdentifiable with Identifiable {}
+
+Identifiable customIdentifiable(String name) {
+  return _CustomIdentifiable()
+    ..collection = name
+    ..id = 'any';
+}
