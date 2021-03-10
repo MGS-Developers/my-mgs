@@ -9,13 +9,15 @@ part of 'event.dart';
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     id: json['id'] as String,
-    name: json['name'] as String,
-    subEventCount: json['subEventCount'] as int,
+    subEvent: json['subEvent'] as int,
+    eventGroupId: json['eventGroupId'] as String,
+    yearGroup: json['yearGroup'] as int,
   );
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'subEventCount': instance.subEventCount,
+      'yearGroup': instance.yearGroup,
+      'subEvent': instance.subEvent,
+      'eventGroupId': instance.eventGroupId,
     };

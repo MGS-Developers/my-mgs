@@ -4,21 +4,31 @@ import 'package:json_annotation/json_annotation.dart';
 part 'points.g.dart';
 
 @JsonSerializable()
-class Points {
-  int num;
+class FormPoints {
+  int total;
+  int yearPosition;
+  int schoolPosition;
 
-  /// In the context of [Form]: position within year group
-  int? localPosition;
-
-  /// In the context of [Form]: position within entire school
-  int? globalPosition;
-
-  Points({
-    required this.num,
-    this.localPosition,
-    this.globalPosition,
+  FormPoints({
+    required this.total,
+    required this.yearPosition,
+    required this.schoolPosition,
   });
 
-  factory Points.fromJson(Map<String, dynamic> json) => _$PointsFromJson(json);
-  Map<String, dynamic> toJson() => _$PointsToJson(this);
+  factory FormPoints.fromJson(Map<String, dynamic> json) => _$FormPointsFromJson(json);
+  Map<String, dynamic> toJson() => _$FormPointsToJson(this);
+}
+
+@JsonSerializable()
+class ScorePoints {
+  int position;
+  int? calculatedPoints;
+
+  ScorePoints({
+    required this.position,
+    this.calculatedPoints,
+  });
+
+  factory ScorePoints.fromJson(Map<String, dynamic> json) => _$ScorePointsFromJson(json);
+  Map<String, dynamic> toJson() => _$ScorePointsToJson(this);
 }

@@ -10,8 +10,7 @@ ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
   return ScoreNode(
     formId: json['formId'] as String,
     eventId: json['eventId'] as String,
-    points: Points.fromJson(json['points'] as Map<String, dynamic>),
-    subEvent: json['subEvent'] as int,
+    points: ScorePoints.fromJson(json['points'] as Map<String, dynamic>),
     id: json['id'] as String,
   )
     ..event = json['event'] == null
@@ -26,7 +25,6 @@ Map<String, dynamic> _$ScoreNodeToJson(ScoreNode instance) => <String, dynamic>{
       'id': instance.id,
       'formId': instance.formId,
       'eventId': instance.eventId,
-      'subEvent': instance.subEvent,
       'points': instance.points,
       'event': instance.event,
       'form': instance.form,

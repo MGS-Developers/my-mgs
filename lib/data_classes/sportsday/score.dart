@@ -12,9 +12,7 @@ class ScoreNode {
 
   String formId;
   String eventId;
-  /// event A, B, or C
-  int subEvent;
-  Points points;
+  ScorePoints points;
 
   /// only populated after [ScoreNode.populate] is called
   Event? event;
@@ -27,7 +25,6 @@ class ScoreNode {
     required this.formId,
     required this.eventId,
     required this.points,
-    required this.subEvent,
     required this.id,
   });
 

@@ -8,7 +8,7 @@ part 'form.g.dart';
 class Form {
   String id;
   int yearGroup;
-  Points points;
+  FormPoints points;
 
   Form({
     required this.id,
