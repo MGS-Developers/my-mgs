@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import {Event, PointAlloc} from "./types";
+import {Event, PointAlloc, ScoreNode} from "./types";
 
 export const positionToPoints = async (position: number, eventId: string): Promise<number | undefined> => {
     const eventResponse = await admin.firestore()
@@ -31,4 +31,20 @@ export const positionToPoints = async (position: number, eventId: string): Promi
     };
 
     return pointAlloc.points;
+}
+
+export const getFormTotal = async (formId: string): Promise<number> => {
+    const scoreNodeResponse = await admin.firestore()
+        .collection('sd_score_nodes')
+        .where('formId', '==', formId)
+        .get();
+
+    let total = 0;
+
+    for (const scoreNodeData of scoreNodeResponse.docs) {
+        const scoreNode = scoreNodeData.data() as ScoreNode;
+        total += scoreNode.calculatedPoints || 0;
+    }
+
+    return total;
 }

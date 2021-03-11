@@ -17,3 +17,19 @@ export interface PointAlloc {
     position: number;
     points: number;
 }
+
+export interface FormPoints {
+    total: number;
+    yearPosition?: number;
+    schoolPosition?: number;
+}
+
+export interface Form {
+    points?: FormPoints;
+    yearGroup: number;
+    id: string;
+}
+
+export interface FormWithPoints extends Form {
+    points: FormPoints;
+}
