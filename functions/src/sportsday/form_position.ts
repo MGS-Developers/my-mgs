@@ -14,11 +14,18 @@ const batchUpdateForms = (
     batch: admin.firestore.WriteBatch
 ): void => {
     for (const form of forms) {
+        let updateObject: {
+            [key: string]: number | undefined;
+        } = {};
+        if (scope === CompetitionScope.Year) {
+            updateObject['points.yearPosition'] = form.points.yearPosition;
+        } else {
+            updateObject['points.schoolPosition'] = form.points.schoolPosition;
+        }
+
         batch.update(
             admin.firestore().collection('sd_forms').doc(form.id),
-            {
-                [`points.${scope === CompetitionScope.Year ? 'yearPosition' : 'schoolPosition'}`]: form.points.yearPosition,
-            },
+            updateObject,
         );
     }
 }
@@ -56,6 +63,7 @@ export const reassignFormPositions = async (onlyYearGroup?: number): Promise<voi
     })).filter(e => e.points) as FormWithPoints[];
 
     const batch = admin.firestore().batch();
+    rankAndUpdateForms(allForms, CompetitionScope.School, batch);
 
     if (onlyYearGroup) {
         const yearGroupForms = allForms.filter(e => e.yearGroup === onlyYearGroup);
@@ -67,6 +75,5 @@ export const reassignFormPositions = async (onlyYearGroup?: number): Promise<voi
         }
     }
 
-    rankAndUpdateForms(allForms, CompetitionScope.School, batch);
     await batch.commit();
 }
