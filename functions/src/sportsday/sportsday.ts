@@ -30,7 +30,12 @@ export const sdPropagateScore = functions.region('europe-west2')
 
 export const sdCalculateFormPosition = functions.region('europe-west2')
     .firestore.document('sd_forms/{sd_form}')
-    .onUpdate(async (change) => {
+    .onWrite(async (change) => {
         const newData = change.after.data() as Form;
-        await reassignFormPositions(newData.yearGroup);
+        const oldData = change.before.data() as Form;
+        if (!newData && oldData) {
+            await reassignFormPositions(oldData.yearGroup);
+        } else {
+            await reassignFormPositions(newData.yearGroup);
+        }
     });
