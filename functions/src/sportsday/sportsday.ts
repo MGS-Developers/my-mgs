@@ -8,18 +8,26 @@ export const sdPropagateScore = functions.region('europe-west2')
     .firestore.document('sd_score_nodes/{sd_score_node}')
     .onWrite(async (change) => {
         const newData = change.after.data() as ScoreNode;
-        if (!newData) return;
+        let formId;
+        if (!newData) {
+            const oldData = change.before.data() as ScoreNode;
+            formId = oldData.formId;
+        } else {
+            formId = newData.formId;
+        }
 
-        const points = await positionToPoints(newData.position, newData.eventId);
-        if (!points) return;
-
-        // use a batch write to ensure clients don't have dodgy double reads
         const batch = admin.firestore().batch();
-        batch.update(change.after.ref, {
-            calculatedPoints: points,
-        });
+        if (newData) {
+            const points = await positionToPoints(newData.position, newData.eventId);
+            if (!points) return;
 
-        const formRef = admin.firestore().collection('sd_forms').doc(newData.formId);
+            // use a batch write to ensure clients don't have dodgy double reads
+            batch.update(change.after.ref, {
+                calculatedPoints: points,
+            });
+        }
+
+        const formRef = admin.firestore().collection('sd_forms').doc(formId);
         const formTotal = await getFormTotal(formRef.id);
         batch.update(formRef, {
             'points.total': formTotal,
@@ -30,12 +38,7 @@ export const sdPropagateScore = functions.region('europe-west2')
 
 export const sdCalculateFormPosition = functions.region('europe-west2')
     .firestore.document('sd_forms/{sd_form}')
-    .onWrite(async (change) => {
+    .onUpdate(async (change) => {
         const newData = change.after.data() as Form;
-        const oldData = change.before.data() as Form;
-        if (!newData && oldData) {
-            await reassignFormPositions(oldData.yearGroup);
-        } else {
-            await reassignFormPositions(newData.yearGroup);
-        }
+        await reassignFormPositions(newData.yearGroup);
     });
