@@ -11,6 +11,7 @@ EventGroup _$EventGroupFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     name: json['name'] as String,
     subEventCount: json['subEventCount'] as int,
+    scoreSpecId: json['scoreSpecId'] as String,
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$EventGroupToJson(EventGroup instance) =>
       'id': instance.id,
       'name': instance.name,
       'subEventCount': instance.subEventCount,
+      'scoreSpecId': instance.scoreSpecId,
     };

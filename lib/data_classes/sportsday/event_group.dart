@@ -8,11 +8,13 @@ class EventGroup {
   String id;
   String name;
   int subEventCount;
+  String scoreSpecId;
 
   EventGroup({
     required this.id,
     required this.name,
     required this.subEventCount,
+    required this.scoreSpecId,
   });
 
   factory EventGroup.fromJson(Map<String, dynamic> json) => _$EventGroupFromJson(json);

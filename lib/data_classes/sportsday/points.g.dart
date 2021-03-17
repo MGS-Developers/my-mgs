@@ -20,16 +20,3 @@ Map<String, dynamic> _$FormPointsToJson(FormPoints instance) =>
       'yearPosition': instance.yearPosition,
       'schoolPosition': instance.schoolPosition,
     };
-
-ScorePoints _$ScorePointsFromJson(Map<String, dynamic> json) {
-  return ScorePoints(
-    position: json['position'] as int,
-    calculatedPoints: json['calculatedPoints'] as int,
-  );
-}
-
-Map<String, dynamic> _$ScorePointsToJson(ScorePoints instance) =>
-    <String, dynamic>{
-      'position': instance.position,
-      'calculatedPoints': instance.calculatedPoints,
-    };

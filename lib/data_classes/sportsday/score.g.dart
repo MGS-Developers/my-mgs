@@ -10,8 +10,10 @@ ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
   return ScoreNode(
     formId: json['formId'] as String,
     eventId: json['eventId'] as String,
-    points: ScorePoints.fromJson(json['points'] as Map<String, dynamic>),
+    position: json['position'] as int,
+    calculatedPoints: json['calculatedPoints'] as int?,
     id: json['id'] as String,
+    createdAt: noopTransform(json['createdAt']),
   )
     ..event = json['event'] == null
         ? null
@@ -25,7 +27,9 @@ Map<String, dynamic> _$ScoreNodeToJson(ScoreNode instance) => <String, dynamic>{
       'id': instance.id,
       'formId': instance.formId,
       'eventId': instance.eventId,
-      'points': instance.points,
+      'position': instance.position,
+      'calculatedPoints': instance.calculatedPoints,
+      'createdAt': noopTransform(instance.createdAt),
       'event': instance.event,
       'form': instance.form,
     };

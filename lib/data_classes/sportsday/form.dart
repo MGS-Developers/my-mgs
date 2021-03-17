@@ -10,6 +10,10 @@ class Form {
   int yearGroup;
   FormPoints points;
 
+  String get humanID {
+    return id.replaceFirst('-', '/');
+  }
+
   Form({
     required this.id,
     required this.points,
