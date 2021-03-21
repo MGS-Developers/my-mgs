@@ -14,7 +14,8 @@ import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs/clubs.dart';
 import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
-import 'package:mymgs/screens/sportsday/dashboard.dart';
+import 'package:mymgs/screens/sportsday/form_leaderboard.dart';
+import 'package:mymgs/screens/sportsday/navigation.dart';
 import 'package:mymgs/screens/wellbeing/dashboard.dart';
 import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
@@ -70,7 +71,7 @@ class _MainNavigationState extends State<MainNavigation> {
     RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
     RouteData("Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
     RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
-    RouteData("Sports Day 2021", Icons.run_circle_outlined, Icons.run_circle, SportsDayDashboard()),
+    RouteData("Sports Day 2021", Icons.run_circle_outlined, Icons.run_circle, SportsDayNavigation()),
   ];
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
