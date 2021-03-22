@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
-import 'package:mymgs/widgets/hero/image_scaffold.dart';
+import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 import 'package:mymgs/widgets/nullable_image.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/widgets/hero/hero_appbar.dart';
+import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';
 
 class ImageScaffold extends StatefulWidget {
   final List<Widget> children;

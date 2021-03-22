@@ -6,7 +6,7 @@ import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 import 'package:mymgs/widgets/events/event_reminder_button.dart';
-import 'package:mymgs/widgets/hero/image_scaffold.dart';
+import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 

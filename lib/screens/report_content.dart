@@ -41,6 +41,7 @@ class _ReportContentState extends State<ReportContent> {
     showPlatformDialog(
       context: context,
       barrierDismissible: false,
+      materialBarrierColor: Theme.of(context).shadowColor,
       builder: (context) => PlatformAlertDialog(
         title: Text("Message sent!"),
         actions: [PlatformDialogAction(

@@ -31,7 +31,7 @@ class InfoDisclaimer extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              'Please tap here to report a problem with this item.',
+              'Please tap here to report a problem with this screen.',
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],

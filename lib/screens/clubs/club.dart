@@ -3,7 +3,7 @@ import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/widgets/clubs/club_logistics.dart';
 import 'package:mymgs/widgets/clubs/club_subscription_button.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
-import 'package:mymgs/widgets/hero/hero_text_appbar.dart';
+import 'package:mymgs/widgets/page_layouts/hero_text_appbar.dart';
 import 'package:mymgs/widgets/links.dart';
 
 class ClubScreen extends StatefulWidget {

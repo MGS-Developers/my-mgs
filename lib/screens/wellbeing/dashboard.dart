@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
+import 'package:mymgs/screens/wellbeing/info.dart';
 import 'package:mymgs/screens/wellbeing/report.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
@@ -40,7 +41,7 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
             padding: const EdgeInsets.all(15),
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 25),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -67,6 +68,22 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                 ),
               ),
 
+              ListTile(
+                title: Text("I need help!"),
+                subtitle: Text("Find out who to get help from at MGS"),
+                leading: Icon(
+                  Icons.info_outlined,
+                  size: 32,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(platformPageRoute(
+                    context: context,
+                    builder: (_) => WellbeingInfo(),
+                  ));
+                },
+              ),
+
+              const SizedBox(height: 15),
               GridView.count(
                 shrinkWrap: true,
                 primary: false,
