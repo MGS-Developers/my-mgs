@@ -14,6 +14,7 @@ import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/screens/clubs/clubs.dart';
 import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
+import 'package:mymgs/screens/survival/survival_dashboard.dart';
 import 'package:mymgs/screens/wellbeing/dashboard.dart';
 import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
@@ -68,6 +69,7 @@ class _MainNavigationState extends State<MainNavigation> {
     RouteData("Clubs", Icons.school_outlined, Icons.school, Clubs()),
     RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
     RouteData("Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
+    RouteData("Survival Guide", Icons.article_outlined, Icons.article, SurvivalGuides()),
     RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
   ];
 
