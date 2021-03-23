@@ -34,6 +34,7 @@ class SurvivalFolder extends StatelessWidget {
                   title: guide.name,
                   markdownContent: guide.contents,
                   identifier: guide,
+                  shareable: guide,
                 ),
               ));
             },

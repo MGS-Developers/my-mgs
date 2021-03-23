@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
+import 'package:mymgs/widgets/linkable_markdown.dart';
 import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
@@ -24,11 +25,12 @@ class NewsItemScreen extends StatelessWidget {
       title: newsItem.headline,
       image: nullableImageProvider(url: newsItem.image.fullUrl),
       heroKey: heroKey,
+      shareable: newsItem,
       children: [
         Padding(
           padding: const EdgeInsets.all(15),
-          child: MarkdownBody(
-            data: newsItem.body,
+          child: LinkableMarkdown(
+            text: newsItem.body,
             styleSheet: MarkdownStyleSheet(
               p: const TextStyle(
                 fontSize: 17,

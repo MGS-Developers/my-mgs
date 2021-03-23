@@ -67,6 +67,7 @@ class _ReportContentState extends State<ReportContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 20),
               Text(
                 "What's the problem with this item?",
                 style: Theme.of(context).textTheme.bodyText1,
@@ -85,6 +86,11 @@ class _ReportContentState extends State<ReportContent> {
               const SizedBox(height: 15),
               Text(
                 "Your report will be sent anonymously. Please don't include personal details.",
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "The following content identifier will be sent with your report: ${widget.identifiable.identify()}",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(height: 15),

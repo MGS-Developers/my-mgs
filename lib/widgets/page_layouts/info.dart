@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
+import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/linkable_markdown.dart';
 import 'package:mymgs/widgets/page_layouts/hero_text_appbar.dart';
@@ -9,10 +10,12 @@ class InfoScreen extends StatefulWidget {
   final String title;
   final String markdownContent;
   final Identifiable? identifier;
+  final Shareable? shareable;
   const InfoScreen({
     required this.title,
     required this.markdownContent,
     this.identifier,
+    this.shareable,
   });
 
   _InfoScreenState createState() => _InfoScreenState();
@@ -36,6 +39,7 @@ class _InfoScreenState extends State<InfoScreen> {
         title: widget.title,
         start: 20,
         end: 80,
+        shareable: widget.shareable,
       ),
       body: SingleChildScrollView(
         controller: _controller,

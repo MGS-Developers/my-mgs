@@ -1,12 +1,18 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
+import 'package:mymgs/data_classes/shareable.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 
 part 'survival_guide.g.dart';
 
 @JsonSerializable()
-class SurvivalGuide with Identifiable {
+class SurvivalGuide with Identifiable, Shareable {
+  @JsonKey(ignore: true)
   final String collection = "survival_guides";
+  @JsonKey(ignore: true)
+  final resource = DeepLinkResource.survivalGuide;
+
   String id;
 
   String folderName;

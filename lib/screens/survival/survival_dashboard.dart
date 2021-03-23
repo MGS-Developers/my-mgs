@@ -36,9 +36,29 @@ class _SurvivalGuidesState extends State<SurvivalGuides> {
 
           return ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 20),
-            itemCount: data.keys.length,
+            itemCount: data.keys.length + 1,
             itemBuilder: (context, index) {
-              final key = data.keys.elementAt(index);
+              if (index == 0) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Everything about MGS",
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "This page gives you an overview of MGS' policies, rules, and more. Speak to your Form Tutor or Head of Year for more information.",
+                        style: Theme.of(context).textTheme.bodyText1,
+                      )
+                    ],
+                  ),
+                );
+              }
+
+              final key = data.keys.elementAt(index - 1);
               if (key == null) return SizedBox();
 
               final items = data[key];

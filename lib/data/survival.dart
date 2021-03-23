@@ -17,3 +17,19 @@ Future<Map<String?, List<SurvivalGuide>>> getSurvivalGuides() async {
 
   return groupBy<SurvivalGuide, String?>(guides, (e) => e.folderName);
 }
+
+Future<SurvivalGuide?> getSurvivalGuide(String id) async {
+  final response = await _firestore
+      .collection('survival_guides')
+      .doc(id)
+      .get();
+
+  if (!response.exists) {
+    return null;
+  }
+
+  return SurvivalGuide.fromJson({
+    'id': response.id,
+    ...?response.data(),
+  });
+}

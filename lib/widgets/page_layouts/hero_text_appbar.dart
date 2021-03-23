@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/helpers/animation.dart';
+import 'package:mymgs/widgets/share_button.dart';
 
 class HeroTextAppBar extends StatefulWidget implements PreferredSizeWidget {
   final ScrollController controller;
   final String title;
   final double start;
   final double end;
+  final Shareable? shareable;
 
   const HeroTextAppBar({
     required this.controller,
     required this.title,
     required this.start,
     required this.end,
+    this.shareable,
     Key? key,
   });
 
@@ -46,6 +50,7 @@ class _HeroTextAppBarState extends State<HeroTextAppBar> {
   @override
   Widget build(BuildContext context) {
     final padding = lerp(100, 0, widget.start, widget.end, scrollExtent);
+    final shareable = widget.shareable;
 
     return AppBar(
       title: Container(
@@ -55,6 +60,9 @@ class _HeroTextAppBarState extends State<HeroTextAppBar> {
         ),
         child: Text(widget.title),
       ),
+      actions: shareable != null ? [
+        ShareButton(shareable: shareable),
+      ] : null,
     );
   }
 }

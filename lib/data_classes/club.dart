@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/link.dart';
+import 'package:mymgs/data_classes/shareable.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 
 part 'club.g.dart';
 
@@ -13,9 +15,11 @@ part 'club.g.dart';
 // If you make changes to this class's members, you'll need to run: flutter pub run build_runner build
 // this will update the club.g.dart file
 @JsonSerializable()
-class Club with Identifiable {
+class Club with Identifiable, Shareable {
   @JsonKey(ignore: true)
   final collection = 'clubs';
+  @JsonKey(ignore: true)
+  final resource = DeepLinkResource.club;
 
   String name;
   String? description;

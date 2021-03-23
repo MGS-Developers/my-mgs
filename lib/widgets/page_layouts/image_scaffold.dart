@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';
 
 class ImageScaffold extends StatefulWidget {
@@ -7,6 +8,7 @@ class ImageScaffold extends StatefulWidget {
   final ImageProvider? image;
   final String title;
   final String? heroKey;
+  final Shareable? shareable;
 
   const ImageScaffold({
     required this.children,
@@ -14,6 +16,7 @@ class ImageScaffold extends StatefulWidget {
     required this.appBarLabel,
     this.image,
     this.heroKey,
+    this.shareable,
   });
   _ImageScaffoldState createState() => _ImageScaffoldState();
 }
@@ -42,6 +45,7 @@ class _ImageScaffoldState extends State<ImageScaffold> {
       appBar: HeroAppBar(
         controller: _controller,
         title: widget.appBarLabel,
+        shareable: widget.shareable,
       ),
       body: SingleChildScrollView(
         controller: _controller,
