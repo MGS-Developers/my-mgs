@@ -18,18 +18,16 @@ const appSourceUrl = "https://github.com/MGS-School-Council/my-mgs";
 
 const appContributors = {
   "Code": [
-    "Pal K",
-    "Jude W",
-    "Sam P",
-    "Chike N",
-    "John S",
+    "P Kerecsenyi",
+    "J Waide",
+    "S Pottage",
   ],
   "Design": [
-    "Basit K",
-    "Geza K",
+    "B Khan",
+    "G Kerecsenyi",
   ],
-  "Data maintenance": [
-    "Monty N",
+  "Data collection": [
+    "M Naylor",
   ],
   "Concept & testing": [
     "The MGS School Council",
