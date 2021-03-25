@@ -5,6 +5,7 @@ import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/screens/wellbeing/info.dart';
 import 'package:mymgs/screens/wellbeing/report.dart';
+import 'package:mymgs/screens/wellbeing/reports/my_reports.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
@@ -46,21 +47,21 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Confidential, anonymous reports',
+                      'Report a safeguarding issue',
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'If you are concerned about your or someone else\'s mental wellbeing, you can use this tool to send an anonymous report.',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pulvinar blandit tortor, sed condimentum arcu sollicitudin sit amet.',
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     const SizedBox(height: 5),
                     MGSButton(
-                      label: 'Make a report',
+                      label: 'Open reporting menu',
                       onPressed: () {
                         Navigator.of(context).push(platformPageRoute(
                           context: context,
-                          builder: (_) => SafeguardingReport(),
+                          builder: (_) => MySafeguardingReports(),
                         ));
                       }
                     ),
