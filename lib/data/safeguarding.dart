@@ -9,18 +9,6 @@ import 'package:sembast/sembast.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-Future<void> encryptAndSubmitReport(String report) async {
-  final publicKeyString = getSafeguardingPGP();
-  final encryptedMessage = await OpenPGP.encrypt(report, publicKeyString);
-
-  await _firestore.collection('reports').add({
-    "message": encryptedMessage,
-    "publicKey": publicKeyString,
-    "encryption": getSafeguardingKeyType(),
-    "createdAt": Timestamp.now(),
-  });
-}
-
 class _KeyDetails {
   final String studentPrivateKey;
   final String newStudentPublicKey;
@@ -31,6 +19,8 @@ class _KeyDetails {
 }
 
 final caseStore = StoreRef<String, String>('cases');
+/// key is [caseId, messageId]
+final caseMessageStore = StoreRef<List<String>, String>('outgoing_decrypted_messages');
 class _CaseManager {
   static Future<void> clearCaseCredentials(String caseId) async {
     final db = await getDb();
@@ -79,6 +69,20 @@ class _CaseManager {
     final db = await getDb();
     yield* caseStore.query().onSnapshots(db).map((event) => event.map((e) => e.key).toList());
   }
+
+  static Future<String?> getDecryptedOutgoingMessage(String caseId, String messageId) async {
+    final db = await getDb();
+    return caseMessageStore.record([caseId, messageId]).get(db);
+  }
+
+  static Future<String> encryptOutgoingMessage(String caseId, String messageId, String message) async {
+    final _encryptedMessage = await OpenPGP.encrypt(message, getSafeguardingPGP());
+
+    final db = await getDb();
+    await caseMessageStore.record([caseId, messageId]).put(db, message);
+
+    return _encryptedMessage;
+  }
 }
 
 Stream<List<SafeguardingCase>> getSafeguardingCases() {
@@ -92,14 +96,95 @@ Stream<List<SafeguardingCase>> getSafeguardingCases() {
               .doc(id)
               .get();
 
+          if (!_response.exists) {
+            continue;
+          }
+
           _cases.add(SafeguardingCase.fromJson({
             'id': _response.id,
             ...?_response.data(),
           }));
         }
 
+        _cases.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
         return _cases;
   });
+}
+
+Stream<List<DecryptedSafeguardingCaseMessage>> getSafeguardingMessages(String caseId, String passphrase) {
+  return _firestore
+      .collection('safeguarding_cases')
+      .doc(caseId)
+      .collection('messages')
+      .orderBy('sentAt', descending: true)
+      .snapshots()
+      .map((messages) => messages.docs.map((e) => SafeguardingCaseMessage.fromJson({
+    'id': e.id,
+    ...?e.data(),
+  })))
+      .asyncMap((messages) async {
+        final List<DecryptedSafeguardingCaseMessage> decryptedMessages = [];
+        for (final message in messages) {
+          String _message;
+          if (message.recipientIsStudent) {
+            try {
+              final _decryptedMessage = await _CaseManager.attemptDecryption(caseId, passphrase, message.message);
+              _message = _decryptedMessage;
+            } catch (e) {
+              _message = "(failed to decrypt — check your passphrase)";
+            }
+          } else {
+            final _decryptedMessage = await _CaseManager.getDecryptedOutgoingMessage(caseId, message.id);
+            if (_decryptedMessage != null) {
+              _message = _decryptedMessage;
+            } else {
+              _message = "(failed to decrypt)";
+            }
+          }
+
+          decryptedMessages.add(DecryptedSafeguardingCaseMessage.fromEncryptedMessage(message, _message));
+        }
+
+        return decryptedMessages;
+  });
+}
+
+Future<SafeguardingCase> createSafeguardingCase(String passphrase) async {
+  final _doc = _firestore
+      .collection('safeguarding_cases')
+      .doc();
+
+  final _keyDetails = await _CaseManager.generateCaseCredentials(_doc.id, passphrase);
+  final _case = SafeguardingCase(
+    id: _doc.id,
+    createdAt: Timestamp.now(),
+    studentPublicKey: _keyDetails.newStudentPublicKey,
+    staffPublicKey: getSafeguardingPGP(),
+  );
+
+  await _doc.set(_case.toJson());
+  return _case;
+}
+
+Future<void> sendSafeguardingMessage(String caseId, String message) async {
+  final _doc = _firestore
+      .collection('safeguarding_cases')
+      .doc(caseId)
+      .collection('messages')
+      .doc();
+
+  final _encryptedMessage = await _CaseManager.encryptOutgoingMessage(caseId, _doc.id, message);
+
+  final _message = SafeguardingCaseMessage(
+    id: _doc.id,
+    caseId: caseId,
+    sentAt: Timestamp.now(),
+    recipientIsStudent: false,
+    message: _encryptedMessage,
+  );
+
+  await _doc.set(_message.toJson());
 }
 
 Future<List<WellbeingOrganisation>> getWellbeingOrganisations() async {

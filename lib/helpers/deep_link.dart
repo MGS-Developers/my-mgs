@@ -13,7 +13,6 @@ import 'package:mymgs/screens/catering/catering.dart';
 import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/screens/news/news_item.dart';
-import 'package:mymgs/screens/wellbeing/report.dart';
 import 'package:mymgs/widgets/page_layouts/info.dart';
 // uni_links doesn't have a null safety version available yet
 // ignore: import_of_legacy_library_into_null_safe
@@ -32,7 +31,6 @@ enum DeepLinkResource {
   catering,
   club,
   event,
-  wellbeing,
   survivalGuide,
 }
 
@@ -82,11 +80,6 @@ class DeepLink {
         if (event == null) break;
 
         page = EventScreen(event: event);
-        break;
-      case DeepLinkResource.wellbeing:
-        if (id == 'report') {
-          page = SafeguardingReport();
-        }
         break;
       case DeepLinkResource.survivalGuide:
         final guide = await getSurvivalGuide(id);

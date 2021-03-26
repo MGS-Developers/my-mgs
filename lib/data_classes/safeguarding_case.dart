@@ -46,3 +46,27 @@ class SafeguardingCaseMessage {
   factory SafeguardingCaseMessage.fromJson(Map<String, dynamic> json) => _$SafeguardingCaseMessageFromJson(json);
   Map<String, dynamic> toJson() => _$SafeguardingCaseMessageToJson(this);
 }
+
+class DecryptedSafeguardingCaseMessage extends SafeguardingCaseMessage {
+  String decryptedMessage;
+
+  DecryptedSafeguardingCaseMessage({
+    required String id,
+    required String caseId,
+    required Timestamp sentAt,
+    required bool recipientIsStudent,
+    required String message,
+    required this.decryptedMessage,
+  }) : super(id: id, caseId: caseId, sentAt: sentAt, recipientIsStudent: recipientIsStudent, message: message);
+
+  factory DecryptedSafeguardingCaseMessage.fromEncryptedMessage(SafeguardingCaseMessage message, String _decryptedMessage) {
+    return DecryptedSafeguardingCaseMessage(
+      id: message.id,
+      caseId: message.caseId,
+      sentAt: message.sentAt,
+      recipientIsStudent: message.recipientIsStudent,
+      message: message.message,
+      decryptedMessage: _decryptedMessage,
+    );
+  }
+}
