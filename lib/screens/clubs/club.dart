@@ -3,7 +3,8 @@ import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/widgets/clubs/club_logistics.dart';
 import 'package:mymgs/widgets/clubs/club_subscription_button.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
-import 'package:mymgs/widgets/hero/hero_text_appbar.dart';
+import 'package:mymgs/widgets/info_disclaimer.dart';
+import 'package:mymgs/widgets/page_layouts/hero_text_appbar.dart';
 import 'package:mymgs/widgets/links.dart';
 
 class ClubScreen extends StatefulWidget {
@@ -41,6 +42,7 @@ class _ClubScreenState extends State<ClubScreen> {
         title: widget.club.name,
         start: 20,
         end: 70,
+        shareable: widget.club,
       ),
       body: SingleChildScrollView(
         controller: _controller,
@@ -66,7 +68,8 @@ class _ClubScreenState extends State<ClubScreen> {
             if (links != null) Links(
               links: links
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
+            InfoDisclaimer(identifiable: widget.club),
           ],
         )
       ),

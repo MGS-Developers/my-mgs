@@ -6,7 +6,7 @@ import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 import 'package:mymgs/widgets/events/event_reminder_button.dart';
-import 'package:mymgs/widgets/hero/image_scaffold.dart';
+import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 
@@ -31,6 +31,7 @@ class EventScreen extends StatelessWidget {
       appBarLabel: "Event",
       image: imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
       heroKey: heroKey,
+      shareable: event,
       children: [
         if (club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -47,6 +48,9 @@ class EventScreen extends StatelessWidget {
                 builder: (_) => ClubScreen(club: club),
               ));
             },
+            trailing: Icon(
+              PlatformIcons(context).rightChevron,
+            ),
           ),
         ),
         if (event.club == null) const SizedBox(height: 10),
@@ -67,7 +71,6 @@ class EventScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: EventReminderButton(event: event),
         ),
-        const SizedBox(height: 15),
         if (links != null) Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Links(links: links),

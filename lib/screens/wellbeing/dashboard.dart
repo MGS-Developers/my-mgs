@@ -3,7 +3,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
-import 'package:mymgs/screens/wellbeing/report.dart';
+import 'package:mymgs/screens/wellbeing/info.dart';
+import 'package:mymgs/screens/wellbeing/reports/my_reports.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
@@ -36,30 +37,40 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
             return Container();
           }
 
+          int gridWidth = 2;
+          final screenWidth = MediaQuery.of(context).size.width;
+          if (screenWidth > 1024) {
+            gridWidth = 5;
+          } else if (screenWidth > 768) {
+            gridWidth = 4;
+          } else if (screenWidth > 500) {
+            gridWidth = 3;
+          }
+
           return ListView(
             padding: const EdgeInsets.all(15),
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 25),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Confidential, anonymous reports',
+                      'Report a safeguarding issue',
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'If you are concerned about your or someone else\'s mental wellbeing, you can use this tool to send an anonymous report.',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pulvinar blandit tortor, sed condimentum arcu sollicitudin sit amet.',
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     const SizedBox(height: 5),
                     MGSButton(
-                      label: 'Make a report',
+                      label: 'Open reporting menu',
                       onPressed: () {
                         Navigator.of(context).push(platformPageRoute(
                           context: context,
-                          builder: (_) => SafeguardingReport(),
+                          builder: (_) => MySafeguardingReports(),
                         ));
                       }
                     ),
@@ -67,12 +78,28 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                 ),
               ),
 
+              ListTile(
+                title: Text("I need help!"),
+                subtitle: Text("Find out who to get help from at MGS"),
+                leading: Icon(
+                  Icons.info_outlined,
+                  size: 32,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(platformPageRoute(
+                    context: context,
+                    builder: (_) => WellbeingInfo(),
+                  ));
+                },
+              ),
+
+              const SizedBox(height: 15),
               GridView.count(
                 shrinkWrap: true,
                 primary: false,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                crossAxisCount: 2,
+                crossAxisCount: gridWidth,
                 children: data.map((organisation) => WellbeingResourceCard(
                   organisation: organisation,
                 )).toList(),

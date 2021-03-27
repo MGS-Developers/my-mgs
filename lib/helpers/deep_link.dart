@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,11 +8,12 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/clubs.dart';
 import 'package:mymgs/data/events.dart';
 import 'package:mymgs/data/news.dart';
+import 'package:mymgs/data/survival.dart';
 import 'package:mymgs/screens/catering/catering.dart';
 import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/screens/news/news_item.dart';
-import 'package:mymgs/screens/wellbeing/report.dart';
+import 'package:mymgs/widgets/page_layouts/info.dart';
 // uni_links doesn't have a null safety version available yet
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:uni_links/uni_links.dart';
@@ -29,7 +31,7 @@ enum DeepLinkResource {
   catering,
   club,
   event,
-  wellbeing,
+  survivalGuide,
 }
 
 class DeepLink {
@@ -79,11 +81,16 @@ class DeepLink {
 
         page = EventScreen(event: event);
         break;
-      case DeepLinkResource.wellbeing:
-        if (id == 'report') {
-          page = SafeguardingReport();
-        }
-        break;
+      case DeepLinkResource.survivalGuide:
+        final guide = await getSurvivalGuide(id);
+        if (guide == null) break;
+
+        page = InfoScreen(
+          title: guide.name,
+          markdownContent: guide.contents,
+          identifier: guide,
+          shareable: guide,
+        );
     }
 
     return platformPageRoute(
@@ -123,6 +130,38 @@ Future<DeepLink?> _getNativeLink() async {
   }
 }
 
+StreamController<PendingDynamicLinkData> _dynamicLinkCallbackStream() {
+  final _controller = StreamController<PendingDynamicLinkData>();
+
+  FirebaseDynamicLinks.instance.onLink(
+    onSuccess: (dynamicLink) async {
+      _controller.add(dynamicLink);
+    }
+  );
+
+  return _controller;
+}
+
+Stream<DeepLink> _getDynamicLinkStream() async* {
+  final initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+  // ignore: unnecessary_null_comparison
+  if (initialLink != null) {
+    final payloadString = initialLink.link.pathSegments.first;
+    final deepLink = DeepLink.fromPayloadString(payloadString);
+    if (deepLink != null) {
+      yield deepLink;
+    }
+  }
+
+  yield* _dynamicLinkCallbackStream().stream.transform(StreamTransformer.fromHandlers(handleData: (data, sink) {
+    final payloadString = data.link.pathSegments.first;
+    final deepLink = DeepLink.fromPayloadString(payloadString);
+    if (deepLink != null) {
+      sink.add(deepLink);
+    }
+  }));
+}
+
 final _linkController = StreamController<DeepLink?>();
 var _lock = false;
 StreamController<DeepLink?> getLinkController() {
@@ -158,8 +197,13 @@ StreamController<DeepLink?> watchDeepLink() {
   final nativeUriListener = getUriLinksStream().listen((event) {
     _linkController.add(_nativeUriToDeepLink(event));
   });
+  final dynamicLinkListener = _getDynamicLinkStream().listen((event) {
+    _linkController.add(event);
+  });
+
   _linkController.onCancel = () {
     nativeUriListener.cancel();
+    dynamicLinkListener.cancel();
   };
 
   if (empty) {

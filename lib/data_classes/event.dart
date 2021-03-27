@@ -2,16 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/link.dart';
+import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
+import 'package:mymgs/helpers/deep_link.dart';
 
 import 'identifiable.dart';
 
 part 'event.g.dart';
 
 @JsonSerializable()
-class Event with Identifiable {
+class Event with Identifiable, Shareable {
   @JsonKey(ignore: true)
   final String collection = "events";
+  @JsonKey(ignore: true)
+  final DeepLinkResource resource = DeepLinkResource.event;
 
   String title;
   /// short, plaintext summary (<50 words)

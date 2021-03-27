@@ -1,27 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:mymgs/helpers/animation.dart';
+import 'dart:ui';
 
-class HeroTextAppBar extends StatefulWidget implements PreferredSizeWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data_classes/shareable.dart';
+import 'package:mymgs/helpers/animation.dart';
+import 'package:mymgs/widgets/share_button.dart';
+
+class HeroAppBar extends StatefulWidget implements PreferredSizeWidget {
   final ScrollController controller;
   final String title;
-  final double start;
-  final double end;
+  final Shareable? shareable;
 
-  const HeroTextAppBar({
+  const HeroAppBar({
     required this.controller,
     required this.title,
-    required this.start,
-    required this.end,
+    this.shareable,
     Key? key,
   });
 
+  _HeroAppBarState createState() => _HeroAppBarState();
+
   @override
   Size get preferredSize => Size(double.infinity, kToolbarHeight);
-
-  _HeroTextAppBarState createState() => _HeroTextAppBarState();
 }
 
-class _HeroTextAppBarState extends State<HeroTextAppBar> {
+class _HeroAppBarState extends State<HeroAppBar> {
   double scrollExtent = 0;
 
   void _scrollListener() {
@@ -45,16 +48,16 @@ class _HeroTextAppBarState extends State<HeroTextAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final padding = lerp(100, 0, widget.start, widget.end, scrollExtent);
+    final opacity = lerp(0, 1, 0, 100, scrollExtent);
+    final shareable = widget.shareable;
 
     return AppBar(
-      title: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.only(
-          top: padding
-        ),
-        child: Text(widget.title),
-      ),
+      title: Text(widget.title),
+      backgroundColor: Theme.of(context).primaryColor.withOpacity(opacity),
+      elevation: 0,
+      actions: shareable != null ? [
+        ShareButton(shareable: shareable),
+      ] : null,
     );
   }
 }
