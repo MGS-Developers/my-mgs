@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/safeguarding_case.dart';
+import 'package:mymgs/screens/wellbeing/reports/privacy.dart';
 import 'package:mymgs/screens/wellbeing/reports/report_chat.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -93,6 +94,20 @@ class MySafeguardingReports extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("My cases"),
+        actions: [
+          PlatformIconButton(
+            icon: Icon(PlatformIcons(context).help),
+            material: (_, __) => MaterialIconButtonData(
+              tooltip: "About privacy"
+            ),
+            onPressed: () {
+              Navigator.of(context).push(platformPageRoute(
+                context: context,
+                builder: (_) => SafeguardingPrivacy(),
+              ));
+            }
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

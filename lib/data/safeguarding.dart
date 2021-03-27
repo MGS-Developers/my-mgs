@@ -20,7 +20,7 @@ class _KeyDetails {
 
 final caseStore = StoreRef<String, String>('cases');
 /// key is [caseId, messageId]
-final caseMessageStore = StoreRef<List<String>, String>('outgoing_decrypted_messages');
+final caseMessageStore = StoreRef<List<dynamic>, String>('outgoing_decrypted_messages');
 class _CaseManager {
   static Future<void> clearCaseCredentials(String caseId) async {
     final db = await getDb();
