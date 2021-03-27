@@ -37,6 +37,16 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
             return Container();
           }
 
+          int gridWidth = 2;
+          final screenWidth = MediaQuery.of(context).size.width;
+          if (screenWidth > 1024) {
+            gridWidth = 5;
+          } else if (screenWidth > 768) {
+            gridWidth = 4;
+          } else if (screenWidth > 500) {
+            gridWidth = 3;
+          }
+
           return ListView(
             padding: const EdgeInsets.all(15),
             children: [
@@ -89,7 +99,7 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                 primary: false,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                crossAxisCount: 2,
+                crossAxisCount: gridWidth,
                 children: data.map((organisation) => WellbeingResourceCard(
                   organisation: organisation,
                 )).toList(),

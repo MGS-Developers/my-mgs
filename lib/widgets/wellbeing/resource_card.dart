@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -21,13 +22,18 @@ class WellbeingResourceCard extends StatelessWidget {
   });
 
   void _launchUrl() {
-    if (!_isNullish(organisation.url)) {
-      FlutterWebBrowser.openWebPage(
-        url: organisation.url,
-        customTabsOptions: CustomTabsOptions(
-          toolbarColor: _parseColor(organisation.color),
-        ),
-      );
+    final url = organisation.url;
+    if (!_isNullish(url) && url != null) {
+      if (kIsWeb) {
+        launch(url);
+      } else {
+        FlutterWebBrowser.openWebPage(
+          url: organisation.url,
+          customTabsOptions: CustomTabsOptions(
+            toolbarColor: _parseColor(organisation.color),
+          ),
+        );
+      }
     }
   }
 

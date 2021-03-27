@@ -43,7 +43,10 @@ class _InfoScreenState extends State<InfoScreen> {
       ),
       body: SingleChildScrollView(
         controller: _controller,
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: MediaQuery.of(context).size.width > 768 ? 100 : 15,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
@@ -55,7 +56,7 @@ class DiaryEntryController {
   }
 
   void _createHomeworkReminder(SubjectEntry subjectEntry) async {
-    if (!(await isNotificationAllowed("homework"))) return;
+    if (!(await isNotificationAllowed("homework")) || kIsWeb) return;
 
     final dueDate = subjectEntry.dueDate;
     final scheduleTime = DateTime(
@@ -80,6 +81,7 @@ class DiaryEntryController {
   }
 
   void _deleteHomeworkReminder(SubjectEntry subjectEntry) {
+    if (kIsWeb) return;
     final reminderId = subjectEntry.hashCode;
     cancelReminder(reminderId);
   }
