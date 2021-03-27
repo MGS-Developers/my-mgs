@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 
 class RouteData {
   final String name;
@@ -6,6 +7,19 @@ class RouteData {
   final IconData selectedIcon;
   final Widget widget;
   const RouteData(this.name, this.icon, this.selectedIcon, this.widget);
+
+  bool operator ==(routeData) {
+    if (routeData is RouteData) {
+      return routeData.name == name;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  int get hashCode {
+    return stringToInt(name);
+  }
 }
 
 class DrawerTile extends StatelessWidget {

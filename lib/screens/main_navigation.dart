@@ -7,18 +7,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/config.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/deep_link.dart';
-import 'package:mymgs/screens/clubs/clubs.dart';
-import 'package:mymgs/screens/dashboard/dashboard.dart';
-import 'package:mymgs/screens/diary/diary.dart';
-import 'package:mymgs/screens/survival/survival_dashboard.dart';
-import 'package:mymgs/screens/wellbeing/dashboard.dart';
-import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/setup/setup.dart';
-import 'package:mymgs/screens/events/events.dart';
 import 'package:mymgs/widgets/drawer/drawer_tile.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -61,17 +55,7 @@ class DrawerSwitcher extends InheritedWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  // our list of screens never changes, so why not make it a compile-time constant?
-  // these are just the screens we want to be navigable within our app drawer
-  static const List<RouteData> screens = [
-    RouteData("Dashboard", Icons.home_outlined, Icons.home, Dashboard()),
-    RouteData("Events", Icons.event_outlined, Icons.event, Events()),
-    RouteData("Clubs", Icons.school_outlined, Icons.school, Clubs()),
-    RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
-    RouteData("Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
-    RouteData("Survival Guide", Icons.article_outlined, Icons.article, SurvivalGuides()),
-    RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
-  ];
+  final drawerTabsStream = Config.getDrawerTabs();
 
   // aaand here's our state! this variable doesn't have 'final' before it, because we actually need to change it
   // this refers to which member of the 'screens' array we want to be displaying
@@ -175,70 +159,85 @@ class _MainNavigationState extends State<MainNavigation> {
       );
     }
 
-    // a scaffold acts as an overlay over our app
-    // it can contain an app bar, a drawer, a bottom bar, and many other things!
-    // for now, we just need the body and the drawer features
-    return Scaffold(
-      // here's our key from before
-      // Flutter will now populate the 'scaffoldKey' variable with this scaffold's built-in functions, incl. the one to open the drawer
-      key: scaffoldKey,
-      // here comes our drawer! surprisingly, Drawer is a built-in Flutter widget. it's already made for us!
-      drawer: Drawer(
-        child: Container(
-          // Theme.of(context) lets us access the current theme — when the phone switches between dark/light mode, this will automatically update
-          color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.black.withOpacity(0.8) : Colors.transparent,
-          child: ListView(
-            // EdgeInsets.zero ensures that there's no padding — preventing any borders from appearing around the inner edge of our drawer
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                child: Text(
-                  appName,
-                  style: Theme.of(context).textTheme.headline6?.copyWith(
-                    color: Colors.white,
-                  ),
+    return StreamBuilder<List<RouteData>>(
+      stream: drawerTabsStream,
+      builder: (context, snapshot) {
+        final screens = snapshot.data;
+
+        if (screens == null) {
+          return Scaffold(
+            body: Center(
+              child: Spinner(),
+            ),
+          );
+        }
+
+        // a scaffold acts as an overlay over our app
+        // it can contain an app bar, a drawer, a bottom bar, and many other things!
+        // for now, we just need the body and the drawer features
+        return Scaffold(
+          // here's our key from before
+          // Flutter will now populate the 'scaffoldKey' variable with this scaffold's built-in functions, incl. the one to open the drawer
+          key: scaffoldKey,
+          // here comes our drawer! surprisingly, Drawer is a built-in Flutter widget. it's already made for us!
+          drawer: Drawer(
+              child: Container(
+                // Theme.of(context) lets us access the current theme — when the phone switches between dark/light mode, this will automatically update
+                color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.black.withOpacity(0.8) : Colors.transparent,
+                child: ListView(
+                  // EdgeInsets.zero ensures that there's no padding — preventing any borders from appearing around the inner edge of our drawer
+                  padding: EdgeInsets.zero,
+                  children: [
+                    DrawerHeader(
+                      child: Text(
+                        appName,
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        // here, we're making the drawer's header's background colour be our current theme's primary colour
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Theme.of(context).primaryColor,
+                              Color(0xFF5b67ad),
+                            ]
+                          )
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    // this is a for loop... inside a list literal! insane, right?
+                    // it means we don't have to struggle with merging lists all the time,
+                    // and keeps our code super neat.
+                    for (final screen in screens)
+                      DrawerTile(
+                        data: screen,
+                        selected: currentIndex == screens.indexOf(screen),
+                        index: screens.indexOf(screen),
+                        onSelect: _selectPage,
+                      )
+                  ],
                 ),
-                decoration: BoxDecoration(
-                  // here, we're making the drawer's header's background colour be our current theme's primary colour
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Theme.of(context).primaryColor,
-                      Color(0xFF5b67ad),
-                    ]
-                  )
-                ),
-              ),
-              const SizedBox(height: 10),
-              // this is a for loop... inside a list literal! insane, right?
-              // it means we don't have to struggle with merging lists all the time,
-              // and keeps our code super neat.
-              for (final screen in screens)
-                DrawerTile(
-                  data: screen,
-                  selected: currentIndex == screens.indexOf(screen),
-                  index: screens.indexOf(screen),
-                  onSelect: _selectPage,
-                )
-            ],
+              )
           ),
-        )
-      ),
-      // IndexedStack just helps us switch between screens easily, and performs a lot of memory optimisation under the hood
-      // children is a list of possible screens/widgets
-      // and index is which one of those screens/widgets to show
-      body: DrawerSwitcher(
-        switchTo: (newIndex) {
-          setState(() {
-            currentIndex = newIndex;
-          });
-        },
-        child: IndexedStack(
-          index: currentIndex,
-          children: screens.map((e) => e.widget).toList(),
-        ),
-      ),
+          // IndexedStack just helps us switch between screens easily, and performs a lot of memory optimisation under the hood
+          // children is a list of possible screens/widgets
+          // and index is which one of those screens/widgets to show
+          body: DrawerSwitcher(
+            switchTo: (newIndex) {
+              setState(() {
+                currentIndex = newIndex;
+              });
+            },
+            child: IndexedStack(
+              index: currentIndex,
+              children: screens.map((e) => e.widget).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }

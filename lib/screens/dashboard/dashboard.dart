@@ -7,7 +7,9 @@ import 'package:mymgs/widgets/icon_button.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard();
+  const Dashboard({
+    required Key key,
+  });
   _DashboardState createState() => _DashboardState();
 }
 
