@@ -42,7 +42,7 @@ Future<void> confirmCode(String code, String sessionId) async {
   if (functionResponse.data == null) {
     throw Exception("incorrect_code");
   } else {
-    await allowAllNotifications();
+    await initialiseNotificationConfig();
     await _firebaseAuth.signInWithCustomToken(functionResponse.data);
   }
 }

@@ -5,8 +5,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mymgs/helpers/deep_link.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
+import 'package:mymgs/notifications/scoping.dart';
 
-final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final _scoping = NotificationScoping();
 
 Future<void> pushHandler(RemoteMessage message) async {
   if (!(await isNotificationAllowed("news"))) return;
@@ -18,9 +20,17 @@ Future<void> pushHandler(RemoteMessage message) async {
   final String? topic = data["topic"];
   final String? resource = data["resourceType"];
   final String? id = data["resourceId"];
+  final String? scope = data["scope"];
 
   if (!(await isPushTopicAllowed(topic))) return;
   if (title == null || body == null) return;
+
+  if (scope != null) {
+    final scopeAllowed = await _scoping.isScopeAllowed(scope);
+    if (!scopeAllowed) {
+      return;
+    }
+  }
 
   String? deepLinkString;
   if (resource != null && id != null) {
@@ -28,7 +38,7 @@ Future<void> pushHandler(RemoteMessage message) async {
     deepLinkString = deepLink.toPayloadString();
   }
 
-  flutterLocalNotificationsPlugin.show(
+  _flutterLocalNotificationsPlugin.show(
     Random().nextInt(10000),
     title,
     body,

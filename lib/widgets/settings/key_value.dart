@@ -7,6 +7,8 @@ typedef TrackerMapper = String Function(dynamic value);
 
 class KeyValueSetting extends StatelessWidget {
   final String name;
+  final bool? indented;
+  final bool? requirement;
   final String? value;
   final String? description;
 
@@ -20,6 +22,8 @@ class KeyValueSetting extends StatelessWidget {
     Key? key,
     required this.name,
     required this.onTap,
+    this.indented,
+    this.requirement,
     this.value,
     this.description,
     this.tracker,
@@ -29,6 +33,10 @@ class KeyValueSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: indented == true ? const EdgeInsets.only(
+        left: 40,
+        right: 25,
+      ) : null,
       title: Text(name),
       subtitle: description == null ? null : Text(description!),
       trailing: value != null ? Text(
@@ -46,6 +54,7 @@ class KeyValueSetting extends StatelessWidget {
           );
         }
       ) : null,
+      enabled: requirement ?? true,
       onTap: onTap,
     );
   }

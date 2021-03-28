@@ -8,6 +8,7 @@ import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/reminders.dart';
+import 'package:mymgs/notifications/scoping.dart';
 import 'package:sembast/sembast.dart';
 
 // get a reference to firestore at import time (i.e. on app startup)
@@ -64,6 +65,7 @@ Future<Club?> getClub(String id) async {
 }
 
 final clubSubscriptionStore = StoreRef<String, bool>("club_subscriptions");
+final _scoping = NotificationScoping();
 Future<void> subscribeToClub(Club club) async {
   final db = await getDb();
   await clubSubscriptionStore.record(club.id).put(db, true);
@@ -76,6 +78,8 @@ Future<void> subscribeToClub(Club club) async {
     notificationDetails: MGSChannels.club(club),
     when: club.time.next.subtract(Duration(minutes: 20)),
   );
+
+  await _scoping.subscribeToScope(club);
 }
 
 Future<void> unsubscribeFromClub(Club club) async {
@@ -84,6 +88,8 @@ Future<void> unsubscribeFromClub(Club club) async {
 
   final id = stringToInt(club.id);
   cancelReminder(id);
+
+  await _scoping.unsubscribeFromScope(club);
 }
 
 Future<bool> isSubscribedToClub(Club club) async {

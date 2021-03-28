@@ -30,7 +30,7 @@ Future<bool> isPushTopicAllowed(String? topic) async {
   }
 }
 
-Future<void> allowAllNotifications() async {
+Future<void> initialiseNotificationConfig() async {
   await saveSetting('allow_notifications', true);
 
   for (final channel in MGSChannels.channels) {
@@ -43,4 +43,6 @@ Future<void> allowAllNotifications() async {
       await _firebaseMessaging.subscribeToTopic(topic);
     }
   }
+
+  await saveSetting('homework_reminder_time', '18:00');
 }

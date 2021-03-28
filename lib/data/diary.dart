@@ -59,12 +59,13 @@ class DiaryEntryController {
     if (!(await isNotificationAllowed("homework")) || kIsWeb) return;
 
     final dueDate = subjectEntry.dueDate;
+    final reminderTime = await getHomeworkReminderTime();
     final scheduleTime = DateTime(
       dueDate!.year,
       dueDate.month,
       dueDate.day - 1,
-      18,
-      00,
+      reminderTime[0],
+      reminderTime[1],
     );
 
     final reminderId = subjectEntry.hashCode;

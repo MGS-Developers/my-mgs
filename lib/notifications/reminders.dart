@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mymgs/data/settings.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -34,4 +35,13 @@ void scheduleReminder(int id, {
 
 void cancelReminder(int id) {
   flutterLocalNotificationsPlugin.cancel(id);
+}
+
+Future<List<int>> getHomeworkReminderTime() async {
+  final string = await getSetting<String?>('homework_reminder_time');
+  if (string == null) {
+    return [18, 00];
+  }
+
+  return string.split(':').map((e) => int.parse(e)).toList();
 }

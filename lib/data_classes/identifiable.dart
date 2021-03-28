@@ -8,6 +8,10 @@ mixin Identifiable {
   DocumentReference identify() {
     return _firestore.collection(collection).doc(id);
   }
+
+  String toString() {
+    return identify().path;
+  }
 }
 
 class _CustomIdentifiable with Identifiable {}
