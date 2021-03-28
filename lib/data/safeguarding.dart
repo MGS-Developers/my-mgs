@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/safeguarding_case.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
@@ -7,7 +8,8 @@ import 'package:openpgp/model/bridge.pb.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:sembast/sembast.dart';
 
-FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
+final _functions = FirebaseFunctions.instanceFor(region: 'europe-west2');
 
 class _KeyDetails {
   final String studentPrivateKey;
@@ -18,18 +20,32 @@ class _KeyDetails {
   });
 }
 
-final caseStore = StoreRef<String, String>('cases');
+final caseKeyStore = StoreRef<String, String>('case_keys');
 /// key is [caseId, messageId]
-final caseMessageStore = StoreRef<List<dynamic>, String>('outgoing_decrypted_messages');
+final caseMessageStore = StoreRef<List<dynamic>, String>('case_decrypted_messages');
+final caseSecretStore = StoreRef<String, String>('case_secrets');
 class _CaseManager {
-  static Future<void> clearCaseCredentials(String caseId) async {
+  static Future<String?> getCaseSendingSecret(String caseId) async {
     final db = await getDb();
-    await caseStore.record(caseId).delete(db);
+    final existingSecret = await caseSecretStore.record(caseId).get(db);
+    if (existingSecret != null) {
+      return existingSecret;
+    }
+
+    final functionResponse = await _functions.httpsCallable('getSendingSecret').call({
+      'caseId': caseId,
+    });
+    final sendingSecret = functionResponse.data as String?;
+
+    if (sendingSecret != null) {
+      await caseSecretStore.record(caseId).put(db, sendingSecret);
+      return sendingSecret;
+    }
   }
 
   static Future<String?> getCasePrivateKey(String caseId) async {
     final db = await getDb();
-    final existingPrivateKey = await caseStore.record(caseId).get(db);
+    final existingPrivateKey = await caseKeyStore.record(caseId).get(db);
     return existingPrivateKey;
   }
 
@@ -42,7 +58,7 @@ class _CaseManager {
           ..passphrase = passphrase,
     );
 
-    await caseStore.record(caseId).put(db, newKeyPair.privateKey);
+    await caseKeyStore.record(caseId).put(db, newKeyPair.privateKey);
     return _KeyDetails(
       studentPrivateKey: newKeyPair.privateKey,
       newStudentPublicKey: newKeyPair.publicKey,
@@ -67,7 +83,7 @@ class _CaseManager {
 
   static Stream<List<String>> getOwnedCaseIds() async* {
     final db = await getDb();
-    yield* caseStore.query().onSnapshots(db).map((event) => event.map((e) => e.key).toList());
+    yield* caseKeyStore.query().onSnapshots(db).map((event) => event.map((e) => e.key).toList());
   }
 
   static Future<String?> getDecryptedOutgoingMessage(String caseId, String messageId) async {
@@ -168,23 +184,24 @@ Future<SafeguardingCase> createSafeguardingCase(String passphrase) async {
 }
 
 Future<void> sendSafeguardingMessage(String caseId, String message) async {
-  final _doc = _firestore
+  final sendingSecret = await _CaseManager.getCaseSendingSecret(caseId);
+  if (sendingSecret == null) {
+    return;
+  }
+
+  final docId = _firestore
       .collection('safeguarding_cases')
       .doc(caseId)
       .collection('messages')
-      .doc();
+      .doc().id;
 
-  final _encryptedMessage = await _CaseManager.encryptOutgoingMessage(caseId, _doc.id, message);
-
-  final _message = SafeguardingCaseMessage(
-    id: _doc.id,
-    caseId: caseId,
-    sentAt: Timestamp.now(),
-    recipientIsStudent: false,
-    message: _encryptedMessage,
-  );
-
-  await _doc.set(_message.toJson());
+  final encryptedMessage = await _CaseManager.encryptOutgoingMessage(caseId, docId, message);
+  await _functions.httpsCallable('studentSendMessage').call({
+    'caseId': caseId,
+    'secret': sendingSecret,
+    'encryptedMessage': encryptedMessage,
+    'messageId': docId,
+  });
 }
 
 Future<List<WellbeingOrganisation>> getWellbeingOrganisations() async {

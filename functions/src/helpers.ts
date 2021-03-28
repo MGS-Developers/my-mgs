@@ -1,6 +1,6 @@
 import shajs from "sha.js";
 
-export const hashAdminToken = (token: string): string => {
+export const sha256 = (token: string): string => {
     return shajs('sha256').update(token).digest('hex');
 }
 

@@ -1,10 +1,8 @@
 import * as admin from 'firebase-admin';
-import { getAdminSignInToken, confirmEmail, sendEmail } from './authentication';
-import { sendNotification } from './notifications';
-import { sdPropagateScore, sdCalculateFormPosition } from './sportsday/sportsday';
 
 admin.initializeApp();
 
-export {sendNotification};
-export {getAdminSignInToken, confirmEmail, sendEmail};
-export {sdPropagateScore, sdCalculateFormPosition};
+export {sendNotification} from './notifications';
+export {getAdminSignInToken, confirmEmail, sendEmail} from './authentication';
+export {sdPropagateScore, sdCalculateFormPosition} from './sportsday/sportsday';
+export {getSendingSecret, studentSendMessage} from './safeguarding';

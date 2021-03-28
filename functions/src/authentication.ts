@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import {hashAdminToken, randomCode} from "./helpers";
+import {sha256, randomCode} from "./helpers";
 import * as admin from "firebase-admin";
 import {v4 as uuid} from "uuid";
 import {createTransport} from "nodemailer";
@@ -14,7 +14,7 @@ export const getAdminSignInToken = functions
             return null;
         }
 
-        const hashedToken = hashAdminToken(data.token);
+        const hashedToken = sha256(data.token);
         const response = await admin.firestore().collection('tokens')
             .doc(hashedToken)
             .get();
