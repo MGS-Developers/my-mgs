@@ -5,9 +5,12 @@ import 'package:mymgs/helpers/class_serializers.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/notifications/reminders.dart';
+import 'package:mymgs/notifications/scoping.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final _scoping = NotificationScoping();
 
 class EventReminderButton extends StatefulWidget {
   final Event event;
@@ -72,8 +75,11 @@ class _EventReminderButtonState extends State<EventReminderButton> {
         notificationDetails: MGSChannels.event(widget.event),
         when: widget.event.startTime.toDate().subtract(Duration(minutes: 30)),
       );
+
+      await _scoping.subscribeToScope(widget.event);
     } else {
       cancelReminder(id);
+      await _scoping.unsubscribeFromScope(widget.event);
     }
   }
 

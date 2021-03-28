@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mymgs/data/local_database.dart';
+import 'package:mymgs/data/setup.dart';
+import 'package:mymgs/data_classes/identifiable.dart';
+import 'package:mymgs/notifications/scoping.dart';
 import 'package:sembast/sembast.dart';
 
 final _firebaseMessaging = FirebaseMessaging.instance;
+final _scoping = NotificationScoping();
 final store = StoreRef<String, dynamic>('settings');
 
 Future<void> saveSetting(String key, dynamic value) async {
@@ -18,6 +22,12 @@ Future<void> saveSetting(String key, dynamic value) async {
         await _firebaseMessaging.unsubscribeFromTopic(topicName);
       }
     }
+  }
+
+  if (key == 'year-group') {
+    final currentYearGroup = await getYearGroup();
+    await _scoping.unsubscribeFromScope(customIdentifiable('year_${currentYearGroup.toString()}'));
+    await _scoping.subscribeToScope(customIdentifiable('year_${value.toString()}'));
   }
 
   final db = await getDb();

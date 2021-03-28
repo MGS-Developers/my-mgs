@@ -30,7 +30,6 @@ class NotificationScoping {
 
   Future<void> subscribeToScope(Identifiable scope) async {
     final stringRepresentation = scope.toString();
-    print("subscribing to scope $stringRepresentation");
 
     final newScopes = [
       ...(await scopes),
