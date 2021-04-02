@@ -9,6 +9,7 @@ interface NotificationData {
     resourceType: number;
     resourceId: string;
     token: string;
+    scope: string;
 }
 
 export const sendNotification = functions
@@ -49,6 +50,10 @@ export const sendNotification = functions
         if (data.resourceId && data.resourceType) {
             payload.resourceType = data.resourceType.toString();
             payload.resourceId = data.resourceId;
+        }
+
+        if (data.scope) {
+            payload.scope = data.scope;
         }
 
         await admin.messaging().send({
