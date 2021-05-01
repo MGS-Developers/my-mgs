@@ -1,6 +1,160 @@
 syntax = "proto3";
 package mymgs;
 
-message Magazine {
-  string title = 1;
+// Utilities
+message Color {
+  uint32 red = 1;
+  uint32 green = 2;
+  uint32 blue = 3;
+}
+
+message TextStyle {
+  Color color = 1;
+  string font = 2;
+  enum FontWeight {
+    DEFAULT = 0;
+    LIGHT = 200;
+    NORMAL = 400;
+    BOLD = 600;
+  }
+  FontWeight weight = 3;
+}
+
+message DimensionalValue {
+  uint32 top = 1;
+  uint32 bottom = 2;
+  uint32 left = 3;
+  uint32 right = 4;
+}
+
+message Image {
+  string url = 1;
+  string alt = 2;
+}
+
+message Date {
+  uint32 date = 1;
+  uint32 month = 2;
+  uint32 year = 3;
+}
+
+message Contact {
+  string name = 1;
+  string email = 2;
+}
+
+// Publication data
+message PublicationTheme {
+  Color primaryColor = 1;
+  Color accentColor = 2;
+  Image logo = 3;
+
+  TextStyle paragraphStyle = 4;
+  TextStyle headingStyle = 5;
+  TextStyle titleStyle = 6;
+  TextStyle subheadingStyle = 7;
+}
+
+message PublicationFrequency {
+  // published [n] [every] (e.g. every 3 days)
+  uint32 n = 1;
+  enum PublicationFrequencyType {
+    DAY = 0;
+    WEEK = 1;
+    MONTH = 2;
+    YEAR = 3;
+    TERM = 4;
+    HALF_TERM = 5;
+  }
+  PublicationFrequencyType every = 2;
+}
+
+message Publication {
+  string id = 1;
+  string title = 2;
+  PublicationTheme theme = 3;
+
+  string caption = 4;
+  string description = 5;
+  PublicationFrequency frequency = 6;
+}
+
+// Season data
+message Season {
+  string id = 1;
+  string publicationId = 2;
+
+  uint32 sequenceNumber = 3; // how many-nth season this is (counting from 1)
+  Date startDate = 4; // editions in this season must be between the start and end dates
+  Date endDate = 5;
+}
+
+// Edition data
+message Edition {
+  string id = 1;
+  string publicationId = 2;
+  string title = 3; // while some publications use titles for each edition, it's okay to just use a numeric(ish) identifier here (e.g. "issue 5")
+
+  string seasonId = 4;
+  uint32 sequenceNumber = 5; // how many-nth issue this is within the relevant season (counting from 1)
+  Date publishedDate = 6;
+}
+
+// Section data
+message Section {
+  string id = 1;
+  string editionId = 2;
+
+  string title = 3;
+  bool displayTitleInBanner = 4; // when the banner image contains the title, you may wish to set this to false
+  oneof banner_background {
+    Image bannerImage = 5;
+    Color bannerColor = 6;
+  }
+  optional TextStyle headingStyle = 7; // inherits publication headingStyle by default
+}
+
+// Article data
+message Article {
+  string id = 1;
+  string sectionId = 2;
+
+  string title = 3;
+  repeated Contact authors = 4;
+  repeated Node contents = 5;
+}
+
+message StructuredTextChild {
+  string value = 1;
+  optional TextStyle style = 2; // inherited from publication's paragraphStyle or subheadingStyle by default (depends on type)
+  optional DimensionalValue padding = 3; // uses responsive defaults if not specified
+
+  enum StructuredTextChildType {
+    PLAIN = 0;
+    QUOTE = 1;
+    SUBHEADING = 2;
+  }
+  StructuredTextChildType type = 4;
+}
+
+message StructuredRichText {
+  repeated StructuredTextChild children = 1;
+}
+
+message RichTextNode {
+  oneof renderer {
+    string markdown = 1;
+    StructuredRichText richText = 2;
+  }
+}
+
+message ImageNode {
+  Image value = 1;
+}
+
+message Node {
+  oneof node_content {
+    RichTextNode text = 1;
+    ImageNode image = 2;
+  }
 }

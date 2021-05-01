@@ -26,6 +26,7 @@ Enter the directory with your command line, and run:
 
 ```bash
 flutter pub get
+./protoc.sh # compiles Protocol Buffer files into Dart source
 ```
 
 And you're done! Open Android Studio (or your preferred IDE, but Android Studio definitely gives the best experience) and open the new `mymgs` directory.

@@ -45,3 +45,9 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# protobuf generated files
+*.pb.dart
+*.pbenum.dart
+*.pbjson.dart
+*.pbserver.dart

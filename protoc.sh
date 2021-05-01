@@ -1,0 +1,1 @@
+protoc --proto_path=lib/data_classes/protobuf --dart_out=lib/data_classes/protobuf lib/data_classes/protobuf/*.proto
