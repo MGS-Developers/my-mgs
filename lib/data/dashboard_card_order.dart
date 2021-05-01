@@ -11,7 +11,7 @@ final store = StoreRef("dashboard");
 
 List<String> defaultOrder = ["catering", "news", "events", "clubs", "homework"];
 
-List<Widget?> _getWidgetsForNames(List names) {
+List<Widget> _getWidgetsForNames(List names) {
   return names.map((widgetName) {
     switch(widgetName) {
       case 'news':
@@ -24,11 +24,13 @@ List<Widget?> _getWidgetsForNames(List names) {
         return TodaysEventsCard(Key('events'));
       case 'clubs':
         return ClubsCard(Key('clubs'));
+      default:
+        return SizedBox();
     }
   }).toList();
 }
 
-Stream<List<Widget?>> getOrderedCards() async* {
+Stream<List<Widget>> getOrderedCards() async* {
   yield _getWidgetsForNames(defaultOrder);
 
   final db = await getDb();
@@ -45,7 +47,7 @@ Stream<List<Widget?>> getOrderedCards() async* {
 
 Future<List?> getOrderedNames() async {
   final db = await getDb();
-  return (await store.record('order').get(db)) as List;
+  return await store.record('order').get(db);
 }
 
 Future<void> setOrder(List newOrder) async {

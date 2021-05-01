@@ -36,7 +36,7 @@ Stream<List<ScoreNode>> getEventGroupScoreNodes({
       .asyncMap((snapshot) async {
         final scoreNodes = snapshot.docs.map((scoreNode) => ScoreNode.fromJson({
           'id': scoreNode.id,
-          ...?scoreNode.data(),
+          ...scoreNode.data(),
         })).toList();
 
         for (final node in scoreNodes) {

@@ -28,7 +28,7 @@ Future<void> _transformEvent(Event event) async {
 
 Future<List<Event>> _mapEventList(QuerySnapshot response) async {
   final events = response.docs.map((e) => Event.fromJson({
-    ...?e.data(),
+    ...e.data(),
     'id': e.id,
   })).toList();
 

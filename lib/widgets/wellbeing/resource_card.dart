@@ -28,7 +28,7 @@ class WellbeingResourceCard extends StatelessWidget {
         launch(url);
       } else {
         FlutterWebBrowser.openWebPage(
-          url: organisation.url,
+          url: url,
           customTabsOptions: CustomTabsOptions(
             toolbarColor: _parseColor(organisation.color),
           ),

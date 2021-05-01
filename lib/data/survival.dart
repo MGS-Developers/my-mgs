@@ -12,7 +12,7 @@ Future<Map<String?, List<SurvivalGuide>>> getSurvivalGuides() async {
 
   final guides = response.docs.map((e) => SurvivalGuide.fromJson({
     'id': e.id,
-    ...?e.data(),
+    ...e.data(),
   })).toList();
 
   return groupBy<SurvivalGuide, String?>(guides, (e) => e.folderName);

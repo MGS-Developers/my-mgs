@@ -11,6 +11,6 @@ Future<List<EventGroup>> getEventGroups() async {
 
   return response.docs.map((doc) => EventGroup.fromJson({
     'id': doc.id,
-    ...?doc.data(),
+    ...doc.data(),
   })).toList();
 }

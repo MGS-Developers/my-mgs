@@ -135,6 +135,7 @@ StreamController<PendingDynamicLinkData> _dynamicLinkCallbackStream() {
 
   FirebaseDynamicLinks.instance.onLink(
     onSuccess: (dynamicLink) async {
+      if (dynamicLink == null) return;
       _controller.add(dynamicLink);
     }
   );
@@ -194,7 +195,7 @@ StreamController<DeepLink?> watchDeepLink() {
     }
   });
 
-  final nativeUriListener = getUriLinksStream().listen((event) {
+  final nativeUriListener = uriLinkStream.listen((event) {
     _linkController.add(_nativeUriToDeepLink(event));
   });
   final dynamicLinkListener = _getDynamicLinkStream().listen((event) {

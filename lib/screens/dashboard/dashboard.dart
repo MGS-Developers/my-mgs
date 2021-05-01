@@ -42,10 +42,11 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.symmetric(
           horizontal: 15,
         ).copyWith(bottom: 30, top: 8),
-        child: StreamBuilder<List<Widget?>>(
+        child: StreamBuilder<List<Widget>>(
           stream: orderStream,
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            final data = snapshot.data;
+            if (data == null) {
               return Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(top: 20),
@@ -54,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
             }
 
             return Column(
-              children: snapshot.data!.where((e) => e != null).toList() as List<Widget>,
+              children: data.toList(),
             );
           },
         ),

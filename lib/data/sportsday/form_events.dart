@@ -15,7 +15,7 @@ Stream<List<ScoreNode>> getLatestResults(String formId, [int limit = 5]) {
         for (final doc in snapshot.docs) {
           final scoreNode = ScoreNode.fromJson({
             'id': doc.id,
-            ...?doc.data(),
+            ...doc.data(),
           });
 
           await scoreNode.populateEvent();

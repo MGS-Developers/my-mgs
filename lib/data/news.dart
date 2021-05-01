@@ -10,7 +10,7 @@ Future<List<NewsItem>> getNews(int limit) async {
       .get();
 
   return newsDocs.docs.map((e) => NewsItem.fromJson({
-    ...?e.data(),
+    ...e.data(),
     "id": e.id,
   })).toList();
 }

@@ -181,46 +181,46 @@ class _MainNavigationState extends State<MainNavigation> {
           key: scaffoldKey,
           // here comes our drawer! surprisingly, Drawer is a built-in Flutter widget. it's already made for us!
           drawer: Drawer(
-              child: Container(
-                // Theme.of(context) lets us access the current theme — when the phone switches between dark/light mode, this will automatically update
-                color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.black.withOpacity(0.8) : Colors.transparent,
-                child: ListView(
-                  // EdgeInsets.zero ensures that there's no padding — preventing any borders from appearing around the inner edge of our drawer
-                  padding: EdgeInsets.zero,
-                  children: [
-                    DrawerHeader(
-                      child: Text(
-                        appName,
-                        style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        // here, we're making the drawer's header's background colour be our current theme's primary colour
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Theme.of(context).primaryColor,
-                              Color(0xFF5b67ad),
-                            ]
-                          )
+            child: Container(
+              // Theme.of(context) lets us access the current theme — when the phone switches between dark/light mode, this will automatically update
+              color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.black.withOpacity(0.8) : Colors.transparent,
+              child: ListView(
+                // EdgeInsets.zero ensures that there's no padding — preventing any borders from appearing around the inner edge of our drawer
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    child: Text(
+                      appName,
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    // this is a for loop... inside a list literal! insane, right?
-                    // it means we don't have to struggle with merging lists all the time,
-                    // and keeps our code super neat.
-                    for (final screen in screens)
-                      DrawerTile(
-                        data: screen,
-                        selected: currentIndex == screens.indexOf(screen),
-                        index: screens.indexOf(screen),
-                        onSelect: _selectPage,
-                      )
-                  ],
-                ),
-              )
+                    decoration: BoxDecoration(
+                      // here, we're making the drawer's header's background colour be our current theme's primary colour
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).primaryColor,
+                            Color(0xFF5b67ad),
+                          ]
+                        )
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // this is a for loop... inside a list literal! insane, right?
+                  // it means we don't have to struggle with merging lists all the time,
+                  // and keeps our code super neat.
+                  for (final screen in screens)
+                    DrawerTile(
+                      data: screen,
+                      selected: currentIndex == screens.indexOf(screen),
+                      index: screens.indexOf(screen),
+                      onSelect: _selectPage,
+                    )
+                ],
+              ),
+            ),
           ),
           // IndexedStack just helps us switch between screens easily, and performs a lot of memory optimisation under the hood
           // children is a list of possible screens/widgets

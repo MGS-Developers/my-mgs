@@ -21,7 +21,7 @@ Future<List<CateringItem>> getCateringItems() async {
 
   final cateringItems = cateringResponse.docs.map((e) => CateringItem.fromJson({
     'id': e.id,
-    ...?e.data(),
+    ...e.data(),
   })).toList();
 
   cateringItems.sort((a, b) {
@@ -51,7 +51,7 @@ Future<int?> getCateringWeek() async {
 
   final terms = termsResponse.docs.map((e) => Term.fromJson({
     'id': e.id,
-    ...?e.data(),
+    ...e.data(),
   })).toList();
 
   final currentDate = DateTime.now();
@@ -96,6 +96,6 @@ Future<CateringItem?> getTodaysMenu() async {
 
   return CateringItem.fromJson({
     'id': cateringItemResponse.docs[0].id,
-    ...?cateringItemResponse.docs[0].data(),
+    ...cateringItemResponse.docs[0].data(),
   });
 }

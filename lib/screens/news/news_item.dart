@@ -28,10 +28,11 @@ class NewsItemScreen extends StatelessWidget {
       shareable: newsItem,
       children: [
         Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15).copyWith(top: 30),
           child: LinkableMarkdown(
             text: newsItem.body,
             styleSheet: MarkdownStyleSheet(
+              blockSpacing: 15,
               p: const TextStyle(
                 fontSize: 17,
                 fontFamily: "Newsreader",

@@ -10,7 +10,7 @@ Stream<List<Form>> getFormOverview() {
       .snapshots()
       .map((snapshot) => snapshot.docs.map((e) => Form.fromJson({
     'id': e.id,
-    ...?e.data(),
+    ...e.data(),
   })).toList());
 }
 

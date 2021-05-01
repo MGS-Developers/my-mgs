@@ -48,7 +48,7 @@ Future<List<Club>> getClubs({
   return response.docs.map((e) => Club.fromJson({
     'id': e.id,
     // spread operator https://www.woolha.com/tutorials/dart-using-triple-dot-spread-operator-examples#:~:text=Usage%20on%20Map
-    ...?e.data(),
+    ...e.data(),
   })).toList(growable: false);
 }
 

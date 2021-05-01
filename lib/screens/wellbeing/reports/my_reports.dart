@@ -96,7 +96,7 @@ class MySafeguardingReports extends StatelessWidget {
         title: Text("My cases"),
         actions: [
           PlatformIconButton(
-            icon: Icon(PlatformIcons(context).help),
+            icon: Icon(PlatformIcons(context).info),
             material: (_, __) => MaterialIconButtonData(
               tooltip: "About privacy"
             ),

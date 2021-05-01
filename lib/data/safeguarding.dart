@@ -137,7 +137,7 @@ Stream<List<DecryptedSafeguardingCaseMessage>> getSafeguardingMessages(String ca
       .snapshots()
       .map((messages) => messages.docs.map((e) => SafeguardingCaseMessage.fromJson({
     'id': e.id,
-    ...?e.data(),
+    ...e.data(),
   })))
       .asyncMap((messages) async {
         final List<DecryptedSafeguardingCaseMessage> decryptedMessages = [];
@@ -210,6 +210,6 @@ Future<List<WellbeingOrganisation>> getWellbeingOrganisations() async {
       .get();
 
   return response.docs
-      .map((doc) => WellbeingOrganisation.fromJson({...?doc.data()}))
+      .map((doc) => WellbeingOrganisation.fromJson({...doc.data()}))
       .toList();
 }
