@@ -7,6 +7,7 @@ import 'package:mymgs/screens/clubs/clubs.dart';
 import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/events/events.dart';
+import 'package:mymgs/screens/magazines/explore_magazines.dart';
 import 'package:mymgs/screens/settings/settings.dart';
 import 'package:mymgs/screens/sportsday/navigation.dart';
 import 'package:mymgs/screens/survival/survival_dashboard.dart';
@@ -22,6 +23,7 @@ const _modules = <String, RouteData>{
   'events': RouteData("Events", Icons.event_outlined, Icons.event, Events()),
   'clubs': RouteData("Clubs", Icons.school_outlined, Icons.school, Clubs()),
   'diary': RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
+  'magazines': RouteData("Magazines", Icons.bookmark_border, Icons.bookmark, ExploreMagazines()),
   'survival_guides': RouteData("Survival Guides", Icons.menu_book_outlined, Icons.menu_book, SurvivalGuides()),
   'wellbeing': RouteData("Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
   'settings': RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),

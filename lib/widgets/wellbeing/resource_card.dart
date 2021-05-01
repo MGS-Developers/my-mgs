@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/widgets/tappable_card.dart';

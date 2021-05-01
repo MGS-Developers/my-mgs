@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
+import 'package:mymgs/helpers/gridview_cross_count.dart';
 import 'package:mymgs/screens/wellbeing/info.dart';
 import 'package:mymgs/screens/wellbeing/reports/my_reports.dart';
 import 'package:mymgs/widgets/button.dart';
@@ -37,15 +38,7 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
             return Container();
           }
 
-          int gridWidth = 2;
-          final screenWidth = MediaQuery.of(context).size.width;
-          if (screenWidth > 1024) {
-            gridWidth = 5;
-          } else if (screenWidth > 768) {
-            gridWidth = 4;
-          } else if (screenWidth > 500) {
-            gridWidth = 3;
-          }
+          final gridWidth = getGridViewCrossCount(MediaQuery.of(context).size.width);
 
           return ListView(
             padding: const EdgeInsets.all(15),

@@ -9,6 +9,7 @@ class ImageScaffold extends StatefulWidget {
   final String title;
   final String? heroKey;
   final Shareable? shareable;
+  final TextStyle? titleStyle;
 
   const ImageScaffold({
     required this.children,
@@ -17,6 +18,7 @@ class ImageScaffold extends StatefulWidget {
     this.image,
     this.heroKey,
     this.shareable,
+    this.titleStyle,
   });
   _ImageScaffoldState createState() => _ImageScaffoldState();
 }
@@ -87,7 +89,7 @@ class _ImageScaffoldState extends State<ImageScaffold> {
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           widget.title,
-                          style: TextStyle(
+                          style: widget.titleStyle ?? TextStyle(
                             fontSize: 28,
                             color: Colors.white,
                           ),

@@ -12,7 +12,7 @@ message TextStyle {
   Color color = 1;
   string font = 2;
   enum FontWeight {
-    DEFAULT = 0;
+    NA = 0;
     LIGHT = 200;
     NORMAL = 400;
     BOLD = 600;
@@ -47,7 +47,7 @@ message Contact {
 message PublicationTheme {
   Color primaryColor = 1;
   Color accentColor = 2;
-  Image logo = 3;
+  optional Image logo = 3;
 
   TextStyle paragraphStyle = 4;
   TextStyle headingStyle = 5;
@@ -98,6 +98,7 @@ message Edition {
   string seasonId = 4;
   uint32 sequenceNumber = 5; // how many-nth issue this is within the relevant season (counting from 1)
   Date publishedDate = 6;
+  Image coverImage = 7;
 }
 
 // Section data

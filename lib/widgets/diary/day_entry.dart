@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/widgets/diary/homework_entry.dart';
 

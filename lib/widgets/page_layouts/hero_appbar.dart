@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/helpers/animation.dart';
 import 'package:mymgs/widgets/share_button.dart';
