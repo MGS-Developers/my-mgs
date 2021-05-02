@@ -82,6 +82,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
           SeasonSlider(
             season: season,
             theme: widget.publication.theme,
+            publication: widget.publication,
           ),
       ],
     );

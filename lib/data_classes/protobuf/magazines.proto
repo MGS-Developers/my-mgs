@@ -106,6 +106,7 @@ message Section {
   string id = 1;
   string editionId = 2;
 
+  uint32 sequenceNumber = 8;
   string title = 3;
   bool displayTitleInBanner = 4; // when the banner image contains the title, you may wish to set this to false
   oneof banner_background {
@@ -120,9 +121,11 @@ message Article {
   string id = 1;
   string sectionId = 2;
 
+  uint32 sequenceNumber = 6;
   string title = 3;
   repeated Contact authors = 4;
   repeated Node contents = 5;
+  Image image = 7;
 }
 
 message StructuredTextChild {

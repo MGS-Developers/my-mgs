@@ -7,11 +7,13 @@ import 'package:mymgs/widgets/spinner.dart';
 
 class SeasonSlider extends StatefulWidget {
   final Season season;
+  final Publication publication;
   final PublicationTheme theme;
 
   const SeasonSlider({
     required this.season,
     required this.theme,
+    required this.publication,
   });
   _SeasonSliderState createState() => _SeasonSliderState();
 }
@@ -67,6 +69,8 @@ class _SeasonSliderState extends State<SeasonSlider> {
                         edition: edition,
                         theme: widget.theme,
                         height: cardHeight,
+                        publication: widget.publication,
+                        season: widget.season,
                       ),
                     );
                   }

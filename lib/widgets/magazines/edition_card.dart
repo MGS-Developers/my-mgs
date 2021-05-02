@@ -1,16 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart' hide Color, TextStyle;
+import 'package:mymgs/screens/magazines/magazine_edition.dart';
 
 class EditionCard extends StatelessWidget {
   final Edition edition;
   final PublicationTheme theme;
+  final Publication publication;
+  final Season season;
   final double height;
   const EditionCard({
     required this.edition,
     required this.theme,
     required this.height,
+    required this.publication,
+    required this.season,
   });
 
   @override
@@ -62,7 +68,10 @@ class EditionCard extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-
+                  Navigator.of(context).push(platformPageRoute(
+                    context: context,
+                    builder: (_) => MagazineEdition(edition: edition, theme: theme, publication: publication, season: season),
+                  ));
                 },
                 splashColor: Colors.white.withOpacity(0.3),
               ),
