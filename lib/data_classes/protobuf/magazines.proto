@@ -130,7 +130,8 @@ message Article {
   Image image = 7;
 }
 
-message StructuredTextChild {
+// For future compatibility if we decide to move away from markdown
+/* message StructuredTextChild {
   string value = 1;
   optional TextStyle style = 2; // inherited from publication's paragraphStyle or subheadingStyle by default (depends on type)
   optional DimensionalValue padding = 3; // uses responsive defaults if not specified
@@ -141,10 +142,10 @@ message StructuredTextChild {
     SUBHEADING = 2;
   }
   StructuredTextChildType type = 4;
-}
+} */
 
 message StructuredRichText {
-  repeated StructuredTextChild children = 1;
+  // repeated StructuredTextChild children = 1;
 }
 
 message RichTextNode {

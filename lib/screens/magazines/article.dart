@@ -19,7 +19,6 @@ class ArticleScreen extends StatelessWidget {
     return ImageScaffold(
       title: article.title,
       appBarLabel: "Article",
-      heroKey: article.id,
       image: CachedNetworkImageProvider(article.image.url),
       titleStyle: parsePbTextStyle(theme.headingStyle).copyWith(
         fontSize: 28,

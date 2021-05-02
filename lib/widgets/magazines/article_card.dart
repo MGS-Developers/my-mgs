@@ -36,12 +36,9 @@ class ArticleCard extends StatelessWidget {
                   SizedBox(
                     height: compressed ? 50 : 80,
                     width: double.infinity,
-                    child: Hero(
-                      tag: article.id,
-                      child: CachedNetworkImage(
-                        imageUrl: article.image.url,
-                        fit: BoxFit.cover,
-                      ),
+                    child: CachedNetworkImage(
+                      imageUrl: article.image.url,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Padding(

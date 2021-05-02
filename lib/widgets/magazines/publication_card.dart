@@ -49,12 +49,9 @@ class _PublicationCardState extends State<PublicationCard> {
                 ),
               ),
               if (edition != null) Positioned.fill(
-                child: Hero(
-                  tag: edition.coverImage.url,
-                  child: CachedNetworkImage(
-                    imageUrl: edition.coverImage.url,
-                    fit: BoxFit.cover,
-                  ),
+                child: CachedNetworkImage(
+                  imageUrl: edition.coverImage.url,
+                  fit: BoxFit.cover,
                 ),
               ),
               Container(

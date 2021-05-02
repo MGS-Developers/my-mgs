@@ -57,7 +57,6 @@ class _PublicationScreenState extends State<PublicationScreen> {
       )),
       appBarLabel: "Editions",
       image: coverImageUrl != null ? CachedNetworkImageProvider(coverImageUrl!) : null,
-      heroKey: coverImageUrl,
       children: [
         InkWell(
           onTap: () {
