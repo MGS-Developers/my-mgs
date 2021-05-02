@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart';
+import 'package:mymgs/helpers/contact_sheet.dart';
 import 'package:mymgs/widgets/magazines/node_renderer.dart';
 import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 
@@ -24,7 +25,18 @@ class ArticleScreen extends StatelessWidget {
         fontSize: 28,
       ),
       children: [
-        const SizedBox(height: 30),
+        const SizedBox(height: 20),
+
+        for (final author in article.authors)
+          ListTile(
+            title: Text(author.name),
+            subtitle: const Text("Author"),
+            onTap: () {
+              showContactSheet(context, author.name, author.email);
+            },
+          ),
+
+        const SizedBox(height: 10),
         for (final node in article.contents)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),

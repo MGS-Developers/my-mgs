@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Image;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mymgs/data/magazines.dart';
-import 'package:mymgs/data_classes/protobuf/magazines.pb.dart' hide TextStyle;
+import 'package:mymgs/data_classes/protobuf/magazines.pb.dart' hide TextStyle, Color;
 
 typedef ImageCachingCallback = void Function(Image? cachedImageData);
 
@@ -59,14 +58,23 @@ class _PublicationCardState extends State<PublicationCard> {
                 height: height,
                 alignment: Alignment.bottomLeft,
                 padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Color(0x7E000000),
+                      Color(0x00000000),
+                    ]
+                  ),
+                ),
                 child: publication.theme.hasLogo() ? CachedNetworkImage(
                   imageUrl: publication.theme.logo.url,
                 ) : Text(
                   publication.title,
-                  style: GoogleFonts.getFont(publication.theme.titleStyle.font, textStyle: TextStyle(
-                    color: parsePbColor(publication.theme.titleStyle.color),
+                  style: parsePbTextStyle(publication.theme.titleStyle).copyWith(
                     fontSize: 20,
-                  )),
+                  ),
                 ),
               ),
               Positioned.fill(

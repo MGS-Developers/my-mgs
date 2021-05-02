@@ -26,7 +26,7 @@ class SectionBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 220,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -96,7 +96,7 @@ class SectionBanner extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
 
                 IgnorePointer(
                   child: Padding(

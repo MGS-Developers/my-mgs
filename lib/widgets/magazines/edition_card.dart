@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart' hide Color, TextStyle;
 import 'package:mymgs/screens/magazines/magazine_edition.dart';
 
@@ -41,7 +42,7 @@ class EditionCard extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Color(0x3B000000),
+                    Color(0x5E000000),
                     Colors.transparent,
                   ],
                 ),
@@ -56,10 +57,11 @@ class EditionCard extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: Text(
                 edition.title,
-                style: GoogleFonts.getFont(theme.titleStyle.font, textStyle: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
+                style: parsePbTextStyle(theme.titleStyle).copyWith(
+                  fontSize: 14,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

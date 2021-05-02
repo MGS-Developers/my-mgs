@@ -15,10 +15,10 @@ Material.TextStyle parsePbTextStyle(TextStyle textStyle) {
     case TextStyle_FontWeight.BOLD: weight = Material.FontWeight.w600; break;
   }
 
-  return GoogleFonts.getFont(textStyle.font, textStyle: Material.TextStyle(
-    color: parsePbColor(textStyle.color),
+  return GoogleFonts.getFont(textStyle.font,
     fontWeight: weight,
-  ));
+    color: parsePbColor(textStyle.color),
+  );
 }
 
 final _firestore = FirebaseFirestore.instance;

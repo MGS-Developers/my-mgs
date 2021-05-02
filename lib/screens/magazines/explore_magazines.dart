@@ -41,6 +41,8 @@ class _ExploreMagazinesState extends State<ExploreMagazines> {
           return GridView.count(
             padding: const EdgeInsets.all(15),
             crossAxisCount: crossCount,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
             children: [
               for (final publication in data)
                 PublicationCard(

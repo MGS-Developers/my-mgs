@@ -51,10 +51,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
   Widget build(BuildContext context) {
     return ImageScaffold(
       title: widget.publication.title,
-      titleStyle: GoogleFonts.getFont(widget.publication.theme.titleStyle.font, textStyle: TextStyle(
-          fontSize: 28,
-          color: parsePbColor(widget.publication.theme.titleStyle.color)
-      )),
+      titleStyle: parsePbTextStyle(widget.publication.theme.titleStyle).copyWith(
+        fontSize: 28,
+      ),
       appBarLabel: "Editions",
       image: coverImageUrl != null ? CachedNetworkImageProvider(coverImageUrl!) : null,
       children: [
@@ -72,7 +71,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Text(
               widget.publication.caption,
-              style: GoogleFonts.getFont(widget.publication.theme.paragraphStyle.font),
+              style: parsePbTextStyle(widget.publication.theme.paragraphStyle),
             ),
           ),
         ),

@@ -38,7 +38,6 @@ class _EditionCoverState extends State<EditionCover> with TickerProviderStateMix
   );
   late final Animation<double> _darkenAnimation = Tween(begin: 0.0, end: 0.4).animate(_contentAnimation);
   late final Animation<double> _textOpacityAnimation = Tween(begin: 0.0, end: 1.0).animate(_contentAnimation);
-  late final Animation<Offset> _textMovementAnimation = Tween(begin: Offset(0, 0.05), end: Offset(0, 0)).animate(_contentAnimation);
 
   @override
   void initState() {
@@ -83,30 +82,31 @@ class _EditionCoverState extends State<EditionCover> with TickerProviderStateMix
             ),
           ),
           Positioned.fill(
-            child: SlideTransition(
-              position: _textMovementAnimation,
-              child: FadeTransition(
-                opacity: _textOpacityAnimation,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.publicationTitle,
-                      style: parsePbTextStyle(widget.theme.titleStyle).copyWith(
-                        fontSize: 34,
-                      ),
+            left: 15,
+            right: 15,
+            child: FadeTransition(
+              opacity: _textOpacityAnimation,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.publicationTitle,
+                    style: parsePbTextStyle(widget.theme.titleStyle).copyWith(
+                      fontSize: 34,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      widget.edition.title,
-                      style: parsePbTextStyle(widget.theme.headingStyle).copyWith(
-                        fontSize: 18,
-                      ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.edition.title,
+                    style: parsePbTextStyle(widget.theme.headingStyle).copyWith(
+                      fontSize: 18,
                     ),
-                    const SizedBox(height: 20),
-                    ScrollPrompt(theme: widget.theme),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ScrollPrompt(theme: widget.theme),
+                ],
               ),
             ),
           ),
