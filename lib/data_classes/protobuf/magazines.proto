@@ -53,6 +53,8 @@ message PublicationTheme {
   TextStyle headingStyle = 5;
   TextStyle titleStyle = 6;
   TextStyle subheadingStyle = 7;
+
+  bool contentProtection = 8; // when true, disallows copying content
 }
 
 message PublicationFrequency {

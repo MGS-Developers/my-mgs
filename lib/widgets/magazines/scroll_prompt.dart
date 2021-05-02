@@ -16,9 +16,9 @@ class _ScrollPromptState extends State<ScrollPrompt> with TickerProviderStateMix
     duration: const Duration(seconds: 5),
     value: 0,
   )..forward();
-  late final _position = Tween(begin: Offset(0, -1), end: Offset(0, 1)).animate(CurvedAnimation(
+  late final _position = Tween(begin: Offset(0, -1), end: Offset(0, 0)).animate(CurvedAnimation(
     parent: _controller,
-    curve: Interval(0.6, 1.0, curve: Cubic(0.15, 0.9, 0.9, 0.15)),
+    curve: Interval(0.6, 0.8, curve: Curves.easeOut),
   ));
 
   @override

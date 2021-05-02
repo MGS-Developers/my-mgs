@@ -18,6 +18,7 @@ class ArticleTextNode extends StatelessWidget {
     if (richTextNode.hasMarkdown()) {
       return MarkdownBody(
         data: richTextNode.markdown,
+        selectable: !theme.contentProtection,
         styleSheet: MarkdownStyleSheet(
           blockSpacing: 15,
           p: parsePbTextStyle(theme.paragraphStyle).copyWith(
