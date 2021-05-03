@@ -3,6 +3,7 @@ import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pbserver.dart';
 import 'package:mymgs/widgets/magazines/edition_cover.dart';
 import 'package:mymgs/widgets/magazines/section_banner.dart';
+import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class MagazineEdition extends StatefulWidget {
@@ -23,16 +24,18 @@ class MagazineEdition extends StatefulWidget {
 
 class _MagazineEditionState extends State<MagazineEdition> {
   late final sectionsFuture = getSections(widget.publication.id, widget.season.id, widget.edition.id);
+  late final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      appBar: HeroAppBar(
+        controller: _scrollController,
+        title: "Read magazine",
       ),
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             EditionCover(edition: widget.edition, theme: widget.theme, publicationTitle: widget.publication.title),

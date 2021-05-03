@@ -51,6 +51,11 @@ class Config {
   static Future<void> _init() async {
     if (initialised) return;
 
+    if (Foundation.kIsWeb) {
+      initialised = true;
+      return;
+    }
+
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 15),
       minimumFetchInterval: Foundation.kDebugMode ? Duration.zero : const Duration(days: 3),
@@ -64,12 +69,27 @@ class Config {
   }
 
   static Future<void> _fetch() async {
+    if (Foundation.kIsWeb) return;
     try {
       await _remoteConfig.fetchAndActivate();
     } catch (e) {}
   }
 
   static Stream<List<RouteData>> getDrawerTabs() async* {
+    if (Foundation.kIsWeb) {
+      yield _jsonStringToRoutes(jsonEncode([
+        "dashboard",
+        "clubs",
+        "events",
+        "diary",
+        "magazines",
+        "survival_guides",
+        "wellbeing",
+        "settings",
+      ]));
+      return;
+    }
+
     await _init();
     await _fetch();
 

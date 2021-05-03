@@ -33,7 +33,7 @@ class _ScrollPromptState extends State<ScrollPrompt> with TickerProviderStateMix
       children: [
         Text(
           "Scroll to read",
-          style: parsePbTextStyle(widget.theme.paragraphStyle).copyWith(
+          style: parsePbTextStyle(widget.theme.headingStyle).copyWith(
             color: Colors.grey[400],
             fontSize: 12,
           ),
