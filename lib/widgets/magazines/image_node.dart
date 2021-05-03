@@ -11,16 +11,38 @@ class ArticleImageNode extends StatelessWidget {
     required this.theme,
   });
 
+  void _viewImage(BuildContext context) {
+    showBottomSheet(
+      context: context,
+      backgroundColor: Colors.black.withOpacity(0.5),
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          child: InteractiveViewer(
+            child: CachedNetworkImage(
+              imageUrl: imageNode.value.url,
+            ),
+          ),
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          clipBehavior: Clip.antiAlias,
-          child: CachedNetworkImage(
-            imageUrl: imageNode.value.url,
+        GestureDetector(
+          onTap: () {
+            _viewImage(context);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            clipBehavior: Clip.antiAlias,
+            child: CachedNetworkImage(
+              imageUrl: imageNode.value.url,
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -29,6 +51,14 @@ class ArticleImageNode extends StatelessWidget {
           style: parsePbTextStyle(theme.paragraphStyle).copyWith(
             fontSize: 12,
             color: Theme.of(context).textTheme.bodyText1?.color,
+          ),
+        ),
+        if (imageNode.value.hasSource()) Text(
+          imageNode.value.source,
+          style: parsePbTextStyle(theme.paragraphStyle).copyWith(
+            fontSize: 12,
+            color: Theme.of(context).textTheme.bodyText1?.color,
+            fontStyle: FontStyle.italic,
           ),
         ),
       ],

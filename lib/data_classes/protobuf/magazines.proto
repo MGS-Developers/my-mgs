@@ -30,6 +30,7 @@ message DimensionalValue {
 message Image {
   string url = 1;
   string alt = 2;
+  optional string source = 3;
 }
 
 message Date {

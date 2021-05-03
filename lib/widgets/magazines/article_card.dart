@@ -22,7 +22,7 @@ class ArticleCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Material(
-        elevation: compressed ? 0 : 2,
+        elevation: 2,
         color: Theme.of(context).backgroundColor,
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(20),
@@ -47,13 +47,14 @@ class ArticleCard extends StatelessWidget {
                       Text(
                         article.title,
                         style: parsePbTextStyle(theme.headingStyle).copyWith(
-                          fontSize: compressed ? 15 : 16,
+                          fontSize: 16,
                           color: Theme.of(context).textTheme.headline4?.color,
                         ),
                         maxLines: compressed ? 3 : 5,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      if (!compressed) Text(
+                      const SizedBox(height: 5),
+                      Text(
                         article.authors.map((e) => e.name).join(", "),
                         style: Theme.of(context).textTheme.bodyText1,
                       ),

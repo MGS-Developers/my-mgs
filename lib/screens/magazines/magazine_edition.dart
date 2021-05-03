@@ -49,7 +49,7 @@ class _MagazineEditionState extends State<MagazineEdition> {
                 }
 
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+                  padding: EdgeInsets.only(top: 15),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: sections.length,
@@ -64,7 +64,7 @@ class _MagazineEditionState extends State<MagazineEdition> {
                         seasonId: widget.season.id,
                         publicationId: widget.publication.id,
                       ),
-                      padding: EdgeInsets.only(bottom: 15),
+                      padding: EdgeInsets.only(bottom: 20),
                     );
                   }
                 );

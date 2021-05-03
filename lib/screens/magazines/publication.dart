@@ -76,12 +76,22 @@ class _PublicationScreenState extends State<PublicationScreen> {
           ),
         ),
 
-        for (final season in seasons)
-          SeasonSlider(
-            season: season,
-            theme: widget.publication.theme,
-            publication: widget.publication,
-          ),
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: seasons.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: SeasonSlider(
+                season: seasons[index],
+                theme: widget.publication.theme,
+                publication: widget.publication,
+              ),
+            );
+          }
+        ),
       ],
     );
   }

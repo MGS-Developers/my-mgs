@@ -21,12 +21,16 @@ const appContributors = {
     "P Kerecsenyi",
     "J Waide",
     "S Pottage",
+    "G Kerecsenyi",
   ],
   "Design": [
+    "P Kerecsenyi",
     "B Khan",
     "G Kerecsenyi",
   ],
-  "Data collection": [
+  "Data": [
+    "P Kerecsenyi",
+    "X Mills",
     "M Naylor",
   ],
   "Concept & testing": [
