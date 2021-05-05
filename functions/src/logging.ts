@@ -6,8 +6,8 @@ const ignoredCollections = [
     'sd_score_nodes',
     'content_reports',
     'safeguarding_cases',
-    'messages',
     'logs',
+    'setup_codes',
 ];
 
 export const logging = functions.region('europe-west2')
@@ -18,6 +18,7 @@ export const logging = functions.region('europe-west2')
         }
 
         const log = {
+            event: 'document',
             timestamp: admin.firestore.Timestamp.now(),
             path: change.before.ref.path,
             authentication: context.authType || 'unknown',
@@ -26,7 +27,9 @@ export const logging = functions.region('europe-west2')
             [key: string]: any;
         };
 
-        if (change.before.data()?.changeMadeBy) {
+        if (change.after.data()?.changeMadeBy) {
+            log.uid = change.after.data()!.changeMadeBy;
+        } else if (change.before.data()?.changeMadeBy) {
             log.uid = change.before.data()!.changeMadeBy;
         }
 

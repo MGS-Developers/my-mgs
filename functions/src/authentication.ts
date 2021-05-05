@@ -9,7 +9,7 @@ interface AdminSignInData {
 }
 export const getAdminSignInToken = functions
     .region('europe-west2')
-    .https.onCall(async (data: AdminSignInData) => {
+    .https.onCall(async (data: AdminSignInData, context) => {
         if (!data.token) {
             return null;
         }
@@ -22,6 +22,14 @@ export const getAdminSignInToken = functions
         if (!response.exists) {
             return null;
         }
+
+        const ip = context.rawRequest.header('x-forwarded-for') || context.rawRequest.socket.remoteAddress;
+        await admin.firestore().collection('logs').add({
+            event: 'admin_authentication',
+            timestamp: admin.firestore.Timestamp.now(),
+            uid: hashedToken,
+            ip,
+        });
 
         return await admin.auth().createCustomToken(hashedToken, {
             adminEnabled: true,
