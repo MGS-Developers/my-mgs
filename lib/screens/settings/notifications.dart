@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/reminders.dart';
 import 'package:mymgs/widgets/date_picker.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
@@ -108,27 +109,15 @@ class _NotificationSettingsState extends State<NotificationSettings> {
               });
             },
           ),
-          ToggleSetting(
-            name: "Updates",
-            description: "News & messages from the School Council",
-            tracker: "school_council_push_notifications",
-            requirement: _allowNews,
-            indented: true,
-          ),
-          ToggleSetting(
-            name: "Club ads",
-            description: "Personalised club recommendations",
-            tracker: "club_ads_push_notifications",
-            requirement: _allowNews,
-            indented: true,
-          ),
-          ToggleSetting(
-            name: "Event ads",
-            description: "Personalised event/talk recommendations",
-            tracker: "event_ads_push_notifications",
-            requirement: _allowNews,
-            indented: true,
-          ),
+
+          for (final category in MGSChannels.pubSubTopics)
+            ToggleSetting(
+              name: category.name,
+              description: category.description,
+              tracker: category.tracker,
+              requirement: _allowNews,
+              indented: true,
+            ),
         ],
       ),
     );

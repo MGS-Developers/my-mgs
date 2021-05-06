@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
+import 'package:mymgs/screens/interests/interests.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
@@ -89,6 +90,16 @@ class SettingsScreen extends StatelessWidget {
             },
             onTap: () {
               _changeYearGroup(context);
+            },
+          ),
+          KeyValueSetting(
+            name: "Interests",
+            description: "Help us tailor recommendations to you",
+            onTap: () {
+              Navigator.of(context).push(platformPageRoute(
+                context: context,
+                builder: (_) => InterestsScreen(),
+              ));
             },
           ),
           const RemoveLicenseSetting(),

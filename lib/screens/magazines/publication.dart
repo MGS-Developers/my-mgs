@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart' hide TextStyle;
 import 'package:mymgs/widgets/magazines/season_slider.dart';

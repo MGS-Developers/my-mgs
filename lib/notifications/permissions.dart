@@ -38,9 +38,9 @@ Future<void> initialiseNotificationConfig() async {
   }
 
   for (final topic in MGSChannels.pubSubTopics) {
-    await saveSetting(topic + "_push_notifications", true);
+    await saveSetting(topic.tracker, true);
     if (!kIsWeb) {
-      await _firebaseMessaging.subscribeToTopic(topic);
+      await _firebaseMessaging.subscribeToTopic(topic.id);
     }
   }
 

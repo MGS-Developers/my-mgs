@@ -21,18 +21,33 @@ Future<String> _downloadImage(String url) async {
   return path;
 }
 
+class _RemoteNotificationCategory {
+  final String name;
+  final String description;
+  final String id;
+
+  const _RemoteNotificationCategory(this.name, this.description, this.id);
+
+  String get tracker {
+    return id + "_push_notifications";
+  }
+}
+
 class MGSChannels {
-  static final channels = [
+  static const channels = [
     "homework",
     "events",
     "news",
     "clubs",
   ];
 
-  static final pubSubTopics = [
-    "school_council",
-    "event_ads",
-    "club_ads",
+  static const pubSubTopics = <_RemoteNotificationCategory>[
+    _RemoteNotificationCategory("Updates", "News & messages from the School Council", "school_council"),
+    _RemoteNotificationCategory("Club ads", "Personalised club recommendations", "club_ads"),
+    _RemoteNotificationCategory("Event ads", "Personalised event/talk recommendations", "event_ads"),
+    _RemoteNotificationCategory("Lost property", "Requests for lost items in your year group", "lost_property"),
+    _RemoteNotificationCategory("Behaviour reminders", "Messages from HoYs about behaviour", "behaviour"),
+    _RemoteNotificationCategory("Academic", "Messages about your subjects and exams", "academic"),
   ];
 
   static NotificationDetails homework({

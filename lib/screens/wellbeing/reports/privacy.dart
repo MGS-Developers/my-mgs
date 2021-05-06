@@ -4,7 +4,7 @@ import 'package:mymgs/widgets/page_layouts/info.dart';
 class SafeguardingPrivacy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InfoScreen(
+    return const InfoScreen(
       title: "Reporting and privacy",
       markdownContent: """
 MyMGS lets you get in touch with a member of the School's Pastoral Staff confidentially
