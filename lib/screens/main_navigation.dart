@@ -5,6 +5,7 @@
 
 import 'dart:async';
 
+import 'package:universal_html/html.dart' as HTML;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/config.dart';
@@ -96,6 +97,10 @@ class _MainNavigationState extends State<MainNavigation> {
       setState(() {
         setupStatus = SetupStatus.Incomplete;
       });
+
+      if (kIsWeb) {
+        HTML.window.location.reload();
+      }
     });
 
     if (kIsWeb) {

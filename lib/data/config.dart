@@ -38,6 +38,8 @@ List<RouteData> _jsonStringToRoutes(String jsonString) {
   final features = jsonDecode(jsonString) as List;
   final List<RouteData> routes = [];
   for (final feature in features) {
+    if (Foundation.kIsWeb && feature == 'diary') continue;
+
     final route = _featureToRouteData(feature);
     if (route != null) routes.add(route);
   }

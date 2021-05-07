@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/interests/interests.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
+import 'package:mymgs/screens/settings/web_auth.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/settings/contributors.dart';
@@ -71,7 +73,7 @@ class SettingsScreen extends StatelessWidget {
           vertical: 15,
         ),
         children: [
-          KeyValueSetting(
+          if (!kIsWeb) KeyValueSetting(
             name: "Notifications",
             description: "Set how you want to stay updated.",
             onTap: () {
@@ -92,17 +94,27 @@ class SettingsScreen extends StatelessWidget {
               _changeYearGroup(context);
             },
           ),
-          KeyValueSetting(
+          if (!kIsWeb) KeyValueSetting(
             name: "Interests",
             description: "Help us tailor recommendations to you",
             onTap: () {
               Navigator.of(context).push(platformPageRoute(
                 context: context,
-                builder: (_) => InterestsScreen(),
+                builder: (_) => const InterestsScreen(),
               ));
             },
           ),
           const RemoveLicenseSetting(),
+          if (!kIsWeb) KeyValueSetting(
+            name: "MyMGS Web",
+            description: "Sign into the app's web version",
+            onTap: () {
+              Navigator.of(context).push(platformPageRoute(
+                context: context,
+                builder: (_) => const WebAuthScreen(),
+              ));
+            },
+          ),
           KeyValueSetting(
             name: "About $appName",
             onTap: () {

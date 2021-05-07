@@ -58,6 +58,9 @@ dependencies:
   share: ^2.0.1
   confetti: ^0.6.0-nullsafety
   google_fonts: ^2.0.0
+  qr_code_scanner: ^0.4.0
+  qr_flutter: ^4.0.0
+  universal_html: ^2.0.8
 
   openpgp: ^2.0.0-nullsafety.0
 

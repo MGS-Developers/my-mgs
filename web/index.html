@@ -57,8 +57,9 @@
       appId: "1:17850139100:web:5d77072ea3e694dd988f19"
     };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>

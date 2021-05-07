@@ -7,3 +7,4 @@ export {getAdminSignInToken, confirmEmail, sendEmail} from './authentication';
 export {sdPropagateScore, sdCalculateFormPosition} from './sportsday/sportsday';
 export {getSendingSecret, studentSendMessage} from './safeguarding';
 export {logging} from './logging';
+export {getQrCodeData, verifyQrCode, retrieveSignInToken} from './web_authentication';

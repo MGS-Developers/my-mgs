@@ -8,6 +8,8 @@ const ignoredCollections = [
     'safeguarding_cases',
     'logs',
     'setup_codes',
+    'web_auth_sessions',
+    'web_auth_tokens',
 ];
 
 export const logging = functions.region('europe-west2')
