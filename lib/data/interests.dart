@@ -13,10 +13,29 @@ class InterestsManager {
 
   List<String> get allInterests {
     return [
-      "Maths",
-      "Physics",
-      "Biology",
-      "Chemistry",
+      "Graphic Design",
+      "3D Design",
+      "Art & Design",
+      "Cartology",
+      "Ornithology",
+      "Sport Science",
+      "Entertainment",
+      "Poetry",
+      "Creative Writing",
+      "Zoology",
+      "Current Affairs",
+      "Debating",
+      "Linguistics",
+      "Music",
+      "Fashion",
+      "Investing",
+      "Business",
+      "Economics",
+      "Food & Nutrition",
+      "Theatre",
+      "Philosophy",
+      "Programming",
+      "Politics",
     ];
   }
 

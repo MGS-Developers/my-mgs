@@ -67,15 +67,17 @@ class _InterestsScreenState extends State<InterestsScreen> {
                 ),
               ),
 
-              SingleChildScrollView(
-                padding: const EdgeInsets.all(15),
-                child: Wrap(
-                  spacing: 6,
-                  children: filteredInterests.map((interest) => InputChip(
-                    label: Text(interest.name),
-                    onSelected: (_) => InterestsManager().toggleInterest(interest),
-                    selected: interest.interested,
-                  )).toList(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(15),
+                  child: Wrap(
+                    spacing: 6,
+                    children: filteredInterests.map((interest) => InputChip(
+                      label: Text(interest.name),
+                      onSelected: (_) => InterestsManager().toggleInterest(interest),
+                      selected: interest.interested,
+                    )).toList(),
+                  ),
                 ),
               ),
             ],

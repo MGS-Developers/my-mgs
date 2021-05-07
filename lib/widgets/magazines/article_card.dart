@@ -22,7 +22,7 @@ class ArticleCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Material(
-        elevation: 2,
+        elevation: 3,
         color: Theme.of(context).backgroundColor,
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(20),

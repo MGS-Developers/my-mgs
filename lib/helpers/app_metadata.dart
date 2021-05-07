@@ -32,6 +32,7 @@ const appContributors = {
     "P Kerecsenyi",
     "X Mills",
     "M Naylor",
+    "K Vadera",
   ],
   "Concept & testing": [
     "The MGS School Council",
