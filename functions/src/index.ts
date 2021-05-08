@@ -8,3 +8,4 @@ export {sdPropagateScore, sdCalculateFormPosition} from './sportsday/sportsday';
 export {getSendingSecret, studentSendMessage} from './safeguarding';
 export {logging} from './logging';
 export {getQrCodeData, verifyQrCode, retrieveSignInToken} from './web_authentication';
+export {cleanup} from './cleanup';
