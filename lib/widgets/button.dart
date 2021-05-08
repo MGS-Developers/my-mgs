@@ -8,16 +8,17 @@ class MGSButton extends StatelessWidget {
   final bool enabled;
   final bool outlined;
   final bool disableCupertinoPaddingCompensation;
+  final String? tooltip;
   const MGSButton({
     required this.label,
     this.onPressed,
     this.enabled = true,
     this.outlined = false,
     this.disableCupertinoPaddingCompensation = false,
+    this.tooltip,
   });
-  
-  @override
-  Widget build(BuildContext context) {
+
+  Widget _buildButton(BuildContext context) {
     final callback = enabled ? onPressed : null;
     final child = Text(label);
 
@@ -52,5 +53,18 @@ class MGSButton extends StatelessWidget {
         );
       },
     );
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    final _t = tooltip;
+    if (_t != null) {
+      return Tooltip(
+        message: _t,
+        child: _buildButton(context),
+      );
+    } else {
+      return _buildButton(context);
+    }
   }
 }

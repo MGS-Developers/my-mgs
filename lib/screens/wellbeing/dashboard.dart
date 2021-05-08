@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/helpers/gridview_cross_count.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/wellbeing/info.dart';
 import 'package:mymgs/screens/wellbeing/reports/my_reports.dart';
 import 'package:mymgs/widgets/button.dart';
@@ -41,7 +43,10 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
           final gridWidth = getGridViewCrossCount(MediaQuery.of(context).size.width);
 
           return ListView(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(
+              vertical: 15,
+              horizontal: Responsive(context).horizontalPadding,
+            ),
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -65,7 +70,9 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
                           context: context,
                           builder: (_) => MySafeguardingReports(),
                         ));
-                      }
+                      },
+                      tooltip: kIsWeb ? "Only available via the mobile app" : null,
+                      enabled: !kIsWeb,
                     ),
                   ],
                 ),

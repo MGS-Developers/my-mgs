@@ -14,9 +14,17 @@ class Responsive {
     }
   }
 
-  double get horizontalReaderPadding {
+  double get horizontalListPadding {
     if (_screenSize.width > 450) {
       return _screenSize.width * 0.1;
+    } else {
+      return 0;
+    }
+  }
+
+  double get horizontalReaderPadding {
+    if (_screenSize.width > 450) {
+      return _screenSize.width * 0.15;
     } else {
       return 20;
     }
@@ -29,6 +37,14 @@ class Responsive {
       return 2;
     } else {
       return 1;
+    }
+  }
+
+  double get imageWidth {
+    if (_screenSize.width > 600) {
+      return 350;
+    } else {
+      return double.infinity;
     }
   }
 }

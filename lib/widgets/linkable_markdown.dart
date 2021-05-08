@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkableMarkdown extends StatelessWidget {
@@ -50,6 +52,18 @@ class LinkableMarkdown extends StatelessWidget {
       styleSheet: styleSheet,
       onTapLink: (_, href, __) {
         _linkClick(context, href);
+      },
+      imageBuilder: (uri, title, alt) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: SizedBox(
+            width: Responsive(context).imageWidth,
+            child: CachedNetworkImage(
+              imageUrl: uri.toString(),
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
       },
     );
   }

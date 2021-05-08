@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/shareable.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/linkable_markdown.dart';
 import 'package:mymgs/widgets/page_layouts/hero_text_appbar.dart';
@@ -45,7 +46,7 @@ class _InfoScreenState extends State<InfoScreen> {
         controller: _controller,
         padding: EdgeInsets.symmetric(
           vertical: 15,
-          horizontal: MediaQuery.of(context).size.width > 768 ? 100 : 15,
+          horizontal: Responsive(context).horizontalReaderPadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,6 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/events.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/events/event_card.dart';
 import 'package:mymgs/widgets/grouped_list_separator.dart';
@@ -68,6 +69,9 @@ class _EventsState extends State<Events> {
               }
 
               return GroupedListView<Event, String>(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Responsive(context).horizontalListPadding,
+                ),
                 elements: data,
                 groupBy: (e) => Jiffy(e.startTime.toDate()).yMMMEd,
                 itemBuilder: (context, event) {

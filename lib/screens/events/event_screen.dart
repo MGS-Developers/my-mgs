@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
@@ -26,6 +27,9 @@ class EventScreen extends StatelessWidget {
     final club = event.club;
     final clubDescription = club?.description;
 
+    final padding = Responsive(context).horizontalReaderPadding;
+    final edgeInset = EdgeInsets.symmetric(horizontal: padding);
+
     return ImageScaffold(
       title: event.title,
       appBarLabel: "Event",
@@ -36,6 +40,7 @@ class EventScreen extends StatelessWidget {
         if (club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: ListTile(
+            contentPadding: edgeInset,
             title: Text(club.name),
             subtitle: clubDescription != null ? Text(
               clubDescription,
@@ -55,12 +60,12 @@ class EventScreen extends StatelessWidget {
         ),
         if (event.club == null) const SizedBox(height: 10),
         if (description != null) Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: padding),
           child: ContentMarkdown(content: description),
         ),
         const SizedBox(height: 20),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: edgeInset,
           child: EventLogistics(
             event: event,
             showFullDate: true,
@@ -68,15 +73,15 @@ class EventScreen extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: edgeInset,
           child: EventReminderButton(event: event),
         ),
         if (links != null) Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: edgeInset,
           child: Links(links: links),
         ),
         if (event.links != null) const SizedBox(height: 10),
-        InfoDisclaimer(hPadding: 15, identifiable: event),
+        InfoDisclaimer(hPadding: padding, identifiable: event),
       ],
     );
   }

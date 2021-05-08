@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/button.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -62,7 +63,7 @@ class _ReportContentState extends State<ReportContent> {
         title: Text("Report a content issue"),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalPadding, vertical: 10),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

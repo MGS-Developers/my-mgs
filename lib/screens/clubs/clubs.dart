@@ -4,6 +4,7 @@ import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/helpers/enum_helpers.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/clubs/club_card.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
@@ -50,7 +51,9 @@ class _ClubsState extends State<Clubs> {
     return Scaffold(
       appBar: DrawerAppBar('Clubs'),
       body: Container(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.symmetric(
+          horizontal: Responsive(context).horizontalListPadding,
+        ).copyWith(
           top: 15,
         ),
         width: double.infinity,

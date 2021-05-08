@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/survival.dart';
 import 'package:mymgs/data_classes/survival_guide.dart' as SG;
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/survival/survival_folder.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/spinner.dart';
@@ -16,6 +17,8 @@ class _SurvivalGuidesState extends State<SurvivalGuides> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
+
     return Scaffold(
       appBar: DrawerAppBar("Survival Guide"),
       body: FutureBuilder<Map<String?, List<SG.SurvivalGuide>>>(
@@ -35,12 +38,17 @@ class _SurvivalGuidesState extends State<SurvivalGuides> {
           }
 
           return ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: responsive.horizontalListPadding,
+            ),
             itemCount: data.keys.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.horizontalPadding,
+                  ).copyWith(bottom: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
