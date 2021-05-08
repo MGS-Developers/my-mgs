@@ -56,9 +56,11 @@ class App extends StatelessWidget {
   // obviously, this process takes less than a millisecond
   final Future<FirebaseApp> _firebaseInit = Firebase.initializeApp()
     .then((value) async {
-      // turn on data persistence — allows data to be saved to phone automatically and queried locally if there's no connection
-      // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
-      FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+      try {
+        // turn on data persistence — allows data to be saved to phone automatically and queried locally if there's no connection
+        // https://firebase.flutter.dev/docs/firestore/usage#access-data-offline
+        FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+      } catch (e) {}
 
       if (!kIsWeb) {
         if (kDebugMode) {

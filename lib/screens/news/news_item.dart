@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mymgs/data_classes/news.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/linkable_markdown.dart';
 import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
@@ -28,7 +29,10 @@ class NewsItemScreen extends StatelessWidget {
       shareable: newsItem,
       children: [
         Padding(
-          padding: const EdgeInsets.all(15).copyWith(top: 30),
+          padding: EdgeInsets.symmetric(
+            horizontal: Responsive(context).horizontalReaderPadding,
+            vertical: 15,
+          ).copyWith(top: 30),
           child: LinkableMarkdown(
             text: newsItem.body,
             styleSheet: MarkdownStyleSheet(
@@ -43,7 +47,7 @@ class NewsItemScreen extends StatelessWidget {
           ),
         ),
         if (links != null) Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 10),
+          padding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalReaderPadding).copyWith(bottom: 10),
           child: Links(
             links: links,
           ),

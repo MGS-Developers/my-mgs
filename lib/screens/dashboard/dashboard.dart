@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mymgs/data/dashboard_card_order.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/dashboard/reorder.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/icon_button.dart';
@@ -26,6 +28,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
+
     return Scaffold(
       appBar: DrawerAppBar(
         'Dashboard',
@@ -38,27 +42,31 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-        ).copyWith(bottom: 30, top: 8),
-        child: StreamBuilder<List<Widget>>(
-          stream: orderStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data;
-            if (data == null) {
-              return Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(top: 20),
-                child: Spinner(),
-              );
-            }
-
-            return Column(
-              children: data.toList(),
+      body: StreamBuilder<List<Widget>>(
+        stream: orderStream,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
+          if (data == null) {
+            return Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(top: 20),
+              child: Spinner(),
             );
-          },
-        ),
+          }
+
+          return StaggeredGridView.countBuilder(
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.horizontalPadding,
+            ).copyWith(top: 8, bottom: 30),
+            crossAxisSpacing: 30,
+            crossAxisCount: responsive.triColumnCount,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return data[index];
+            },
+            staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+          );
+        },
       ),
     );
   }
