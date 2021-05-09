@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/magazines/article_card.dart';
 import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/spinner.dart';
@@ -44,18 +46,19 @@ class MagazineSectionScreen extends StatelessWidget {
               );
             }
 
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: articles.length,
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-                itemBuilder: (context, index) {
-                  final article = articles[index];
-                  return Padding(
-                    child: ArticleCard(article: article, theme: theme),
-                    padding: EdgeInsets.only(bottom: 15),
-                  );
-                }
+            return StaggeredGridView.countBuilder(
+              crossAxisCount: Responsive(context).triColumnCount,
+              itemCount: articles.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+
+              crossAxisSpacing: 15, mainAxisSpacing: 15,
+              itemBuilder: (context, index) {
+                final article = articles[index];
+                return ArticleCard(article: article, theme: theme);
+              },
+              staggeredTileBuilder: (context) => StaggeredTile.fit(1),
             );
           },
         ),

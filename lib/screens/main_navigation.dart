@@ -211,14 +211,14 @@ class _MainNavigationState extends State<MainNavigation> {
                     ),
                     decoration: BoxDecoration(
                       // here, we're making the drawer's header's background colour be our current theme's primary colour
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Color(0xFF5b67ad),
-                          ]
-                        )
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).primaryColor,
+                          Color(0xFF5b67ad),
+                        ]
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),

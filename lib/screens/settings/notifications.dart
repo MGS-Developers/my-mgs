@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/reminders.dart';
 import 'package:mymgs/widgets/date_picker.dart';
@@ -40,8 +41,9 @@ class _NotificationSettingsState extends State<NotificationSettings> {
         title: Text("Notifications"),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 15
+        padding: EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: Responsive(context).horizontalListPadding,
         ),
         children: [
           Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/shareable.dart';
-import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';
+import 'package:mymgs/widgets/share_button.dart';
 
 const heroHeight = 300.0;
 class ImageScaffold extends StatefulWidget {
@@ -91,13 +91,16 @@ class _ImageScaffoldState extends State<ImageScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final _shareable = widget.shareable;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: CustomScrollView(
         controller: _controller,
         slivers: [
           SliverAppBar(
-            title: Text(widget.appBarLabel),
+            title: widget.showAppBar ? Text(widget.appBarLabel) : null,
+            automaticallyImplyLeading: widget.showAppBar,
             pinned: true,
             stretch: true,
             expandedHeight: heroHeight,
@@ -108,6 +111,9 @@ class _ImageScaffoldState extends State<ImageScaffold> {
                 child: _buildHeader(context),
               ) : _buildHeader(context),
             ),
+            actions: _shareable != null ? [
+              ShareButton(shareable: _shareable)
+            ] : null,
           ),
 
           SliverToBoxAdapter(
