@@ -28,7 +28,7 @@ class _SeasonSliderState extends State<SeasonSlider> {
 
   @override
   Widget build(BuildContext context) {
-    const cardHeight = 160.0;
+    const cardHeight = 170.0;
 
     return Container(
       width: double.infinity,

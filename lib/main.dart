@@ -146,7 +146,7 @@ class App extends StatelessWidget {
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(20),
       ),
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     ),

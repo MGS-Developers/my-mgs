@@ -50,7 +50,7 @@ class EventCard extends StatelessWidget {
             ),
             if (!hasImage) const SizedBox(height: 15),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 15),
+              padding: EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

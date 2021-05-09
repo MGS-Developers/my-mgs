@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart';
 import 'package:mymgs/helpers/gridview_cross_count.dart';
@@ -38,26 +39,28 @@ class _ExploreMagazinesState extends State<ExploreMagazines> {
           }
 
           final crossCount = getGridViewCrossCount(MediaQuery.of(context).size.width);
-          return GridView.count(
+          return StaggeredGridView.countBuilder(
             padding: const EdgeInsets.all(15),
             crossAxisCount: crossCount,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            children: [
-              for (final publication in data)
-                PublicationCard(
-                  publication: publication,
-                  onTap: (cachedImageData) {
-                    Navigator.of(context).push(platformPageRoute(
-                      context: context,
-                      builder: (_) => PublicationScreen(
-                        publication: publication,
-                        cachedImageData: cachedImageData,
-                      ),
-                    ));
-                  },
-                ),
-            ],
+            mainAxisSpacing: 5,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final publication = data[index];
+              return PublicationCard(
+                publication: publication,
+                onTap: (cachedImageData) {
+                  Navigator.of(context).push(platformPageRoute(
+                    context: context,
+                    builder: (_) => PublicationScreen(
+                      publication: publication,
+                      cachedImageData: cachedImageData,
+                    ),
+                  ));
+                },
+              );
+            },
+            staggeredTileBuilder: (index) => StaggeredTile.fit(1),
           );
         },
       ),
