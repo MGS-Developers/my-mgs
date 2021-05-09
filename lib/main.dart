@@ -24,6 +24,8 @@
 // I (Pal) have put in some helpful comments to try and guide you through what everything here is doing
 // unless you're a flutter pro 😎, pls read my comments carefully
 
+import 'dart:io';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,7 +43,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
 
-  if (!kIsWeb) {
+  // we can't run Firebase Messaging on debug iOS instances
+  if (!kIsWeb && (!Platform.isIOS || !kDebugMode)) {
     setupNotifications();
   }
 }

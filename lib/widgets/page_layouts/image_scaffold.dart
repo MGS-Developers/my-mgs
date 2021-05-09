@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';
 
+const heroHeight = 300.0;
 class ImageScaffold extends StatefulWidget {
   final List<Widget> children;
   final String appBarLabel;
@@ -10,6 +11,7 @@ class ImageScaffold extends StatefulWidget {
   final String? heroKey;
   final Shareable? shareable;
   final TextStyle? titleStyle;
+  final bool showAppBar;
 
   const ImageScaffold({
     required this.children,
@@ -19,6 +21,7 @@ class ImageScaffold extends StatefulWidget {
     this.heroKey,
     this.shareable,
     this.titleStyle,
+    this.showAppBar = true,
   });
   _ImageScaffoldState createState() => _ImageScaffoldState();
 }
@@ -44,7 +47,7 @@ class _ImageScaffoldState extends State<ImageScaffold> {
     return Material(
       elevation: 3,
       child: Container(
-        height: 300,
+        height: heroHeight,
         width: double.infinity,
         child: Stack(
           children: [
@@ -90,24 +93,31 @@ class _ImageScaffoldState extends State<ImageScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: HeroAppBar(
+      body: CustomScrollView(
         controller: _controller,
-        title: widget.appBarLabel,
-        shareable: widget.shareable,
-      ),
-      body: SingleChildScrollView(
-        controller: _controller,
-        child: Column(
-          children: [
-            if (widget.heroKey != null) Hero(
-              tag: widget.heroKey ?? '',
-              transitionOnUserGestures: true,
-              child: _buildHeader(context),
+        slivers: [
+          SliverAppBar(
+            title: Text(widget.appBarLabel),
+            pinned: true,
+            stretch: true,
+            expandedHeight: heroHeight,
+            flexibleSpace: FlexibleSpaceBar(
+              background: widget.heroKey != null ? Hero(
+                tag: widget.heroKey ?? '',
+                transitionOnUserGestures: true,
+                child: _buildHeader(context),
+              ) : _buildHeader(context),
             ),
-            if (widget.heroKey == null) _buildHeader(context),
-            ...widget.children,
-          ],
-        ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                ...widget.children,
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

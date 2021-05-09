@@ -43,7 +43,6 @@ class _ExploreMagazinesState extends State<ExploreMagazines> {
             padding: const EdgeInsets.all(15),
             crossAxisCount: crossCount,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 5,
             itemCount: data.length,
             itemBuilder: (context, index) {
               final publication = data[index];

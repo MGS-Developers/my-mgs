@@ -16,6 +16,7 @@ class MySafeguardingReports extends StatelessWidget {
     final _dialogResponse = await showPlatformDialog<bool>(
       context: context,
       materialBarrierColor: Theme.of(context).shadowColor,
+      barrierDismissible: true,
       builder: (context) => PlatformAlertDialog(
         title: Text(title),
         content: Column(
@@ -96,7 +97,10 @@ class MySafeguardingReports extends StatelessWidget {
         title: Text("My cases"),
         actions: [
           PlatformIconButton(
-            icon: Icon(PlatformIcons(context).info),
+            icon: Icon(
+              PlatformIcons(context).info,
+              color: Colors.white,
+            ),
             material: (_, __) => MaterialIconButtonData(
               tooltip: "About privacy"
             ),

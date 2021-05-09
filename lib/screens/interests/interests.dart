@@ -38,7 +38,10 @@ class _InterestsScreenState extends State<InterestsScreen> {
         title: Text("Interests"),
         actions: [
           PlatformIconButton(
-            icon: Icon(PlatformIcons(context).info),
+            icon: Icon(
+              PlatformIcons(context).info,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context).push(platformPageRoute(
                 context: context,

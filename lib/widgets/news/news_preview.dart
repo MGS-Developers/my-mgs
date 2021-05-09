@@ -9,9 +9,13 @@ import 'package:mymgs/widgets/nullable_image.dart';
 class NewsPreview extends StatelessWidget {
   final NewsItem newsItem;
   final String heroKey;
+  final bool selected;
+  final VoidCallback? onTap;
   NewsPreview({
     required Key key,
     required this.newsItem,
+    this.onTap,
+    this.selected = false,
   }) : heroKey = randomHeroKey();
 
   @override
@@ -35,7 +39,7 @@ class NewsPreview extends StatelessWidget {
       ) : null,
       title: Text(newsItem.headline),
       subtitle: Text(previewText),
-      onTap: () {
+      onTap: onTap ?? () {
         Navigator.of(context).push(platformPageRoute(
           context: context,
           builder: (_) => NewsItemScreen(
@@ -44,6 +48,7 @@ class NewsPreview extends StatelessWidget {
           ),
         ));
       },
+      tileColor: selected ? Theme.of(context).primaryColorDark : null,
     );
   }
 }

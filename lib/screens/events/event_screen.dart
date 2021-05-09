@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/event.dart';
-import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
@@ -14,9 +13,11 @@ import 'package:mymgs/widgets/links.dart';
 class EventScreen extends StatelessWidget {
   final Event event;
   final String? heroKey;
+  final bool showAppBar;
   EventScreen({
     required this.event,
     this.heroKey,
+    this.showAppBar = true,
   });
 
   @override
@@ -27,7 +28,7 @@ class EventScreen extends StatelessWidget {
     final club = event.club;
     final clubDescription = club?.description;
 
-    final padding = Responsive(context).horizontalReaderPadding;
+    final padding = 15.0;
     final edgeInset = EdgeInsets.symmetric(horizontal: padding);
 
     return ImageScaffold(
@@ -36,6 +37,7 @@ class EventScreen extends StatelessWidget {
       image: imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
       heroKey: heroKey,
       shareable: event,
+      showAppBar: showAppBar,
       children: [
         if (club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

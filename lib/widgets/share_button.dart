@@ -34,13 +34,17 @@ class ShareButton extends StatelessWidget {
       await saveSetting('has-shown-share-alert', true);
     }
 
-    await shareable.share();
+    final box = context.findRenderObject() as RenderBox;
+    await shareable.share(box.localToGlobal(Offset.zero) & box.size);
   }
 
   @override
   Widget build(BuildContext context) {
     return PlatformIconButton(
-      icon: Icon(PlatformIcons(context).share),
+      icon: Icon(
+        PlatformIcons(context).share,
+        color: Colors.white,
+      ),
       onPressed: () {
         _share(context);
       },

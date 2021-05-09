@@ -11,9 +11,11 @@ import 'package:mymgs/widgets/nullable_image.dart';
 class NewsItemScreen extends StatelessWidget {
   final NewsItem newsItem;
   final String? heroKey;
+  final bool isFullScreen;
   const NewsItemScreen({
     required this.newsItem,
     this.heroKey,
+    this.isFullScreen = true,
     Key? key,
   });
 
@@ -22,6 +24,7 @@ class NewsItemScreen extends StatelessWidget {
     final links = newsItem.links;
 
     return ImageScaffold(
+      showAppBar: isFullScreen,
       appBarLabel: "Article",
       title: newsItem.headline,
       image: nullableImageProvider(url: newsItem.image.fullUrl),
@@ -30,7 +33,7 @@ class NewsItemScreen extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Responsive(context).horizontalReaderPadding,
+            horizontal: isFullScreen ? Responsive(context).horizontalReaderPadding : 20,
             vertical: 15,
           ).copyWith(top: 30),
           child: LinkableMarkdown(
@@ -47,7 +50,7 @@ class NewsItemScreen extends StatelessWidget {
           ),
         ),
         if (links != null) Padding(
-          padding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalReaderPadding).copyWith(bottom: 10),
+          padding: EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 10),
           child: Links(
             links: links,
           ),

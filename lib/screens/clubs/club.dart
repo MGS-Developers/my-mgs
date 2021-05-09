@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/club.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/clubs/club_logistics.dart';
 import 'package:mymgs/widgets/clubs/club_subscription_button.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
@@ -36,6 +37,8 @@ class _ClubScreenState extends State<ClubScreen> {
     final description = widget.club.description;
     final links = widget.club.links;
 
+    final padding = Responsive(context).horizontalReaderPadding;
+
     return Scaffold(
       appBar: HeroTextAppBar(
         controller: _controller,
@@ -46,7 +49,7 @@ class _ClubScreenState extends State<ClubScreen> {
       ),
       body: SingleChildScrollView(
         controller: _controller,
-        padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 30),
+        padding: EdgeInsets.symmetric(horizontal: padding).copyWith(top: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

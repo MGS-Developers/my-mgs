@@ -12,11 +12,13 @@ class InfoScreen extends StatefulWidget {
   final String markdownContent;
   final Identifiable? identifier;
   final Shareable? shareable;
+  final bool isFullScreen;
   const InfoScreen({
     required this.title,
     required this.markdownContent,
     this.identifier,
     this.shareable,
+    this.isFullScreen = true,
   });
 
   _InfoScreenState createState() => _InfoScreenState();
@@ -35,19 +37,19 @@ class _InfoScreenState extends State<InfoScreen> {
     final identifier = widget.identifier;
 
     return Scaffold(
-      appBar: HeroTextAppBar(
+      appBar: widget.isFullScreen ? HeroTextAppBar(
         controller: _controller,
         title: widget.title,
         start: 20,
         end: 80,
         shareable: widget.shareable,
-      ),
+      ) : null,
       body: SingleChildScrollView(
         controller: _controller,
-        padding: EdgeInsets.symmetric(
-          vertical: 15,
+        padding: widget.isFullScreen ? EdgeInsets.symmetric(
           horizontal: Responsive(context).horizontalReaderPadding,
-        ),
+          vertical: 15,
+        ) : EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

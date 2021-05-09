@@ -46,7 +46,9 @@ class MGSButton extends StatelessWidget {
 
         return Padding(
           padding: disableCupertinoPaddingCompensation ? EdgeInsets.zero : EdgeInsets.symmetric(vertical: 10),
-          child: CupertinoButton.filled(
+          child: CupertinoButton(
+            color: Theme.of(context).primaryColor,
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             onPressed: callback,
             child: child,
           ),

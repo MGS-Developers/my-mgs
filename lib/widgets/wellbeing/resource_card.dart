@@ -47,6 +47,7 @@ class WellbeingResourceCard extends StatelessWidget {
       showPlatformDialog(
         context: context,
         materialBarrierColor: Theme.of(context).shadowColor,
+        barrierDismissible: true,
         builder: (_) => SimpleDialog(
           title: Text("Contact ${organisation.name}"),
           children: [

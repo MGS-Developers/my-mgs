@@ -123,7 +123,7 @@ class SectionBanner extends StatelessWidget {
                     final article = articles[index];
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 5).copyWith(bottom: 5),
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      width: 300,
                       child: ArticleCard(
                         article: article,
                         theme: theme,

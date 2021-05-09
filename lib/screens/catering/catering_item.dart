@@ -7,8 +7,10 @@ import 'package:mymgs/widgets/info_disclaimer.dart';
 
 class CateringItemScreen extends StatelessWidget {
   final CateringItem cateringItem;
+  final bool showAppBar;
   const CateringItemScreen({
     required this.cateringItem,
+    this.showAppBar = true,
   });
 
   Iterable<Widget> getMenuWidgets(BuildContext context) {
@@ -58,11 +60,11 @@ class CateringItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: showAppBar ? AppBar(
         title: Text(
           cateringItem.dayOfWeek.toDayString(),
         ),
-      ),
+      ) : null,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(15),

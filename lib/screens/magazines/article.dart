@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/data/magazines.dart';
 import 'package:mymgs/data_classes/protobuf/magazines.pb.dart';
 import 'package:mymgs/helpers/contact_sheet.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/magazines/node_renderer.dart';
 import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 
@@ -17,6 +18,8 @@ class ArticleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padding = Responsive(context).horizontalReaderPadding;
+
     return ImageScaffold(
       title: article.title,
       appBarLabel: "Article",
@@ -29,6 +32,7 @@ class ArticleScreen extends StatelessWidget {
 
         for (final author in article.authors)
           ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: padding),
             title: Text(author.name),
             subtitle: const Text("Author"),
             onTap: () {
@@ -39,7 +43,7 @@ class ArticleScreen extends StatelessWidget {
         const SizedBox(height: 10),
         for (final node in article.contents)
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: padding, vertical: 10),
             child: ArticleNodeRenderer(theme: theme, node: node),
           ),
         const SizedBox(height: 30),

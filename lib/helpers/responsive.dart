@@ -6,6 +6,10 @@ class Responsive {
 
   late final _screenSize = MediaQuery.of(context).size;
 
+  bool get shouldSplitScreen {
+    return _screenSize.width >= 768;
+  }
+
   double get horizontalPadding {
     if (_screenSize.width > 450) {
       return _screenSize.width * 0.05;

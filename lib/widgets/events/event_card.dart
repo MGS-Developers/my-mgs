@@ -6,22 +6,30 @@ import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/widgets/events/event_logistics.dart';
 import 'package:mymgs/widgets/nullable_image.dart';
 
+typedef _HeroKeyCallback = void Function(String heroKey);
+
 class EventCard extends StatelessWidget {
   final Event event;
   final String heroKey;
+  final _HeroKeyCallback? onTap;
+  final bool selected;
   EventCard({
     Key? key,
     required this.event,
+    this.onTap,
+    this.selected = false,
   }) : heroKey = randomHeroKey();
 
   @override
   Widget build(BuildContext context) {
     final hasImage = event.imageUrl != null && event.imageUrl != '';
     final summary = event.summary;
+    final _callback = onTap;
 
     return Card(
+      color: selected ? Theme.of(context).primaryColorDark : null,
       child: InkWell(
-        onTap: () {
+        onTap: _callback != null ? () => _callback(heroKey) : () {
           Navigator.of(context).push(platformPageRoute(
             context: context,
             builder: (_) => EventScreen(

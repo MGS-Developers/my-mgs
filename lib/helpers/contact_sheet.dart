@@ -13,7 +13,7 @@ void showContactSheet(BuildContext context, String? name, String? email) {
       enableDrag: true,
     ),
     builder: (_) => Container(
-      height: 150,
+      height: 180,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
         borderRadius: BorderRadius.only(
