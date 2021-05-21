@@ -3,6 +3,7 @@ import 'package:mymgs/data/sportsday/year_group_events.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 import 'package:mymgs/helpers/sportsday.dart';
+import 'package:mymgs/widgets/shimmer_builder.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/widgets/sportsday/form_position_table.dart';
 
@@ -55,8 +56,17 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                   builder: (context, snapshot) {
                     final data = snapshot.data;
                     if (data == null) {
-                      return Center(
-                        child: Spinner(),
+                      return ShimmerBuilder(
+                        padding: 15,
+                        rows: List.filled(8, [100, double.infinity, 80]),
+                        height: 30,
+                      );
+                    }
+
+                    if (data.isEmpty) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 10),
+                        child: Text("No data yet", style: Theme.of(context).textTheme.bodyText1),
                       );
                     }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/screens/sportsday/commentary.dart';
 import 'package:mymgs/screens/sportsday/events.dart';
+import 'package:mymgs/screens/sportsday/find_event.dart';
 import 'package:mymgs/screens/sportsday/form_leaderboard.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 
@@ -18,12 +19,13 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
       appBar: DrawerAppBar("Sports Day 2021"),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
+        type: BottomNavigationBarType.fixed,
         onTap: (_index) {
           setState(() {
             index = _index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: "Forms",
@@ -35,7 +37,11 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.closed_caption),
             label: "Commentary",
-          )
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Find event",
+          ),
         ],
       ),
       body: IndexedStack(
@@ -44,6 +50,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
           SportsDayForms(),
           SportsDayEvents(),
           SportsDayCommentary(),
+          SportsdayFindEvent(),
         ],
       ),
     );
