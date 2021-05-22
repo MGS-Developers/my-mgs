@@ -23,7 +23,7 @@ Future<List<Club>> getClubs({
   final int? limit,
 }) async {
   // form the basic query (CollectionReference extends Query so they can kinda be used interchangeably)
-  Query clubsQuery = _firestore.collection('clubs')
+  var clubsQuery = _firestore.collection('clubs')
       .orderBy('time.time', descending: false);
 
   if (yearGroup != null) {
@@ -44,7 +44,7 @@ Future<List<Club>> getClubs({
   // so basically don't worry about filtration/ordering affecting performance
 
   // the QuerySnapshot is fairly complex and also pretty useless, so we use list.map to convert each document into a Club
-  final QuerySnapshot response = await clubsQuery.get();
+  final response = await clubsQuery.get();
   return response.docs.map((e) => Club.fromJson({
     'id': e.id,
     // spread operator https://www.woolha.com/tutorials/dart-using-triple-dot-spread-operator-examples#:~:text=Usage%20on%20Map

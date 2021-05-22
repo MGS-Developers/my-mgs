@@ -26,7 +26,7 @@ Future<void> _transformEvent(Event event) async {
   return;
 }
 
-Future<List<Event>> _mapEventList(QuerySnapshot response) async {
+Future<List<Event>> _mapEventList(QuerySnapshot<Map<String, dynamic>> response) async {
   final events = response.docs.map((e) => Event.fromJson({
     ...e.data(),
     'id': e.id,
