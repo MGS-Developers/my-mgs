@@ -6,6 +6,18 @@ part of 'event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+EventTimetable _$EventTimetableFromJson(Map<String, dynamic> json) {
+  return EventTimetable(
+    startTime: json["startTime"] as Timestamp,
+    location: EventLocation.values[json["location"] as int],
+  );
+}
+
+Map<String, dynamic> _$EventTimetableToJson(EventTimetable instance) => <String, dynamic>{
+  'startTime': instance.startTime,
+  'location': instance.location.index,
+};
+
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     id: json['id'] as String,
@@ -15,7 +27,10 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     scoreSpecId: json['scoreSpecId'] as String,
   )..eventGroup = json['eventGroup'] == null
       ? null
-      : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>);
+      : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>)
+    ..timetable = json['timetable'] == null
+      ? null
+      : EventTimetable.fromJson(json['timetable'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{

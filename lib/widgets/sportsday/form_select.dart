@@ -25,7 +25,7 @@ class _FormSelectState extends State<FormSelect> {
       future: widget.formsFuture,
       builder: (context, snapshot) {
         final data = snapshot.data;
-        if (data == null) {
+        if (data == null || data.length == 0) {
           return SizedShimmer(height: 40);
         }
 

@@ -50,7 +50,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
           SportsDayForms(),
           SportsDayEvents(),
           SportsDayCommentary(),
-          SportsdayFindEvent(),
+          SportsDayFindEvent(),
         ],
       ),
     );

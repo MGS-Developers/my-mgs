@@ -1,8 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data/sportsday/populate.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'event.g.dart';
+
+enum EventLocation {
+  sports_hall,
+  running_track_start,
+  athletics_area,
+}
+
+@JsonSerializable()
+class EventTimetable {
+  @NoopKey
+  final Timestamp startTime;
+  final EventLocation location;
+
+  String get locationString {
+    switch(location) {
+      case EventLocation.athletics_area:
+        return 'Athletics area';
+      case EventLocation.running_track_start:
+        return 'Start of running track';
+      case EventLocation.sports_hall:
+        return 'Sports Hall';
+    }
+  }
+
+  EventTimetable({
+    required this.startTime,
+    required this.location,
+  });
+
+  factory EventTimetable.fromJson(Map<String, dynamic> json) => _$EventTimetableFromJson(json);
+  Map<String, dynamic> toJson() => _$EventTimetableToJson(this);
+}
 
 @JsonSerializable()
 class Event {
@@ -13,6 +47,8 @@ class Event {
   int subEvent;
 
   EventGroup? eventGroup;
+
+  EventTimetable? timetable;
 
   Future<void> populateEventGroup() => eventGetGroup(this);
 

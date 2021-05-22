@@ -38,7 +38,7 @@ class ShimmerBuilder extends StatelessWidget {
   const ShimmerBuilder({
     this.padding = 0.0,
     this.rows = const [[double.infinity]],
-    this.height = 40.0,
+    this.height = 20.0,
   });
 
   @override

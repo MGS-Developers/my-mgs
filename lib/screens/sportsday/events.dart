@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mymgs/data/sportsday/all_events.dart';
+import 'package:mymgs/data/sportsday/metadata.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/screens/sportsday/event_group.dart';
 import 'package:mymgs/widgets/spinner.dart';
