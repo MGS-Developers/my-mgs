@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/sportsday/year_group_events.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 import 'package:mymgs/helpers/sportsday.dart';
+import 'package:mymgs/screens/sportsday/timetabled_event.dart';
 import 'package:mymgs/widgets/shimmer_builder.dart';
-import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/widgets/sportsday/form_position_table.dart';
 
 class EventByYearGroup extends StatefulWidget {
@@ -33,6 +34,17 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
     super.initState();
   }
 
+  void _viewTimetabledEvent(int subEvent) {
+    Navigator.of(context).push(platformPageRoute(
+      context: context,
+      builder: (_) => SportsDayTimetabledEvent(
+        eventGroup: widget.eventGroup,
+        subEvent: subEvent,
+        yearGroup: widget.yearGroup,
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -40,15 +52,23 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: subEventList.map((subEvent) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
+            padding: EdgeInsets.symmetric(vertical: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Text(
-                    'Race ${subEventToString(subEvent)}',
-                    style: Theme.of(context).textTheme.headline6,
+                SizedBox(
+                  width: double.infinity,
+                  child: InkWell(
+                    onTap: () {
+                      _viewTimetabledEvent(subEvent);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Text(
+                        'Race ${subEventToString(subEvent)}',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
                   ),
                 ),
                 StreamBuilder<List<ScoreNode>>(
@@ -73,7 +93,9 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                     return Container(
                       width: double.infinity,
                       child: FormPositionTable<ScoreNode>(
+                        isARace: subEvent == 0,
                         data: data,
+                        getAbsoluteScore: (e) => e.absolute,
                         getPosition: (e) => e.position,
                         getFormName: (e) => e.form!.humanID,
                         getPoints: (e) => e.calculatedPoints ?? 0,

@@ -8,14 +8,47 @@ part of 'event.dart';
 
 EventTimetable _$EventTimetableFromJson(Map<String, dynamic> json) {
   return EventTimetable(
-    startTime: json["startTime"] as Timestamp,
-    location: EventLocation.values[json["location"] as int],
+    startTime: noopTransform(json['startTime']),
+    location: _$enumDecode(_$EventLocationEnumMap, json['location']),
   );
 }
 
-Map<String, dynamic> _$EventTimetableToJson(EventTimetable instance) => <String, dynamic>{
-  'startTime': instance.startTime,
-  'location': instance.location.index,
+Map<String, dynamic> _$EventTimetableToJson(EventTimetable instance) =>
+    <String, dynamic>{
+      'startTime': noopTransform(instance.startTime),
+      'location': _$EventLocationEnumMap[instance.location],
+    };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$EventLocationEnumMap = {
+  EventLocation.sports_hall: 'sports_hall',
+  EventLocation.running_track_start: 'running_track_start',
+  EventLocation.athletics_area: 'athletics_area',
 };
 
 Event _$EventFromJson(Map<String, dynamic> json) {
@@ -25,12 +58,13 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     yearGroup: json['yearGroup'] as int,
     eventGroupId: json['eventGroupId'] as String,
     scoreSpecId: json['scoreSpecId'] as String,
-  )..eventGroup = json['eventGroup'] == null
-      ? null
-      : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>)
+  )
+    ..eventGroup = json['eventGroup'] == null
+        ? null
+        : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>)
     ..timetable = json['timetable'] == null
-      ? null
-      : EventTimetable.fromJson(json['timetable'] as Map<String, dynamic>);
+        ? null
+        : EventTimetable.fromJson(json['timetable'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -40,4 +74,5 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'yearGroup': instance.yearGroup,
       'subEvent': instance.subEvent,
       'eventGroup': instance.eventGroup,
+      'timetable': instance.timetable,
     };

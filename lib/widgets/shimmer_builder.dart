@@ -15,6 +15,10 @@ class SizedShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final baseColor = isDark ? Color(0xFF1A1A1A) : Color(0xFFE0E0E0);
+    final highlightColor = isDark ? Color(0xFF3B3B3B) : Color(0xFFBABABA);
+
     return SizedBox(
       width: width,
       height: height,
@@ -22,10 +26,10 @@ class SizedShimmer extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Color(0xFFE0E0E0),
+          color: baseColor,
         ),
-        baseColor: Color(0xFFE0E0E0),
-        highlightColor: Color(0xFFBABABA),
+        baseColor: baseColor,
+        highlightColor: highlightColor,
       ),
     );
   }

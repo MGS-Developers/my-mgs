@@ -8,13 +8,31 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
 
-Future<Database> getDb() async {
-  if (kIsWeb) {
-    return databaseFactoryWeb.openDatabase('mymgs_sembast');
-  } else {
-    final pathRoot = await getApplicationDocumentsDirectory();
-    final dbPath = pathRoot.path + '/mymgs_sembast.db';
-    final dbFactory = databaseFactoryIo;
-    return dbFactory.openDatabase(dbPath);
+class _DbSingleton {
+  _DbSingleton._();
+  static _DbSingleton _singleton = _DbSingleton._();
+  factory _DbSingleton() => _singleton;
+
+  Database? _database;
+  Future<Database> getDb() async {
+    final _db = _database;
+    if (_db != null) {
+      return _db;
+    } else {
+      if (kIsWeb) {
+        _database = await databaseFactoryWeb.openDatabase('mymgs_sembast');
+      } else {
+        final pathRoot = await getApplicationDocumentsDirectory();
+        final dbPath = pathRoot.path + '/mymgs_sembast.db';
+        final dbFactory = databaseFactoryIo;
+        _database = await dbFactory.openDatabase(dbPath);
+      }
+
+      return _database!;
+    }
   }
+}
+
+Future<Database> getDb() async {
+  return _DbSingleton().getDb();
 }

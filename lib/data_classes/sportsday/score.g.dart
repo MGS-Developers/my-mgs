@@ -6,12 +6,55 @@ part of 'score.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AbsoluteScore _$AbsoluteScoreFromJson(Map<String, dynamic> json) {
+  return AbsoluteScore(
+    units: _$enumDecode(_$UnitsEnumMap, json['units']),
+    value: (json['value'] as num).toDouble(),
+    competitorName: json['competitorName'] as String,
+    isNewRecord: json['isNewRecord'] as bool,
+  );
+}
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$UnitsEnumMap = {
+  Units.meters: 'meters',
+  Units.seconds: 'seconds',
+};
+
 ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
   return ScoreNode(
     formId: json['formId'] as String,
     eventId: json['eventId'] as String,
     position: json['position'] as int,
     calculatedPoints: json['calculatedPoints'] as int?,
+    absolute: json['absolute'] == null
+        ? null
+        : AbsoluteScore.fromJson(json['absolute'] as Map<String, dynamic>),
     id: json['id'] as String,
     createdAt: noopTransform(json['createdAt']),
   )
@@ -22,14 +65,3 @@ ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
         ? null
         : Form.fromJson(json['form'] as Map<String, dynamic>);
 }
-
-Map<String, dynamic> _$ScoreNodeToJson(ScoreNode instance) => <String, dynamic>{
-      'id': instance.id,
-      'formId': instance.formId,
-      'eventId': instance.eventId,
-      'position': instance.position,
-      'calculatedPoints': instance.calculatedPoints,
-      'createdAt': noopTransform(instance.createdAt),
-      'event': instance.event,
-      'form': instance.form,
-    };

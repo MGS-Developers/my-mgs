@@ -8,18 +8,22 @@ Stream<List<ScoreNode>> getEventGroupScoreNodes({
   required int yearGroup,
   required EventGroup eventGroup,
   required int subEvent,
+  String? eventId,
 }) async* {
-  final eventIdResponse = await _firestore
-      .collection('sd_score_specs')
-      .doc(eventGroup.scoreSpecId)
-      .collection('sd_event_groups')
-      .doc(eventGroup.id)
-      .collection('sd_events')
-      .where('subEvent', isEqualTo: subEvent)
-      .where('yearGroup', isEqualTo: yearGroup)
-      .get();
-  if (eventIdResponse.docs.isEmpty) throw Exception("No Event found for ScoreSpec and EventGroup IDs.");
-  final eventId = eventIdResponse.docs[0].id;
+  String? _eventId = eventId;
+  if (_eventId == null) {
+    final eventIdResponse = await _firestore
+        .collection('sd_score_specs')
+        .doc(eventGroup.scoreSpecId)
+        .collection('sd_event_groups')
+        .doc(eventGroup.id)
+        .collection('sd_events')
+        .where('subEvent', isEqualTo: subEvent)
+        .where('yearGroup', isEqualTo: yearGroup)
+        .get();
+    if (eventIdResponse.docs.isEmpty) throw Exception("No Event found for ScoreSpec and EventGroup IDs.");
+    eventId = eventIdResponse.docs[0].id;
+  }
 
   final formIdsResponse = await _firestore
       .collection('sd_forms')

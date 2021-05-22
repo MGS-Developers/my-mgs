@@ -7,7 +7,31 @@ import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'score.g.dart';
 
-@JsonSerializable()
+enum Units {
+  meters,
+  seconds,
+}
+
+@JsonSerializable(createToJson: false)
+class AbsoluteScore {
+  final Units units;
+  final double value;
+  // typically provided as first initial + surname
+  final String competitorName;
+
+  final bool isNewRecord;
+
+  const AbsoluteScore({
+    required this.units,
+    required this.value,
+    required this.competitorName,
+    this.isNewRecord = false,
+  });
+
+  factory AbsoluteScore.fromJson(Map<String, dynamic> json) => _$AbsoluteScoreFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
 class ScoreNode {
   String id;
 
@@ -24,6 +48,9 @@ class ScoreNode {
   /// only populated after [ScoreNode.populate] is called
   Form? form;
 
+  // only provided for 1st place A-race ScoreNodes
+  AbsoluteScore? absolute;
+
   Future<void> populate() => populateScoreNode(this);
   Future<void> populateEvent() => populateScoreNode(this, true, false);
   Future<void> populateForm() => populateScoreNode(this, false, true);
@@ -33,10 +60,10 @@ class ScoreNode {
     required this.eventId,
     required this.position,
     this.calculatedPoints,
+    this.absolute,
     required this.id,
     required this.createdAt,
   });
 
   factory ScoreNode.fromJson(Map<String, dynamic> json) => _$ScoreNodeFromJson(json);
-  Map<String, dynamic> toJson() => _$ScoreNodeToJson(this);
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mymgs/data_classes/sportsday/event.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
-import 'package:mymgs/data_classes/sportsday/form.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -30,11 +29,11 @@ Stream<List<ScoreNode>> getLatestResults(String formId, [int limit = 5]) {
   });
 }
 
-Future<Event?> getEventFromComponents(EventGroup eventGroup, int subEvent, Form form) async {
+Future<Event?> getEventFromComponents(EventGroup eventGroup, int subEvent, int yearGroup) async {
   final response = await _firestore.collectionGroup('sd_events')
       .where('eventGroupId', isEqualTo: eventGroup.id)
       .where('subEvent', isEqualTo: subEvent)
-      .where('yearGroup', isEqualTo: form.yearGroup)
+      .where('yearGroup', isEqualTo: yearGroup)
       .get();
 
   if (response.size == 0) {

@@ -16,14 +16,25 @@ class FormScoreTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final event = scoreNode.event!;
     final subEventLabel = subEventToString(event.subEvent);
+    final absoluteScore = scoreNode.absolute;
 
     return ListTile(
       tileColor: getRankColor(context, scoreNode.position),
       title: Text(
         event.eventGroup!.name + ' (Race $subEventLabel)',
       ),
-      subtitle: Text(
-        Jiffy(scoreNode.createdAt.toDate()).fromNow(),
+      subtitle: Row(
+        children: [
+          if (absoluteScore?.isNewRecord ?? false) Text(
+            'New record! • ',
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            Jiffy(scoreNode.createdAt.toDate()).fromNow(),
+          ),
+        ],
       ),
       leading: Text(
         scoreNode.position.toString(),

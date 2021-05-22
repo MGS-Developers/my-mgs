@@ -4,6 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/data_classes/sportsday/event.dart' hide Event;
+import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -125,6 +127,21 @@ class MGSChannels {
         "Recurring reminders and news from clubs you're subscribed to.",
         importance: Importance.max,
         styleInformation: BigTextStyleInformation(clubReminderDetails(club)),
+      ),
+    );
+  }
+
+  static String sportsDayReminderDetails(EventGroup eventGroup, EventTimetable timetable) {
+    return "${eventGroup.name} at ${timetable.locationString} (${Jiffy(timetable.startTime.toDate()).Hm})";
+  }
+  static NotificationDetails sportsDay(EventGroup eventGroup, EventTimetable timetable) {
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        "sportsday",
+        "Sports Day",
+        "Reminders for events you participate in.",
+        importance: Importance.max,
+        styleInformation: BigTextStyleInformation(sportsDayReminderDetails(eventGroup, timetable)),
       ),
     );
   }
