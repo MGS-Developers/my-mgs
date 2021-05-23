@@ -1,17 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'score.dart';
+part of 'standing_record.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AbsoluteScore _$AbsoluteScoreFromJson(Map<String, dynamic> json) {
-  return AbsoluteScore(
-    units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
+StandingRecord _$StandingRecordFromJson(Map<String, dynamic> json) {
+  return StandingRecord(
+    holder: json['holder'] as String,
     value: (json['value'] as num).toDouble(),
-    competitorName: json['competitorName'] as String,
-    isNewRecord: json['isNewRecord'] as bool,
+    units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
+    year: json['year'] as int,
+    yearGroup: json['yearGroup'] as int,
+    eventGroup: json['eventGroup'] == null
+        ? null
+        : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>),
+    eventGroupId: json['eventGroupId'] as String,
+    scoreSpecId: json['scoreSpecId'] as String,
   );
 }
 
@@ -45,23 +51,3 @@ const _$RecordUnitsEnumMap = {
   RecordUnits.meters: 'meters',
   RecordUnits.seconds: 'seconds',
 };
-
-ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
-  return ScoreNode(
-    formId: json['formId'] as String,
-    eventId: json['eventId'] as String,
-    position: json['position'] as int,
-    calculatedPoints: json['calculatedPoints'] as int?,
-    absolute: json['absolute'] == null
-        ? null
-        : AbsoluteScore.fromJson(json['absolute'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    createdAt: noopTransform(json['createdAt']),
-  )
-    ..event = json['event'] == null
-        ? null
-        : Event.fromJson(json['event'] as Map<String, dynamic>)
-    ..form = json['form'] == null
-        ? null
-        : Form.fromJson(json['form'] as Map<String, dynamic>);
-}

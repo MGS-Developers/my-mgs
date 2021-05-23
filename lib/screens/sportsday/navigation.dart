@@ -3,6 +3,7 @@ import 'package:mymgs/screens/sportsday/commentary.dart';
 import 'package:mymgs/screens/sportsday/events.dart';
 import 'package:mymgs/screens/sportsday/find_event.dart';
 import 'package:mymgs/screens/sportsday/form_leaderboard.dart';
+import 'package:mymgs/screens/sportsday/records.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 
 class SportsDayNavigation extends StatefulWidget {
@@ -19,7 +20,9 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
       appBar: DrawerAppBar("Sports Day 2021"),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Color(0x50000000),
         onTap: (_index) {
           setState(() {
             index = _index;
@@ -42,15 +45,20 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
             icon: Icon(Icons.search),
             label: "Find event",
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.stars),
+            label: "Records",
+          ),
         ],
       ),
       body: IndexedStack(
         index: index,
         children: [
-          SportsDayForms(),
+          const SportsDayForms(),
           SportsDayEvents(),
           SportsDayCommentary(),
-          SportsDayFindEvent(),
+          const SportsDayFindEvent(),
+          const SportsDayRecords(),
         ],
       ),
     );

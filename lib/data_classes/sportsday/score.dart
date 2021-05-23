@@ -7,14 +7,14 @@ import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'score.g.dart';
 
-enum Units {
+enum RecordUnits {
   meters,
   seconds,
 }
 
 @JsonSerializable(createToJson: false)
 class AbsoluteScore {
-  final Units units;
+  final RecordUnits units;
   final double value;
   // typically provided as first initial + surname
   final String competitorName;

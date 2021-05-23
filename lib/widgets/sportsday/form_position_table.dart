@@ -44,7 +44,7 @@ class FormPositionTable<T> extends StatelessWidget {
       return null;
     }
 
-    return absoluteScore.value.toString() + (absoluteScore.units == Units.meters ? 'm' : 's');
+    return absoluteScore.value.toString() + (absoluteScore.units == RecordUnits.meters ? 'm' : 's');
   }
 
   @override
