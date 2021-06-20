@@ -75,7 +75,9 @@ class _SportsDayTimetabledEventState extends State<SportsDayTimetabledEvent> {
           }
 
           if (data == null || timetable == null) {
-            return Container();
+            return Center(
+              child: Text("Event details not found"),
+            );
           }
 
           final isSufficientlyInFuture = timetable.startTime.toDate().subtract(Duration(minutes: 10)).isAfter(DateTime.now());

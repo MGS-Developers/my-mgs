@@ -48,7 +48,7 @@ class RemoveLicenseSetting extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyValueSetting(
       name: "Remove license",
-      description: "Sign out of $appName completely.",
+      description: "Sign out of $appName completely. Requires app restart.",
       onTap: () {
         _confirmRemove(context);
       },

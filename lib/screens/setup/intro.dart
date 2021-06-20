@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/widgets/button.dart';
+import 'package:mymgs/widgets/sportsday/quick_setup_card.dart';
 
 class Intro extends StatelessWidget {
   final VoidCallback onContinue;
+  final VoidCallback onComplete;
   const Intro({
     required this.onContinue,
+    required this.onComplete,
   });
   
   @override
@@ -16,6 +19,8 @@ class Intro extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SportsDayQuickSetupCard(onComplete: onComplete),
+          const SizedBox(height: 20),
           Text(
             'Confirm your email to start',
             style: Theme.of(context).textTheme.headline5,

@@ -40,6 +40,7 @@ class _SetupScreenState extends State<SetupScreen> {
         children: [
           Intro(
             onContinue: _nextPage,
+            onComplete: widget.quitSetup,
           ),
           SelectYearGroup(onComplete: _nextPage),
           ConfirmEmail(onComplete: widget.quitSetup),

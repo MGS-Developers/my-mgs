@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/interests/interests.dart';
@@ -15,8 +16,23 @@ import 'package:mymgs/widgets/settings/key_value.dart';
 import 'package:mymgs/widgets/settings/remove_license.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen();
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool restrictForSportsDay = false;
+  @override
+  void initState() {
+    super.initState();
+
+    isSportsDayAuth().then((value) {
+      setState(() {
+        restrictForSportsDay = value;
+      });
+    });
+  }
 
   void _changeYearGroup(BuildContext context) async {
     showPlatformDialog(
@@ -75,7 +91,15 @@ class SettingsScreen extends StatelessWidget {
           horizontal: Responsive(context).horizontalListPadding,
         ),
         children: [
-          if (!kIsWeb) KeyValueSetting(
+          if (restrictForSportsDay) Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Text(
+              "Some settings may be unavailable as you're using a restricted Sports Day version of MyMGS.",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+
+          if (!kIsWeb && !restrictForSportsDay) KeyValueSetting(
             name: "Notifications",
             description: "Set how you want to stay updated.",
             onTap: () {
@@ -85,7 +109,7 @@ class SettingsScreen extends StatelessWidget {
               ));
             },
           ),
-          KeyValueSetting(
+          if (!restrictForSportsDay) KeyValueSetting(
             name: "Year group",
             description: "Personalises your experience.",
             tracker: "year-group",
@@ -96,7 +120,7 @@ class SettingsScreen extends StatelessWidget {
               _changeYearGroup(context);
             },
           ),
-          if (!kIsWeb) KeyValueSetting(
+          if (!kIsWeb && !restrictForSportsDay) KeyValueSetting(
             name: "Interests",
             description: "Help us tailor recommendations to you",
             onTap: () {
@@ -107,7 +131,7 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           const RemoveLicenseSetting(),
-          if (!kIsWeb) KeyValueSetting(
+          if (!kIsWeb && !restrictForSportsDay) KeyValueSetting(
             name: "MyMGS Web",
             description: "Sign into the app's web version",
             onTap: () {

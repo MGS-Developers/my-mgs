@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as Foundation;
+import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 import 'package:mymgs/screens/clubs/clubs.dart';
 import 'package:mymgs/screens/dashboard/dashboard.dart';
 import 'package:mymgs/screens/diary/diary.dart';
@@ -78,6 +79,11 @@ class Config {
   }
 
   static Stream<List<RouteData>> getDrawerTabs() async* {
+    if (await isSportsDayAuth()) {
+      yield _jsonStringToRoutes(jsonEncode(['sportsday', 'settings']));
+      return;
+    }
+
     if (Foundation.kIsWeb) {
       yield _jsonStringToRoutes(jsonEncode([
         "dashboard",
@@ -98,5 +104,22 @@ class Config {
     final liveData = _remoteConfig.getString('modules');
     if (liveData == '') return;
     yield _jsonStringToRoutes(liveData);
+  }
+
+  static Stream<bool> getIsSportsDaySeason() async* {
+    if (Foundation.kDebugMode) {
+      yield true;
+      return;
+    }
+
+    final date = DateTime.now();
+    yield date.isAfter(DateTime(2021, 6, 30)) && date.isBefore(DateTime(2021, 7, 14));
+    if (Foundation.kIsWeb) {
+      return;
+    }
+
+    await _init();
+    await _fetch();
+    yield _remoteConfig.getBool('is-sportsday-season');
   }
 }

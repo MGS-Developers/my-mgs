@@ -49,7 +49,7 @@ Future<T> getSetting<T>(String key) async {
   return value as T;
 }
 
-final _signOutController = StreamController<bool>();
+final _signOutController = StreamController<bool>.broadcast();
 void signOutNotify() {
   _signOutController.add(true);
 }

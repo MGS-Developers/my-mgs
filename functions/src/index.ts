@@ -9,3 +9,4 @@ export {getSendingSecret, studentSendMessage} from './safeguarding';
 export {logging} from './logging';
 export {getQrCodeData, verifyQrCode, retrieveSignInToken} from './web_authentication';
 export {cleanup} from './cleanup';
+export {sportsDayTemporaryAuth} from './sportsday/temporary_authentication'
