@@ -51,3 +51,6 @@ app.*.map.json
 *.pbenum.dart
 *.pbjson.dart
 *.pbserver.dart
+
+# Firebase cache
+*.cache

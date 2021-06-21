@@ -30,6 +30,3 @@ flutter pub get
 ```
 
 And you're done! Open Android Studio (or your preferred IDE, but Android Studio definitely gives the best experience) and open the new `mymgs` directory.
-
-## Testing QR code
-When you first open the app, you'll be prompted for a QR code. You can get one [on this website](https://my-mgs-app.web.app), which we'll be giving to teachers to use. The password, of course, is `pythoniscool`.
