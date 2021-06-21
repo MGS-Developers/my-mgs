@@ -120,6 +120,6 @@ class Config {
 
     await _init();
     await _fetch();
-    yield _remoteConfig.getBool('is-sportsday-season');
+    yield _remoteConfig.getBool('is_sportsday_season');
   }
 }
