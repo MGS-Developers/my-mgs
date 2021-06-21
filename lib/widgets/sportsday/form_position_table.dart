@@ -70,20 +70,21 @@ class FormPositionTable<T> extends StatelessWidget {
           rows: [
             for (final form in data)
               RankHighlightRow(
-                  context: context,
-                  rank: getPosition(form),
-                  cells: [
-                    DataCell(Text(getFormName(form))),
-                    DataCell(Text(getPoints(form).toString())),
-                    if (isARace) DataCell(Text(_getCompetitorName(form) ?? '')),
-                    if (isARace) DataCell(Text(_getStringAbsoluteValue(form) ?? '')),
-                  ],
-                  onTap: () {
-                    Navigator.of(context).push(platformPageRoute(
-                      context: context,
-                      builder: (_) => SportsDayForm(form: getForm(form)),
-                    ));
-                  }
+                context: context,
+                rank: getPosition(form),
+                isZero: getPoints(form) == 0,
+                cells: [
+                  DataCell(Text(getFormName(form))),
+                  DataCell(Text(getPoints(form).toString())),
+                  if (isARace) DataCell(Text(_getCompetitorName(form) ?? '')),
+                  if (isARace) DataCell(Text(_getStringAbsoluteValue(form) ?? '')),
+                ],
+                onTap: () {
+                  Navigator.of(context).push(platformPageRoute(
+                    context: context,
+                    builder: (_) => SportsDayForm(form: getForm(form)),
+                  ));
+                },
               ),
           ],
         ),

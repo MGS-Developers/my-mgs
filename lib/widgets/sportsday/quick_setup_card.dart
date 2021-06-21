@@ -1,16 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/config.dart';
 import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 
 class SportsDayQuickSetupCard extends StatelessWidget {
-  final isSeasonStream = Config.getIsSportsDaySeason();
   final VoidCallback onComplete;
   SportsDayQuickSetupCard({
     Key? key,
     required this.onComplete,
   });
 
+  final isSeasonStream = Config.getIsSportsDaySeason();
   void _setup(BuildContext context) async {
     showPlatformDialog(
       context: context,

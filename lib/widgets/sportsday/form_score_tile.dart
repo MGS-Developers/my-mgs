@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/helpers/sportsday.dart';
 import 'package:mymgs/screens/sportsday/event_group.dart';
 import 'package:mymgs/widgets/sportsday/rank_highlight_row.dart';
@@ -23,6 +24,7 @@ class FormScoreTile extends StatelessWidget {
       title: Text(
         event.eventGroup!.name + ' (Race $subEventLabel)',
       ),
+      contentPadding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalPadding),
       subtitle: Row(
         children: [
           if (absoluteScore?.isNewRecord ?? false) Text(

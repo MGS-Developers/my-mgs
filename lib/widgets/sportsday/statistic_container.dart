@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/sportsday/rank_highlight_row.dart';
 
 class StatisticContainer extends StatelessWidget {
@@ -14,8 +15,8 @@ class StatisticContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _rank = rank;
-    Color _color = _rank != null ? getRankColor(context, _rank) : Colors.transparent;
-    if (_color == Colors.transparent) {
+    var _color = _rank != null ? getRankColor(context, _rank) : null;
+    if (_color == null) {
       _color = MediaQuery.of(context).platformBrightness == Brightness.light ? Colors.white : Colors.black;
     }
 
@@ -29,7 +30,7 @@ class StatisticContainer extends StatelessWidget {
       color: _color,
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: 15,
+          horizontal: Responsive(context).horizontalPadding,
           vertical: 10,
         ),
         width: double.infinity,

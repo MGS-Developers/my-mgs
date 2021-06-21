@@ -6,7 +6,14 @@ final _firestore = FirebaseFirestore.instance;
 
 Stream<String?> getCommentaryStream() {
   return _firestore.collection('sd_captions')
-      .doc('latest')
+      .orderBy('c', descending: true)
+      .limit(1)
       .snapshots()
-      .map((snapshot) => snapshot.data()?["t"]);
+      .map((snapshot) {
+        if (snapshot.docs.isEmpty) {
+          return null;
+        } else {
+          return snapshot.docs[0].data()["t"];
+        }
+  });
 }

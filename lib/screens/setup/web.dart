@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/spinner.dart';
+import 'package:mymgs/widgets/sportsday/quick_setup_card.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 final _functions = FirebaseFunctions.instanceFor(region: 'europe-west2');
@@ -104,6 +106,7 @@ class _WebSetupState extends State<WebSetup> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalPadding),
       child: Card(
         elevation: 8,
         child: Padding(
@@ -122,6 +125,8 @@ class _WebSetupState extends State<WebSetup> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SportsDayQuickSetupCard(onComplete: widget.done),
+
                   QrImage(
                     data: _secret,
                     size: MediaQuery.of(context).size.height * 0.5,
