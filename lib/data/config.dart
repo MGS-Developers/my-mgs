@@ -113,7 +113,7 @@ class Config {
     }
 
     final date = DateTime.now();
-    yield date.isAfter(DateTime(2021, 20, 30)) && date.isBefore(DateTime(2021, 7, 14));
+    yield date.isAfter(DateTime(2021, 6, 20)) && date.isBefore(DateTime(2021, 7, 14));
     if (Foundation.kIsWeb) {
       return;
     }
