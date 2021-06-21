@@ -14,6 +14,11 @@ Future<void> authenticateSportsDay() async {
   await _auth.signInWithCustomToken(response.data);
 }
 
+Future<void> resetSportsDayAuth() async {
+  final db = await getDb();
+  await store.record('temporary-auth').delete(db);
+}
+
 // returns true if the user is currently signed in using a temporary Sports Day session
 Future<bool> isSportsDayAuth() async {
   final db = await getDb();

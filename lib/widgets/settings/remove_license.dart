@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
 import 'package:mymgs/data/settings.dart';
@@ -11,6 +12,7 @@ class RemoveLicenseSetting extends StatelessWidget {
   const RemoveLicenseSetting();
 
   void _remove(BuildContext context) async {
+    await resetSportsDayAuth();
     await firebaseAuth.signOut();
     signOutNotify();
   }
