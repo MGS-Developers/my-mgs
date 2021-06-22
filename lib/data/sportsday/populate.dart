@@ -13,7 +13,6 @@ Future<ScoreNode> populateScoreNode(ScoreNode instance, [bool populateEvent = tr
         .get();
     final _eventData = _eventResponse.docs[0].data();
 
-    if (_eventData == null) throw Exception("Event data for ScoreNode ${instance.id} not found.");
     instance.event = Event.fromJson({
       'id': _eventResponse.docs[0].id,
       ..._eventData,

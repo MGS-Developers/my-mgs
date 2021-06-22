@@ -94,6 +94,7 @@ class _SportsDayFindEventState extends State<SportsDayFindEvent> {
               ),
             ),
             Step(
+              state: form == null ? StepState.disabled : StepState.indexed,
               title: const Text("Event"),
               content: Container(
                 width: double.infinity,

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class SizedShimmer extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: Shimmer.fromColors(
+      child: (Platform.isIOS || Platform.isAndroid) ? Shimmer.fromColors(
         child: Container(
           width: double.infinity,
           height: double.infinity,
@@ -30,6 +31,8 @@ class SizedShimmer extends StatelessWidget {
         ),
         baseColor: baseColor,
         highlightColor: highlightColor,
+      ) : Container(
+        color: baseColor,
       ),
     );
   }

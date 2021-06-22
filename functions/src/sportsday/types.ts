@@ -12,6 +12,13 @@ export interface Event {
     yearGroup: number;
 }
 
+export interface EventGroup {
+    id: string;
+    name: string;
+    subEventCount: number;
+    scoreSpecId: string;
+}
+
 export interface PointAlloc {
     subEvent: SubEvent;
     position: number;

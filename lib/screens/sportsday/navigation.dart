@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mymgs/screens/sportsday/commentary.dart';
 import 'package:mymgs/screens/sportsday/events.dart';
+import 'package:mymgs/screens/sportsday/feed.dart';
 import 'package:mymgs/screens/sportsday/find_event.dart';
 import 'package:mymgs/screens/sportsday/form_leaderboard.dart';
 import 'package:mymgs/screens/sportsday/records.dart';
@@ -12,7 +12,15 @@ class SportsDayNavigation extends StatefulWidget {
 }
 
 class _SportsDayNavigationState extends State<SportsDayNavigation> {
-  int index = 0;
+  int index = 2;
+
+  static final routes = [
+    const SportsDayForms(),
+    SportsDayEvents(),
+    SportsDayFeed(),
+    const SportsDayFindEvent(),
+    const SportsDayRecords(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +46,8 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
             label: "Events",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.closed_caption),
-            label: "Commentary",
+            icon: Icon(Icons.stream),
+            label: "Feed",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -51,16 +59,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: index,
-        children: [
-          const SportsDayForms(),
-          SportsDayEvents(),
-          SportsDayCommentary(),
-          const SportsDayFindEvent(),
-          const SportsDayRecords(),
-        ],
-      ),
+      body: routes[index],
     );
   }
 }

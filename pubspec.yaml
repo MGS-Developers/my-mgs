@@ -80,3 +80,6 @@ flutter:
     - family: Newsreader
       fonts:
         - asset: fonts/Newsreader-Regular.ttf
+
+  assets:
+    - assets/

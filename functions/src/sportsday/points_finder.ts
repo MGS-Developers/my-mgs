@@ -1,17 +1,30 @@
 import * as admin from "firebase-admin";
-import {Event, PointAlloc, ScoreNode} from "./types";
+import {Event, EventGroup, PointAlloc, ScoreNode} from "./types";
 
-export const positionToPoints = async (position: number, eventId: string): Promise<number | undefined> => {
+export const getEvent = async (eventId: string): Promise<[Event, admin.firestore.DocumentReference]> => {
     const eventResponse = await admin.firestore()
         .collectionGroup('sd_events')
         .where('_id', '==', eventId)
         .get();
 
     const eventData = eventResponse.docs[0];
-    const eventGroupRef = eventData?.ref.parent.parent;
-    if (!eventGroupRef) return;
+    return [eventData.data() as Event, eventData.ref];
+}
 
-    const event = eventData.data() as Event;
+export const getEventGroup = async (eventRef: admin.firestore.DocumentReference): Promise<EventGroup | undefined> => {
+    const eventGroupRef = eventRef.parent.parent;
+    if (!eventGroupRef) return undefined;
+
+    const response = await eventGroupRef.get();
+    return {
+        ...response.data(),
+        id: response.id,
+    } as EventGroup | undefined;
+}
+
+export const positionToPoints = async (position: number, [event, eventRef]: [Event, admin.firestore.DocumentReference]): Promise<number | undefined> => {
+    const eventGroupRef = eventRef.parent.parent;
+    if (!eventGroupRef) return;
 
     const scoreSpecRef = eventGroupRef.parent.parent;
     if (!scoreSpecRef) return;

@@ -47,6 +47,8 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
 
   @override
   Widget build(BuildContext context) {
+    final emptyPadding = const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 10);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +76,14 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                 StreamBuilder<List<ScoreNode>>(
                   stream: scoreNodeStreamList[subEvent],
                   builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return Container(
+                        padding: emptyPadding,
+                        child: Text("Something went wrong! Please try again in a few minutes."),
+                      );
+                    }
+
                     final data = snapshot.data;
                     if (data == null) {
                       return ShimmerBuilder(
@@ -85,7 +95,7 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
 
                     if (data.isEmpty) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15).copyWith(top: 10),
+                        padding: emptyPadding,
                         child: Text("No data yet", style: Theme.of(context).textTheme.bodyText1),
                       );
                     }
