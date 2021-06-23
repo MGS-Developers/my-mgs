@@ -40,6 +40,7 @@ Future<List<MergedRecord>> getMergedRecords(int yearGroup) async {
 
     final scoreNodeResponse = await _firestore.collection("sd_score_nodes")
         .where("eventId", isEqualTo: eventId)
+        // only winners of races can beat previous records
         .where("position", isEqualTo: 1)
         .get();
     if (scoreNodeResponse.size == 1) {

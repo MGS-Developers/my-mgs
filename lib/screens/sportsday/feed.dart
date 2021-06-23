@@ -1,33 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/sportsday/feed.dart';
-import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/feed_item.dart';
 import 'package:mymgs/helpers/responsive.dart';
-import 'package:mymgs/helpers/sportsday.dart';
-import 'package:mymgs/screens/sportsday/event_group.dart';
 import 'package:mymgs/widgets/spinner.dart';
+import 'package:mymgs/widgets/sportsday/feed/event_tile.dart';
+import 'package:mymgs/widgets/sportsday/feed/media_tile.dart';
 
 class SportsDayFeed extends StatelessWidget {
   final stream = getScoreNodeStream();
   SportsDayFeed();
 
   void _openEvent(BuildContext context, EventFeedItem event) async {
-    final eventGroup = EventGroup(
-      id: event.groupId,
-      name: event.name,
-      subEventCount: event.subEventCount,
-      scoreSpecId: event.scoreSpecId,
-    );
 
-    Navigator.of(context).push(platformPageRoute(
-      context: context,
-      builder: (_) => SportsDayEvent(
-        eventGroup: eventGroup,
-        initialYearGroup: event.yearGroup,
-      ),
-    ));
   }
 
   @override
@@ -83,26 +67,12 @@ class SportsDayFeed extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = data[index];
                 final event = item.event;
+                final media = item.media;
 
                 if (event != null) {
-                  return ListTile(
-                    onTap: () {
-                      _openEvent(context, event);
-                    },
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: Responsive(context).horizontalPadding,
-                      vertical: 10,
-                    ),
-                    title: Text(
-                      "${event.name} — Year ${event.yearGroup} — Race ${subEventToString(event.subEvent)}",
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontSize: 20,
-                      ),
-                    ),
-                    subtitle: Text(
-                      Jiffy(item.timestamp.toDate()).fromNow(),
-                    ),
-                  );
+                  return EventFeedTile(event: event, timestamp: item.timestamp);
+                } else if (media != null) {
+                  return MediaFeedTile(media: media, timestamp: item.timestamp);
                 } else {
                   return SizedBox();
                 }

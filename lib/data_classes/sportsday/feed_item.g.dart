@@ -18,11 +18,24 @@ EventFeedItem _$EventFeedItemFromJson(Map<String, dynamic> json) {
   );
 }
 
+MediaFeedItem _$MediaFeedItemFromJson(Map<String, dynamic> json) {
+  return MediaFeedItem(
+    text: json['text'] as String,
+    author: json['author'] as String,
+    image: json['image'] == null
+        ? null
+        : MGSImage.fromJson(json['image'] as Map<String, dynamic>),
+  );
+}
+
 FeedItem _$FeedItemFromJson(Map<String, dynamic> json) {
   return FeedItem(
     event: json['event'] == null
         ? null
         : EventFeedItem.fromJson(json['event'] as Map<String, dynamic>),
+    media: json['media'] == null
+        ? null
+        : MediaFeedItem.fromJson(json['media'] as Map<String, dynamic>),
     timestamp: noopTransform(json['timestamp']),
     id: json['id'] as String,
   );
