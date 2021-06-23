@@ -20,7 +20,7 @@ Stream<List<ScoreNode>> getLatestResults(String formId, [int limit = 5]) {
             ...doc.data(),
           });
 
-          await scoreNode.populateEvent();
+          await scoreNode.populate();
           await scoreNode.event!.populateEventGroup();
           results.add(scoreNode);
         }

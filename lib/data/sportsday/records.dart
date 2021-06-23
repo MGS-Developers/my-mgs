@@ -32,6 +32,7 @@ Future<List<MergedRecord>> getMergedRecords(int yearGroup) async {
 
     final eventResponse = await eventGroupResponse.reference.collection("sd_events")
         .where("yearGroup", isEqualTo: yearGroup)
+        // records only apply to A races (subEvent 0)
         .where("subEvent", isEqualTo: 0)
         .get();
     assert(eventResponse.size == 1);
@@ -51,6 +52,10 @@ Future<List<MergedRecord>> getMergedRecords(int yearGroup) async {
 
     mergedRecords.add(mergedRecord);
   }
+
+  mergedRecords.sort((a, b) {
+    return a.standingRecord.eventGroup!.name.compareTo(b.standingRecord.eventGroup!.name);
+  });
 
   return mergedRecords;
 }

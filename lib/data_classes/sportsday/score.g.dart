@@ -57,11 +57,7 @@ ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
         : AbsoluteScore.fromJson(json['absolute'] as Map<String, dynamic>),
     id: json['id'] as String,
     createdAt: noopTransform(json['createdAt']),
-  )
-    ..event = json['event'] == null
-        ? null
-        : Event.fromJson(json['event'] as Map<String, dynamic>)
-    ..form = json['form'] == null
-        ? null
-        : Form.fromJson(json['form'] as Map<String, dynamic>);
+  )..event = json['event'] == null
+      ? null
+      : Event.fromJson(json['event'] as Map<String, dynamic>);
 }

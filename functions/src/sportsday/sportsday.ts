@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import {Form, ScoreNode} from "./types";
-import {getEvent, getFormTotal, positionToPoints} from "./points_finder";
+import {getEvent, positionToPoints} from "./points_finder";
 import {reassignFormPositions} from "./form_position";
 import addScoreNodeToFeed from "./score_to_feed";
 
@@ -20,6 +20,7 @@ export const sdPropagateScore = functions.region('europe-west2')
         if (newData?.position === oldData?.position) return;
 
         const batch = admin.firestore().batch();
+        let pointsToAdd = 0;
         if (newData) {
             const eventTuple = await getEvent(newData.eventId);
             await addScoreNodeToFeed(newData, eventTuple);
@@ -31,12 +32,19 @@ export const sdPropagateScore = functions.region('europe-west2')
             batch.update(change.after.ref, {
                 calculatedPoints: points,
             });
+
+            if (oldData?.calculatedPoints) {
+                pointsToAdd = points - oldData.calculatedPoints;
+            } else {
+                pointsToAdd = points;
+            }
+        } else if (oldData) {
+            pointsToAdd = -(oldData.calculatedPoints || 0);
         }
 
         const formRef = admin.firestore().collection('sd_forms').doc(formId);
-        const formTotal = await getFormTotal(formRef.id);
         batch.update(formRef, {
-            'points.total': formTotal,
+            'points.total': admin.firestore.FieldValue.increment(pointsToAdd),
         });
 
         await batch.commit();

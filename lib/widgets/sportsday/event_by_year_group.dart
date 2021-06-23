@@ -80,7 +80,10 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                       print(snapshot.error);
                       return Container(
                         padding: emptyPadding,
-                        child: Text("Something went wrong! Please try again in a few minutes."),
+                        child: Text(
+                          "Something went wrong! Please try again in a few minutes.",
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       );
                     }
 
@@ -107,9 +110,8 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                         data: data,
                         getAbsoluteScore: (e) => e.absolute,
                         getPosition: (e) => e.position,
-                        getFormName: (e) => e.form!.humanID,
+                        getFormId: (e) => e.formId,
                         getPoints: (e) => e.calculatedPoints ?? 0,
-                        getForm: (e) => e.form!
                       ),
                     );
                   },

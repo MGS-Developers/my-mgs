@@ -10,7 +10,7 @@ class SportsDayForms extends StatefulWidget {
 }
 
 class _SportsDayFormsState extends State<SportsDayForms> {
-  late Stream<List<Form>> formStream;
+  late Stream<List<FormWithPoints>> formStream;
   @override
   void initState() {
     formStream = getFormOverview();
@@ -20,7 +20,7 @@ class _SportsDayFormsState extends State<SportsDayForms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<Form>>(
+      body: StreamBuilder<List<FormWithPoints>>(
         stream: formStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,10 +37,9 @@ class _SportsDayFormsState extends State<SportsDayForms> {
           return SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              child: FormPositionTable<Form>(
+              child: FormPositionTable<FormWithPoints>(
                 data: forms,
-                getForm: (e) => e,
-                getFormName: (e) => e.humanID,
+                getFormId: (e) => e.id,
                 getPoints: (e) => e.points.total,
                 getPosition: (e) => e.points.schoolPosition,
               ),

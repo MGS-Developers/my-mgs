@@ -45,15 +45,11 @@ class ScoreNode {
 
   /// only populated after [ScoreNode.populate] is called
   Event? event;
-  /// only populated after [ScoreNode.populate] is called
-  Form? form;
 
   // only provided for 1st place A-race ScoreNodes
   AbsoluteScore? absolute;
 
   Future<void> populate() => populateScoreNode(this);
-  Future<void> populateEvent() => populateScoreNode(this, true, false);
-  Future<void> populateForm() => populateScoreNode(this, false, true);
 
   ScoreNode({
     required this.formId,

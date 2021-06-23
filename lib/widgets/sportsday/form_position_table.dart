@@ -8,18 +8,16 @@ import 'package:mymgs/widgets/sportsday/rank_highlight_row.dart';
 class FormPositionTable<T> extends StatelessWidget {
   final List<T> data;
   final int Function(T item) getPosition;
-  final String Function(T item) getFormName;
   final int Function(T item) getPoints;
-  final Form Function(T item) getForm;
+  final String Function(T item) getFormId;
   final bool isARace;
   final AbsoluteScore? Function(T item)? getAbsoluteScore;
 
   FormPositionTable({
     required this.data,
     required this.getPosition,
-    required this.getFormName,
     required this.getPoints,
-    required this.getForm,
+    required this.getFormId,
     this.getAbsoluteScore,
     this.isARace = false,
   });
@@ -45,6 +43,22 @@ class FormPositionTable<T> extends StatelessWidget {
     }
 
     return absoluteScore.value.toString() + (absoluteScore.units == RecordUnits.meters ? 'm' : 's');
+  }
+
+  void _openForm(BuildContext context, T node) {
+    Form form;
+    if (node is ScoreNode) {
+      form = Form.fromID(node.formId);
+    } else if (node is FormWithPoints) {
+      form = node;
+    } else {
+      throw Exception("T is of unknown type; cannot launch form");
+    }
+
+    Navigator.of(context).push(platformPageRoute(
+      context: context,
+      builder: (_) => SportsDayForm(form: form),
+    ));
   }
 
   @override
@@ -74,16 +88,13 @@ class FormPositionTable<T> extends StatelessWidget {
                 rank: getPosition(form),
                 isZero: getPoints(form) == 0,
                 cells: [
-                  DataCell(Text(getFormName(form))),
+                  DataCell(Text(Form.humaniseID(getFormId(form)))),
                   DataCell(Text(getPoints(form).toString())),
                   if (isARace) DataCell(Text(_getCompetitorName(form) ?? '')),
                   if (isARace) DataCell(Text(_getStringAbsoluteValue(form) ?? '')),
                 ],
                 onTap: () {
-                  Navigator.of(context).push(platformPageRoute(
-                    context: context,
-                    builder: (_) => SportsDayForm(form: getForm(form)),
-                  ));
+                  _openForm(context, form);
                 },
               ),
           ],

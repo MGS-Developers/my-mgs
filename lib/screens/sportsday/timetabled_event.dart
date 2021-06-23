@@ -129,9 +129,8 @@ class _SportsDayTimetabledEventState extends State<SportsDayTimetabledEvent> {
                       isARace: widget.subEvent == 0,
                       getAbsoluteScore: (e) => e.absolute,
                       getPosition: (e) => e.position,
-                      getFormName: (e) => e.form!.humanID,
                       getPoints: (e) => e.calculatedPoints ?? 0,
-                      getForm: (e) => e.form!,
+                      getFormId: (e) => e.formId,
                     );
                   }
                 ),

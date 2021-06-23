@@ -33,6 +33,10 @@ class _DbSingleton {
   }
 }
 
+// Returns a cross-platform Sembast database. Only initialised on the first call,
+// returned as a singleton for any further calls.
+//
+// Uses a file store on Android/iOS and IndexedDB on Web.
 Future<Database> getDb() async {
   return _DbSingleton().getDb();
 }

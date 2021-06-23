@@ -9,7 +9,7 @@ import 'package:mymgs/widgets/sportsday/statistic_container.dart';
 
 class SportsDayForm extends StatelessWidget {
   final Form form;
-  final Stream<Form> formStream;
+  final Stream<FormWithPoints> formStream;
   final Stream<List<ScoreNode>> latestEventStream;
   SportsDayForm({
     required this.form,
@@ -22,7 +22,7 @@ class SportsDayForm extends StatelessWidget {
       appBar: AppBar(
         title: Text(form.humanID),
       ),
-      body: StreamBuilder<Form>(
+      body: StreamBuilder<FormWithPoints>(
         stream: formStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

@@ -3,23 +3,23 @@ import 'package:mymgs/data_classes/sportsday/form.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-Stream<List<Form>> getFormOverview() {
+Stream<List<FormWithPoints>> getFormOverview() {
   return _firestore
       .collection('sd_forms')
-      .orderBy('points.total', descending: true)
+      .orderBy('points.schoolPosition', descending: false)
       .snapshots()
-      .map((snapshot) => snapshot.docs.map((e) => Form.fromJson({
+      .map((snapshot) => snapshot.docs.map((e) => FormWithPoints.fromJson({
     'id': e.id,
     ...e.data(),
   })).toList());
 }
 
-Stream<Form> getFormStream(String formId) {
+Stream<FormWithPoints> getFormStream(String formId) {
   return _firestore
       .collection('sd_forms')
       .doc(formId)
       .snapshots()
-      .map((snapshot) => Form.fromJson({
+      .map((snapshot) => FormWithPoints.fromJson({
     'id': formId,
     ...?snapshot.data(),
   }));

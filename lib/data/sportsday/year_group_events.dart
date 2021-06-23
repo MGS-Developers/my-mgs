@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymgs/data/sportsday/caching.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 
@@ -25,11 +26,7 @@ Stream<List<ScoreNode>> getEventGroupScoreNodes({
     eventId = eventIdResponse.docs[0].id;
   }
 
-  final formIdsResponse = await _firestore
-      .collection('sd_forms')
-      .where('yearGroup', isEqualTo: yearGroup)
-      .get();
-  final formIds = formIdsResponse.docs.map((e) => e.id).toList();
+  final formIds = await SportsDayCaching.getFormIds(yearGroup);
 
   yield* _firestore
       .collection('sd_score_nodes')
@@ -42,10 +39,6 @@ Stream<List<ScoreNode>> getEventGroupScoreNodes({
           'id': scoreNode.id,
           ...scoreNode.data(),
         })).toList();
-
-        for (final node in scoreNodes) {
-          await node.populateForm();
-        }
 
         return scoreNodes;
   });
