@@ -41,7 +41,7 @@ class SportsDayCaching {
 
       await _formIdsRef.put(db, jsonEncode(assembledFormIds));
 
-      return assembledFormIds[yearGroup] ?? [];
+      return assembledFormIds[yearGroup.toString()] ?? [];
     }
   }
 }
