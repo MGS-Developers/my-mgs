@@ -122,4 +122,18 @@ class Config {
     await _fetch();
     yield _remoteConfig.getBool('is_sportsday_season');
   }
+
+  static Future<bool> getIsSignupEnabled() async {
+    if (Foundation.kDebugMode) {
+      return true;
+    }
+
+    if (Foundation.kIsWeb) {
+      return false; // must be updated manually
+    }
+
+    await _init();
+    await _fetch();
+    return _remoteConfig.getBool('is_signup_enabled');
+  }
 }

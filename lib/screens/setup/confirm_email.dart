@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mymgs/data/setup.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/button.dart';
 
 class ConfirmEmail extends StatefulWidget {
@@ -85,7 +86,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding: Responsive(context).horizontalCenteredSetupPadding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,

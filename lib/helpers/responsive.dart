@@ -34,6 +34,10 @@ class Responsive {
     }
   }
 
+  EdgeInsets get horizontalCenteredSetupPadding {
+    return EdgeInsets.symmetric(vertical: 30, horizontal: horizontalReaderPadding);
+  }
+
   int get triColumnCount {
     if (_screenSize.width > 1024) {
       return 3;

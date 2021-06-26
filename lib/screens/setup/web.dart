@@ -23,7 +23,11 @@ enum SetupStage {
 
 class WebSetup extends StatefulWidget {
   final VoidCallback done;
-  const WebSetup(this.done);
+  final bool isAllowed;
+  const WebSetup({
+    required this.done,
+    this.isAllowed = false,
+  });
   _WebSetupState createState() => _WebSetupState();
 }
 
@@ -125,14 +129,13 @@ class _WebSetupState extends State<WebSetup> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SportsDayQuickSetupCard(onComplete: widget.done),
-
-                  QrImage(
+                  SportsDayQuickSetupCard(onComplete: widget.done, autoInit: !widget.isAllowed),
+                  if (widget.isAllowed) QrImage(
                     data: _secret,
                     size: MediaQuery.of(context).size.height * 0.5,
                   ),
-                  const SizedBox(height: 20),
-                  Text(
+                  if (widget.isAllowed) const SizedBox(height: 20),
+                  if (widget.isAllowed) Text(
                     "Open MyMGS on your phone to sign in...",
                   ),
                 ],

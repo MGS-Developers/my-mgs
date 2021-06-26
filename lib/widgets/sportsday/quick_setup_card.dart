@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/config.dart';
 import 'package:mymgs/data/sportsday/temporary_authentication.dart';
+import 'package:mymgs/widgets/spinner.dart';
 
-class SportsDayQuickSetupCard extends StatelessWidget {
+class SportsDayQuickSetupCard extends StatefulWidget {
   final VoidCallback onComplete;
-  SportsDayQuickSetupCard({
+  final bool autoInit;
+  const SportsDayQuickSetupCard({
     Key? key,
     required this.onComplete,
+    this.autoInit = false,
   });
 
+  _SportsDayQuickSetupCardState createState() => _SportsDayQuickSetupCardState();
+}
+
+class _SportsDayQuickSetupCardState extends State<SportsDayQuickSetupCard> {
   final isSeasonStream = Config.getIsSportsDaySeason();
   void _setup(BuildContext context) async {
     showPlatformDialog(
@@ -24,11 +31,43 @@ class SportsDayQuickSetupCard extends StatelessWidget {
     );
     await authenticateSportsDay();
     Navigator.of(context).pop();
-    onComplete();
+    widget.onComplete();
+  }
+
+  bool autoInitComplete = false;
+  void _setupIfSeason() async {
+    final isSeason = await isSeasonStream.last;
+    if (isSeason) {
+      _setup(context);
+    }
+
+    setState(() {
+      autoInitComplete = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.autoInit) {
+      _setupIfSeason();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.autoInit && !autoInitComplete) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        child: Spinner(),
+      );
+    }
+
+    if (autoInitComplete) {
+      return SizedBox();
+    }
+
     return StreamBuilder<bool>(
       stream: isSeasonStream,
       builder: (context, snapshot) {

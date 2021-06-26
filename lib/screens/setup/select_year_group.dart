@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/button.dart';
 
 class SelectYearGroup extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(30),
+      padding: Responsive(context).horizontalCenteredSetupPadding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,

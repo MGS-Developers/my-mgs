@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/config.dart';
 import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
@@ -48,12 +49,24 @@ class RemoveLicenseSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KeyValueSetting(
-      name: "Remove license",
-      description: "Sign out of $appName completely. Requires app restart.",
-      onTap: () {
-        _confirmRemove(context);
-      },
+    return FutureBuilder(
+      future: Config.getIsSignupEnabled(),
+      builder: (context, snapshot) {
+        // this is our safety mechanism to stop users from signing out
+        // if they can't sign back in again.
+        if (snapshot.data != true) {
+          return SizedBox();
+        } else {
+          return KeyValueSetting(
+            name: "Remove license",
+            description: "Sign out of $appName completely. Requires app restart.",
+            onTap: () {
+              _confirmRemove(context);
+            },
+          );
+        }
+      }
     );
+
   }
 }
