@@ -6,6 +6,13 @@ part of 'standing_record.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+NewStandingRecord _$NewStandingRecordFromJson(Map<String, dynamic> json) {
+  return NewStandingRecord(
+    name: json['name'] as String,
+    value: (json['value'] as num).toDouble(),
+  );
+}
+
 StandingRecord _$StandingRecordFromJson(Map<String, dynamic> json) {
   return StandingRecord(
     holder: json['holder'] as String,
@@ -18,7 +25,9 @@ StandingRecord _$StandingRecordFromJson(Map<String, dynamic> json) {
         : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>),
     eventGroupId: json['eventGroupId'] as String,
     scoreSpecId: json['scoreSpecId'] as String,
-  );
+  )..newRecord = json['new'] == null
+      ? null
+      : NewStandingRecord.fromJson(json['new'] as Map<String, dynamic>);
 }
 
 K _$enumDecode<K, V>(

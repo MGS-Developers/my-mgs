@@ -1,7 +1,7 @@
 import {AbsoluteScoreNode, StandingRecord} from "./types";
 import * as admin from 'firebase-admin';
 
-export default async function saveNewRecordValue(absolute: AbsoluteScoreNode, yearGroup: number, eventGroupId: string) {
+export default async function saveNewRecordValue(absolute: AbsoluteScoreNode, yearGroup: number, eventGroupId: string): Promise<boolean> {
     const standingRecordResponse = await admin.firestore().collection('sd_standing_records')
         .where('eventGroupId', '==', eventGroupId)
         .where('yearGroup', '==', yearGroup)
@@ -9,7 +9,7 @@ export default async function saveNewRecordValue(absolute: AbsoluteScoreNode, ye
 
     const standingRecordRef = standingRecordResponse.docs[0];
     const standingRecord = standingRecordRef?.data() as StandingRecord | undefined;
-    if (!standingRecord) return;
+    if (!standingRecord) return false;
 
     await standingRecordRef.ref.update({
         new: {
@@ -17,4 +17,6 @@ export default async function saveNewRecordValue(absolute: AbsoluteScoreNode, ye
             value: absolute.value,
         }
     } as Partial<StandingRecord>);
+
+    return absolute.value > standingRecord.value;
 }

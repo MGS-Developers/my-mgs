@@ -5,6 +5,18 @@ import 'package:mymgs/data_classes/sportsday/score.dart';
 part 'standing_record.g.dart';
 
 @JsonSerializable(createToJson: false)
+class NewStandingRecord {
+  final String name;
+  final double value;
+
+  NewStandingRecord({
+    required this.name,
+    required this.value,
+  });
+  factory NewStandingRecord.fromJson(Map<String, dynamic> json) => _$NewStandingRecordFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
 class StandingRecord {
   final String holder;
   final double value;
@@ -15,6 +27,9 @@ class StandingRecord {
   EventGroup? eventGroup;
   final String scoreSpecId;
   final String eventGroupId;
+
+  @JsonKey(name: "new")
+  NewStandingRecord? newRecord;
 
   StandingRecord({
     required this.holder,
@@ -27,13 +42,4 @@ class StandingRecord {
     required this.scoreSpecId,
   });
   factory StandingRecord.fromJson(Map<String, dynamic> json) => _$StandingRecordFromJson(json);
-}
-
-class MergedRecord {
-  AbsoluteScore? latestRecord;
-  final StandingRecord standingRecord;
-  MergedRecord({
-    this.latestRecord,
-    required this.standingRecord,
-  });
 }

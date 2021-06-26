@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/sportsday/records.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 import 'package:mymgs/data_classes/sportsday/standing_record.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class RecordsByYearGroup extends StatelessWidget {
-  final Future<List<MergedRecord>> mergedRecordFuture;
+  final int yearGroup;
+  late final stream = getStandingRecordStream(yearGroup);
   RecordsByYearGroup({
-    required this.mergedRecordFuture,
+    required this.yearGroup,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<MergedRecord>>(
-      future: mergedRecordFuture,
+    return StreamBuilder<List<StandingRecord>>(
+      stream: stream,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return Center(
+            child: Text("Something went wrong! Please try again in a few minutes"),
+          );
+        }
+
         final data = snapshot.data;
         if (data == null) {
           return Center(
@@ -32,18 +41,19 @@ class RecordsByYearGroup extends StatelessWidget {
               DataColumn(label: Text("Current record")),
             ],
             rows: data.map((record) {
-              final latestRecord = record.latestRecord;
+              final latestRecord = record.newRecord;
+              final isBroken = (latestRecord?.value ?? 0) > record.value;
 
               return DataRow(
                 color: MaterialStateProperty.all(
-                  latestRecord?.isNewRecord == true ? Color(0xFFFDEC93): Colors.transparent,
+                  isBroken == true ? Color(0xFFFDEC93): Colors.transparent,
                 ),
                 cells: [
-                  DataCell(Text(record.standingRecord.eventGroup!.name)),
-                  DataCell(Text(record.standingRecord.holder + " (${record.standingRecord.year})")),
-                  DataCell(Text(record.standingRecord.value.toString() + (record.standingRecord.units == RecordUnits.meters ? 'm' : 's'))),
-                  DataCell(Text(latestRecord == null ? '' : latestRecord.competitorName)),
-                  DataCell(Text(latestRecord == null ? '' : latestRecord.value.toString() + (latestRecord.units == RecordUnits.meters ? 'm' : 's')))
+                  DataCell(Text(record.eventGroup!.name)),
+                  DataCell(Text(record.holder + " (${record.year})")),
+                  DataCell(Text(record.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's'))),
+                  DataCell(Text(latestRecord == null ? '' : latestRecord.name)),
+                  DataCell(Text(latestRecord == null ? '' : latestRecord.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's')))
                 ],
               );
             }).toList(),

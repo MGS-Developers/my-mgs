@@ -4,7 +4,6 @@ import {Form, ScoreNode} from "./types";
 import {getEvent, positionToPoints} from "./points_finder";
 import {reassignFormPositions} from "./form_position";
 import addScoreNodeToFeed from "./score_to_feed";
-import { isEqual } from 'lodash';
 import saveNewRecordValue from "./records";
 
 export const sdPropagateScore = functions.region('europe-west2')
@@ -57,7 +56,8 @@ export const sdTestBrokenRecord = functions.region('europe-west2')
     .onWrite(async change => {
         const newData = change.after.data() as ScoreNode;
         const oldData = change.before.data() as ScoreNode;
-        if (isEqual(newData?.absolute, oldData?.absolute)) return;
+        if (newData?.absolute?.competitorName === oldData?.absolute?.competitorName
+            && newData?.absolute?.value === oldData?.absolute?.value) return;
 
         if (newData) {
             // run these before getEvent to reduce read count
@@ -80,7 +80,11 @@ export const sdTestBrokenRecord = functions.region('europe-west2')
             }
 
             if (isNaN(yearGroup)) return;
-            await saveNewRecordValue(absolute, yearGroup, eventGroupId);
+            const isNew = await saveNewRecordValue(absolute, yearGroup, eventGroupId);
+
+            await change.after.ref.update({
+                'absolute.isNewRecord': isNew,
+            });
         }
     });
 

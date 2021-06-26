@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mymgs/data/local_database.dart';
+import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/form.dart';
 import 'package:sembast/sembast.dart';
 
@@ -42,6 +43,31 @@ class SportsDayCaching {
       await _formIdsRef.put(db, jsonEncode(assembledFormIds));
 
       return assembledFormIds[yearGroup.toString()] ?? [];
+    }
+  }
+  
+  static String _getEventGroupRef(String eventGroupId) {
+    return "eg-$eventGroupId";
+  }
+  static Future<EventGroup> getEventGroup(String scoreSpecId, String eventGroupId) async {
+    final db = await getDb();
+    final ref = _getEventGroupRef(eventGroupId);
+    final raw = await _cacheStore.record(ref).get(db);
+    
+    if (raw != null) {
+      return EventGroup.fromJson(jsonDecode(raw));
+    } else {
+      final response = await _firestore.collection('sd_score_specs').doc(scoreSpecId)
+          .collection('sd_event_groups').doc(eventGroupId)
+          .get();
+
+      final eventGroup = EventGroup.fromJson({
+        'id': response.id,
+        ...?response.data(),
+      });
+
+      await _cacheStore.record(ref).put(db, jsonEncode(eventGroup.toJson()));
+      return eventGroup;
     }
   }
 }
