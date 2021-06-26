@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/magazines.dart';
-import 'package:mymgs/data_classes/protobuf/magazines.pbserver.dart';
+import 'package:mymgs/data_classes/protobuf/magazines.pb.dart';
 import 'package:mymgs/widgets/magazines/edition_cover.dart';
 import 'package:mymgs/widgets/magazines/section_banner.dart';
 import 'package:mymgs/widgets/page_layouts/hero_appbar.dart';

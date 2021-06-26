@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/data/sportsday/populate.dart';
 import 'package:mymgs/data_classes/sportsday/event.dart';
-import 'package:mymgs/data_classes/sportsday/form.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'score.g.dart';

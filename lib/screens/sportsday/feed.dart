@@ -10,10 +10,6 @@ class SportsDayFeed extends StatelessWidget {
   final stream = getScoreNodeStream();
   SportsDayFeed();
 
-  void _openEvent(BuildContext context, EventFeedItem event) async {
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
