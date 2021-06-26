@@ -18,6 +18,7 @@ class AbsoluteScore {
   // typically provided as first initial + surname
   final String competitorName;
 
+  @Deprecated("Field is no longer maintained and its value is unreliable")
   final bool isNewRecord;
 
   const AbsoluteScore({

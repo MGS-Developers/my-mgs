@@ -4,6 +4,8 @@ import {Form, ScoreNode} from "./types";
 import {getEvent, positionToPoints} from "./points_finder";
 import {reassignFormPositions} from "./form_position";
 import addScoreNodeToFeed from "./score_to_feed";
+import { isEqual } from 'lodash';
+import saveNewRecordValue from "./records";
 
 export const sdPropagateScore = functions.region('europe-west2')
     .firestore.document('sd_score_nodes/{sd_score_node}')
@@ -50,9 +52,45 @@ export const sdPropagateScore = functions.region('europe-west2')
         await batch.commit();
     });
 
+export const sdTestBrokenRecord = functions.region('europe-west2')
+    .firestore.document('sd_score_nodes/{sd_score_node}')
+    .onWrite(async change => {
+        const newData = change.after.data() as ScoreNode;
+        const oldData = change.before.data() as ScoreNode;
+        if (isEqual(newData?.absolute, oldData?.absolute)) return;
+
+        if (newData) {
+            // run these before getEvent to reduce read count
+            if (newData.position !== 1 || newData.absolute === undefined) return;
+
+            const [event, ref] = await getEvent(newData.eventId);
+            // only first place competitors in a-races can beat records
+            if (event.subEvent !== 0) return;
+
+            const absolute = newData.absolute;
+            const eventGroupId = ref.parent.parent?.id;
+            if (!eventGroupId) return;
+
+            let yearGroup: number | undefined;
+            const formId = newData.formId;
+            if (formId.startsWith('10')) {
+                yearGroup = 10;
+            } else {
+                yearGroup = parseInt(formId[0]);
+            }
+
+            if (isNaN(yearGroup)) return;
+            await saveNewRecordValue(absolute, yearGroup, eventGroupId);
+        }
+    });
+
 export const sdCalculateFormPosition = functions.region('europe-west2')
     .firestore.document('sd_forms/{sd_form}')
     .onUpdate(async (change) => {
         const newData = change.after.data() as Form;
+        const oldData = change.before.data() as Form;
+
+        // if the quantity of points is unchanged, then this function is just being called as the result of another function call changing this form's position.
+        if (oldData?.points?.total === newData?.points?.total) return;
         await reassignFormPositions(newData.yearGroup);
     });

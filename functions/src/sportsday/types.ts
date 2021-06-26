@@ -1,10 +1,27 @@
 export type SubEvent = 0 | 1 | 2;
 
+export interface AbsoluteScoreNode {
+    competitorName: string;
+    units: 'meters' | 'seconds';
+    value: number;
+}
+
+export interface StandingRecord {
+    eventGroupId: string;
+    value: number;
+    yearGroup: number;
+    new: {
+        name: string;
+        value: number;
+    }
+}
+
 export interface ScoreNode {
     formId: string;
     eventId: string;
     position: number;
     calculatedPoints?: number;
+    absolute?: AbsoluteScoreNode;
 }
 
 export interface Event {
