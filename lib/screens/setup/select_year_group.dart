@@ -34,7 +34,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Don\'t worry — your data always stays on your phone. You can change this setting at any time.',
+            'Don\'t worry — your data always stays on your device. You can change this setting at any time.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 5),
