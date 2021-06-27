@@ -1,3 +1,5 @@
+name: Build for iOS
+
 on:
   workflow_dispatch
 
