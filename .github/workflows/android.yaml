@@ -1,7 +1,12 @@
 name: Build for Android
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: 'Fastlane lane to use'
+        required: true
+        default: 'beta'
 
 jobs:
   build:
@@ -18,6 +23,13 @@ jobs:
         with:
           flutter-version: '2.2.2'
 
+      - name: Setup Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+          bundler-cache: true
+          working-directory: android
+
       - name: Configure Keystore
         run: |
           echo "$ANDROID_STORE_FILE" | base64 --decode > app/temp_key.jks
@@ -33,8 +45,7 @@ jobs:
         working-directory: android
 
       - run: flutter pub get
-      - run: flutter build appbundle --release
-      - uses: actions/upload-artifact@v2
-        with:
-          name: release.aab
-          path: build/app/outputs/bundle/release/app.aab
+      - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
+        env:
+          PLAY_STORE_CONFIG_JSON: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
+        working-directory: android
