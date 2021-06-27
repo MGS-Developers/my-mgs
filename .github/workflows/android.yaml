@@ -24,7 +24,7 @@ jobs:
           echo "storeFile=temp_key.jks" >> key.properties
           echo "keyAlias=$ANDROID_KEY_ALIAS" >> key.properties
           echo "storePassword=$ANDROID_STORE_PASSWORD" >> key.properties
-          echo "keyPassword=$ANDROID_KEY_PASSWORD >> key.properties"
+          echo "keyPassword=$ANDROID_KEY_PASSWORD" >> key.properties
         env:
           ANDROID_STORE_FILE: ${{ secrets.ANDROID_STORE_FILE }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
