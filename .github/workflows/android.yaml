@@ -7,15 +7,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.2.2'
 
-      - run: echo "$ANDROID_STORE_FILE" | base64 --decode > android/temp_key.jks
+      - name: Configure Keystore
+        run: |
+          echo "$ANDROID_STORE_FILE" | base64 --decode > app/temp_key.jks
+          echo "storeFile=temp_key.jks" >> key.properties
+          echo "keyAlias=$ANDROID_KEY_ALIAS" >> key.properties
+          echo "storePassword=$ANDROID_STORE_PASSWORD" >> key.properties
+          echo "keyPassword=$ANDROID_KEY_PASSWORD >> key.properties"
+        env:
+          ANDROID_STORE_FILE: ${{ secrets.ANDROID_STORE_FILE }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+        working-directory: android
+
       - run: flutter pub get
       - run: flutter build appbundle --release
       - uses: actions/upload-artifact@v2
