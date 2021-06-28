@@ -27,4 +27,14 @@ platform :android do
       json_key_data: ENV['PLAY_STORE_CONFIG_JSON']
     )
   end
+
+  desc "Submit a new internal (alpha) testing build to Google Play"
+  lane :internal do
+    sh "flutter build appbundle -v"
+    upload_to_play_store(
+      track: 'internal',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      json_key_data: ENV['PLAY_STORE_CONFIG_JSON'],
+    )
+  end
 end
