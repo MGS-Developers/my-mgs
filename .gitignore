@@ -51,3 +51,6 @@ app.*.map.json
 
 # Firebase cache
 *.cache
+
+play-store-key.json
+report.xml
