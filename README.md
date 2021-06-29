@@ -1,4 +1,7 @@
 # MyMGS
+
+[![Continuous Testing](https://github.com/MGS-School-Council/my-mgs/actions/workflows/test.yaml/badge.svg)](https://github.com/MGS-School-Council/my-mgs/actions/workflows/test.yaml)
+
 An MGS School Council project.
 
 ## Important: before making a contribution
