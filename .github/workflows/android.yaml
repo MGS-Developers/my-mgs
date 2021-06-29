@@ -3,10 +3,10 @@ name: Build for Android
 on:
   workflow_dispatch:
     inputs:
-      lane:
-        description: 'Fastlane lane to use'
+      mode:
+        description: 'Compilation mode to use (appbundle or apk)'
         required: true
-        default: 'beta'
+        default: 'appbundle'
 
 jobs:
   build:
@@ -23,13 +23,6 @@ jobs:
         with:
           flutter-version: '2.2.2'
 
-      - name: Setup Fastlane
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
-          bundler-cache: true
-          working-directory: android
-
       - name: Configure Keystore
         run: |
           echo "$ANDROID_STORE_FILE" | base64 --decode > app/temp_key.jks
@@ -44,8 +37,21 @@ jobs:
           ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
         working-directory: android
 
-      - run: flutter pub get
-      - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
-        env:
-          PLAY_STORE_CONFIG_JSON: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
-        working-directory: android
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build Flutter
+        run: flutter build ${{ github.event.inputs.mode || 'appbundle' }} --release -v
+
+      - name: Upload Bundle artifact
+        if: ${{ github.event.inputs.mode == 'appbundle }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-bundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload APK artifact
+        if: ${{ github.event.inputs.mode == 'apk }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
