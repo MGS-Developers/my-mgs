@@ -43,14 +43,14 @@ jobs:
         run: flutter build ${{ github.event.inputs.mode || 'appbundle' }} --release -v
 
       - name: Upload Bundle artifact
-        if: ${{ github.event.inputs.mode == 'appbundle }}
+        if: ${{ github.event.inputs.mode == 'appbundle' }}
         uses: actions/upload-artifact@v2
         with:
           name: release-bundle
           path: build/app/outputs/bundle/release/app-release.aab
 
       - name: Upload APK artifact
-        if: ${{ github.event.inputs.mode == 'apk }}
+        if: ${{ github.event.inputs.mode == 'apk' }}
         uses: actions/upload-artifact@v2
         with:
           name: release-apk
