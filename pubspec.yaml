@@ -6,7 +6,7 @@ publish_to: 'none'
 
 # Automatically copied into iOS and Android versions at build time.
 # Public-facing semver code, followed by a '+', and then the build number (must always be larger than the previous published build)
-version: 0.3.0+7
+version: 0.4.0+8
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
