@@ -38,7 +38,7 @@ const appContributors = {
   "Sports Day coverage": [
     "P Kerecsenyi",
     "G Kerecsenyi",
-    "E Aspen",
+    "E Aspin",
   ],
   "Concept & testing": [
     "The MGS School Council",

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/screens/sportsday/events.dart';
 import 'package:mymgs/screens/sportsday/feed.dart';
@@ -22,8 +25,55 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
     const SportsDayRecords(),
   ];
 
+  static const tabs = [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.people),
+      label: "Forms",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.emoji_events),
+      label: "Events",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.stream),
+      label: "Feed",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.search),
+      label: "Find event",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.stars),
+      label: "Records",
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          activeColor: Theme.of(context).primaryColor,
+          items: tabs,
+          currentIndex: index,
+          onTap: (_index) {
+            setState(() {
+              index = _index;
+            });
+          },
+        ),
+        tabBuilder: (context, index) {
+          return Scaffold(
+            appBar: DrawerAppBar("Sports Day 2021"),
+            body: SafeArea(
+              child: routes[index],
+              top: false,
+            ),
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: DrawerAppBar("Sports Day 2021"),
       bottomNavigationBar: BottomNavigationBar(
@@ -36,28 +86,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
             index = _index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: "Forms",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_events),
-            label: "Events",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.stream),
-            label: "Feed",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Find event",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.stars),
-            label: "Records",
-          ),
-        ],
+        items: tabs,
       ),
       body: routes[index],
     );

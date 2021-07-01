@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showContactSheet(BuildContext context, String? name, String? email) {
-  showPlatformModalSheet(
+  showModalBottomSheet(
     context: context,
-    material: MaterialModalSheetData(
-      backgroundColor: Colors.transparent,
-      isDismissible: true,
-      enableDrag: true,
+    backgroundColor: Theme.of(context).primaryColorLight,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(20),
+        topLeft: Radius.circular(20),
+      ),
     ),
     builder: (_) => Container(
       height: 180,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorLight,
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-        bottom: MediaQuery.of(context).padding.bottom,
-        top: 20,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 20).copyWith(top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
