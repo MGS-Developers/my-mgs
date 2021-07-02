@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' as Foundation;
 import 'package:mymgs/screens/sportsday/events.dart';
 import 'package:mymgs/screens/sportsday/feed.dart';
 import 'package:mymgs/screens/sportsday/find_event.dart';
@@ -50,7 +51,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (!Foundation.kIsWeb && Platform.isIOS) {
       return CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
           activeColor: Theme.of(context).primaryColor,
