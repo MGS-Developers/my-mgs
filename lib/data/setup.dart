@@ -21,8 +21,9 @@ Future<SetupStatus> getSetupComplete() async {
   }
 }
 
-Future<int?> getYearGroup() async {
-  return getSetting('year-group');
+Future<int> getYearGroup() async {
+  final yearGroup = await getSetting('year-group');
+  return yearGroup ?? 7;
 }
 
 Future<String?> sendEmail(String address) async {

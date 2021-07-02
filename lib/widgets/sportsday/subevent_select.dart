@@ -19,6 +19,18 @@ class _SubeventSelectState extends State<SubeventSelect> {
   int? subEvent;
 
   @override
+  void didUpdateWidget(covariant SubeventSelect oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.eventGroup != widget.eventGroup) {
+      setState(() {
+        subEvent = 0;
+      });
+      widget.onChange(0);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButton<int>(
       onChanged: (_subEvent) {

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/sportsday/feed_item.dart';
 import 'package:mymgs/helpers/responsive.dart';
+import 'package:mymgs/widgets/sportsday/feed/tile_time.dart';
 
 class MediaFeedTile extends StatelessWidget {
   final MediaFeedItem media;
@@ -34,8 +34,13 @@ class MediaFeedTile extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: " — " + Jiffy(timestamp.toDate()).fromNow(),
-                )
+                  text: " — ",
+                ),
+                WidgetSpan(
+                  child: TileTimer(time: timestamp),
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
+                ),
               ],
               style: Theme.of(context).textTheme.bodyText1,
             ),

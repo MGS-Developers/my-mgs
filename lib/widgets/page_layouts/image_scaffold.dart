@@ -104,7 +104,6 @@ class _ImageScaffoldState extends State<ImageScaffold> {
             pinned: true,
             stretch: true,
             expandedHeight: heroHeight,
-            backgroundColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
               background: widget.heroKey != null ? Hero(
                 tag: widget.heroKey ?? '',

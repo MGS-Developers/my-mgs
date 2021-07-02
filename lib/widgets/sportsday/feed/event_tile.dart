@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/feed_item.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/helpers/sportsday.dart';
 import 'package:mymgs/screens/sportsday/event_group.dart';
+import 'package:mymgs/widgets/sportsday/feed/tile_time.dart';
 
 class EventFeedTile extends StatelessWidget {
   final EventFeedItem event;
@@ -49,9 +49,7 @@ class EventFeedTile extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      subtitle: Text(
-        Jiffy(timestamp.toDate()).fromNow(),
-      ),
+      subtitle: TileTimer(time: timestamp),
     );
   }
 }

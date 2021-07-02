@@ -14,7 +14,7 @@ Future<void> shareShareable(Shareable shareable, [Rect? origin]) async {
       packageName: "org.mgs.my",
     ),
     iosParameters: IosParameters(
-      bundleId: "org.mgs.my",
+      bundleId: "org.mgs.my.ios",
     ),
     dynamicLinkParametersOptions: DynamicLinkParametersOptions(
       shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,

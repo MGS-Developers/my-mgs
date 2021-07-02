@@ -10,9 +10,7 @@ Future<List<NewsItem>> getNews(int limit) async {
       .limit(limit);
 
   final yearGroup = await getYearGroup();
-  if (yearGroup != null) {
-    query = query.where('yearGroups', arrayContains: yearGroup);
-  }
+  query = query.where('yearGroups', arrayContains: yearGroup);
 
   final newsDocs = await query.get();
   return newsDocs.docs.map((e) => NewsItem.fromJson({

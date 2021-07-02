@@ -11,7 +11,6 @@ FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 Future<List<CateringItem>> getCateringItems() async {
   final yearGroup = await getYearGroup();
-  assert(yearGroup != null);
 
   final cateringResponse = await _firestore
       .collection('catering')
@@ -79,7 +78,7 @@ Future<CateringItem?> getTodaysMenu() async {
 
   final yearGroup = await getYearGroup();
 
-  if (cateringWeek == null || yearGroup == null) {
+  if (cateringWeek == null) {
     return null;
   }
   
