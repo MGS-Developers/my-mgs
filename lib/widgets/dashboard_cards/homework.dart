@@ -30,7 +30,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
       children: [
         EntryList(
           diaryEntryController: _diaryEntryController,
-          showNewButton: false,
+          isExpanded: false,
         ),
       ],
     );
