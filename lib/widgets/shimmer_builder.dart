@@ -33,6 +33,8 @@ class SizedShimmer extends StatelessWidget {
         highlightColor: highlightColor,
       ) : Container(
         color: baseColor,
+        width: width,
+        height: height,
       ),
     );
   }

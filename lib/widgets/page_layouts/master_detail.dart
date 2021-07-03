@@ -76,6 +76,7 @@ class _MasterDetailScreenState extends State<MasterDetailScreen> {
             ),
             VerticalDivider(
               width: 10,
+              color: Theme.of(context).primaryColorDark,
             ),
             const SizedBox(width: 10),
             Expanded(

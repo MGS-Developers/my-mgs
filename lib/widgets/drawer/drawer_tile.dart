@@ -46,7 +46,7 @@ class DrawerTile extends StatelessWidget {
 
     final textColor = MediaQuery.of(context).platformBrightness == Brightness.light ?
         selected ? HSLColor.fromColor(selectedColor).withLightness(0.4).toColor() : Colors.black :
-        selected ? Colors.black : Colors.white;
+        Colors.white;
 
     final iconColor = selected ? textColor : HSLColor.fromColor(textColor).withAlpha(0.5).toColor();
 

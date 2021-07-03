@@ -73,7 +73,10 @@ class _SurvivalGuidesState extends State<SurvivalGuides> {
               if (items == null) return SizedBox();
 
               return ListTile(
-                leading: Icon(Icons.folder),
+                leading: Icon(
+                  Icons.folder,
+                  color: Theme.of(context).textTheme.bodyText1?.color,
+                ),
                 title: Text(key),
                 onTap: () {
                   Navigator.of(context).push(platformPageRoute(
