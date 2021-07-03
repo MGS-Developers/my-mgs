@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/settings.dart';
 
 const SUBJECTS = [
   "🎨 Art",
@@ -50,10 +51,21 @@ class SelectSubject extends StatefulWidget {
 
 class _SelectSubjectState extends State<SelectSubject> {
   late TextEditingController _otherSubject;
+  List selectedSubjects = [];
+
   @override
   void initState() {
-    _otherSubject = TextEditingController();
     super.initState();
+    _otherSubject = TextEditingController();
+
+    getSetting<List?>('subjects')
+    .then((value) {
+      if (value != null) {
+        setState(() {
+          selectedSubjects = value;
+        });
+      }
+    });
   }
 
   @override
@@ -103,6 +115,11 @@ class _SelectSubjectState extends State<SelectSubject> {
         ...combinedSubjects,
       ];
     }
+
+    combinedSubjects = [
+      ...selectedSubjects,
+      ...combinedSubjects.where((subject) => !selectedSubjects.contains(subject)),
+    ];
 
     return DropdownButton<String>(
       dropdownColor: Theme.of(context).backgroundColor,

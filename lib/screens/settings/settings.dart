@@ -8,6 +8,7 @@ import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/interests/interests.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
+import 'package:mymgs/screens/settings/subjects.dart';
 import 'package:mymgs/screens/settings/web_auth.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
@@ -129,6 +130,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 builder: (_) => const InterestsScreen(),
               ));
             },
+          ),
+          if (!restrictForSportsDay) KeyValueSetting(
+            name: "Subjects",
+            description: "Select which subjects you take",
+            onTap: () {
+              Navigator.of(context).push(platformPageRoute(
+                context: context,
+                fullscreenDialog: true,
+                builder: (_) => const SelectSubjects(),
+              ));
+            }
           ),
           const RemoveLicenseSetting(),
           if (!kIsWeb && !restrictForSportsDay) KeyValueSetting(
