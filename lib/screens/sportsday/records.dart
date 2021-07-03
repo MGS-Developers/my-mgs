@@ -27,9 +27,11 @@ class _SportsDayRecordsState extends State<SportsDayRecords> {
 
             Expanded(
               child: TabBarView(
-                children: _yearGroups.map((e) => RecordsByYearGroup(
-                  yearGroup: e,
-                )).toList(),
+                children: _yearGroups.map((e) {
+                  return RecordsByYearGroup(
+                    yearGroup: e,
+                  );
+                }).toList(),
               ),
             ),
           ],

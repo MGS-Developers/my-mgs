@@ -18,17 +18,17 @@ import 'package:mymgs/widgets/drawer/drawer_tile.dart';
 final _remoteConfig = RemoteConfig.instance;
 
 const _modules = <String, RouteData>{
-  'dashboard': RouteData("Dashboard", Icons.home_outlined, Icons.home, Dashboard(
+  'dashboard': RouteData("dashboard", "Dashboard", Icons.home_outlined, Icons.home, Dashboard(
     key: Key("DashboardScreen"),
   )),
-  'events': RouteData("Events", Icons.event_outlined, Icons.event, Events()),
-  'clubs': RouteData("Clubs", Icons.school_outlined, Icons.school, Clubs()),
-  'diary': RouteData("Homework Diary", Icons.description_outlined, Icons.description, Diary()),
-  'magazines': RouteData("Magazines", Icons.bookmark_border, Icons.bookmark, ExploreMagazines()),
-  'survival_guides': RouteData("Survival Guides", Icons.menu_book_outlined, Icons.menu_book, SurvivalGuides()),
-  'wellbeing': RouteData("Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
-  'settings': RouteData("Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
-  'sportsday': RouteData("Sports Day 2021", Icons.run_circle_outlined, Icons.run_circle, SportsDayNavigation()),
+  'events': RouteData("events", "Events", Icons.event_outlined, Icons.event, Events()),
+  'clubs': RouteData("clubs", "Clubs", Icons.school_outlined, Icons.school, Clubs()),
+  'diary': RouteData("diary", "Homework Diary", Icons.description_outlined, Icons.description, Diary()),
+  'magazines': RouteData("magazines", "Magazines", Icons.bookmark_border, Icons.bookmark, ExploreMagazines()),
+  'survival_guides': RouteData("survival_guides", "Survival Guides", Icons.menu_book_outlined, Icons.menu_book, SurvivalGuides()),
+  'wellbeing': RouteData("wellbeing", "Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
+  'settings': RouteData("settings", "Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
+  'sportsday': RouteData("sportsday", "Sports Day 2021", Icons.run_circle_outlined, Icons.run_circle, SportsDayNavigation()),
 };
 
 RouteData? _featureToRouteData(String featureName) {

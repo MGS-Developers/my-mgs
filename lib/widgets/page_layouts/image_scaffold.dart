@@ -118,6 +118,7 @@ class _ImageScaffoldState extends State<ImageScaffold> {
 
           SliverToBoxAdapter(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ...widget.children,
               ],

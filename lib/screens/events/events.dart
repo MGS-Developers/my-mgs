@@ -4,10 +4,11 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/events.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data_classes/event.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/events/event_screen.dart';
 import 'package:mymgs/widgets/events/event_card.dart';
 import 'package:mymgs/widgets/grouped_list_separator.dart';
-import 'package:mymgs/widgets/master_detail.dart';
+import 'package:mymgs/widgets/page_layouts/master_detail.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class Events extends StatefulWidget {
@@ -35,6 +36,7 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     if (_eventsFuture == null) return SizedBox();
+    final responsive = Responsive(context);
 
     return FutureBuilder<List<Event>>(
       future: _eventsFuture,
@@ -70,10 +72,10 @@ class _EventsState extends State<Events> {
               );
             }
 
-            return GroupedListView<Event, String>(
+            return GroupedListView<Event, DateTime>(
               padding: EdgeInsets.only(bottom: 20),
               elements: data,
-              groupBy: (e) => Jiffy(e.startTime.toDate()).yMMMEd,
+              groupBy: (e) => e.startTime.toDate(),
               itemBuilder: (context, event) {
                 final index = data.indexOf(event);
                 return EventCard(
@@ -81,9 +83,12 @@ class _EventsState extends State<Events> {
                   event: event,
                   onTap: (heroKey) => onTap(index, heroKey),
                   selected: index == selectedIndex,
+                  showImage: !responsive.shouldSplitScreen,
                 );
               },
-              groupSeparatorBuilder: (date) => GroupedListSeparator(label: date),
+              groupSeparatorBuilder: (date) => GroupedListSeparator(
+                label: Jiffy(date).yMMMEd,
+              ),
             );
           },
           detailBuilder: (context, selectedIndex, isNewScreen, [heroKey]) {

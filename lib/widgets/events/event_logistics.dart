@@ -7,9 +7,11 @@ import 'package:mymgs/widgets/text_icon.dart';
 class EventLogistics extends StatelessWidget {
   final Event event;
   final bool showFullDate;
+  final bool forceLightText;
   const EventLogistics({
     required this.event,
     this.showFullDate = false,
+    this.forceLightText = false,
   });
 
   @override
@@ -35,38 +37,46 @@ class EventLogistics extends StatelessWidget {
 
     final parsedDate = Jiffy(event.startTime.toDate());
 
+    final textStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
+      color: forceLightText ? Colors.white70 : null,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Text.rich(TextSpan(
+          style: textStyle,
           children: [
-            TextIcon(icon: PlatformIcons(context).time),
-            const SizedBox(width: 5),
-            Text(
-              showFullDate ? parsedDate.yMMMdjm : parsedDate.jm,
-              style: Theme.of(context).textTheme.bodyText1,
+            TextIconSpan(
+              icon: PlatformIcons(context).time,
+              forceLightIcon: forceLightText,
             ),
-            Text(
-              " • ",
-              style: Theme.of(context).textTheme.bodyText1,
+            const WidgetSpan(child: SizedBox(width: 5)),
+            TextSpan(
+              text: showFullDate ? parsedDate.yMMMdjm : parsedDate.jm,
             ),
-            Text(
-              durationText,
-              style: Theme.of(context).textTheme.bodyText1,
+            TextSpan(
+              text: " • "
             ),
-          ],
-        ),
+            TextSpan(
+              text: durationText,
+            )
+          ]
+        )),
         const SizedBox(height: 5),
-        Row(
+        Text.rich(TextSpan(
+          style: textStyle,
           children: [
-            TextIcon(icon: PlatformIcons(context).location),
-            const SizedBox(width: 5),
-            Text(
-              locationText,
-              style: Theme.of(context).textTheme.bodyText1,
+            TextIconSpan(
+              icon: PlatformIcons(context).location,
+              forceLightIcon: forceLightText,
             ),
-          ],
-        ),
+            const WidgetSpan(child: SizedBox(width: 5)),
+            TextSpan(
+              text: locationText,
+            ),
+          ]
+        )),
       ],
     );
   }

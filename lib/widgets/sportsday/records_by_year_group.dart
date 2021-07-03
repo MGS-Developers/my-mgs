@@ -31,32 +31,34 @@ class RecordsByYearGroup extends StatelessWidget {
         }
 
         return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text("Event")),
-              DataColumn(label: Text("Standing holder")),
-              DataColumn(label: Text("Standing record")),
-              DataColumn(label: Text("Current holder")),
-              DataColumn(label: Text("Current record")),
-            ],
-            rows: data.map((record) {
-              final latestRecord = record.newRecord;
-              final isBroken = (latestRecord?.value ?? 0) > record.value;
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text("Event")),
+                DataColumn(label: Text("Standing holder")),
+                DataColumn(label: Text("Standing record")),
+                DataColumn(label: Text("Current holder")),
+                DataColumn(label: Text("Current record")),
+              ],
+              rows: data.map((record) {
+                final latestRecord = record.newRecord;
+                final isBroken = (latestRecord?.value ?? 0) > record.value;
 
-              return DataRow(
-                color: MaterialStateProperty.all(
-                  isBroken == true ? Color(0xFFFDEC93): Colors.transparent,
-                ),
-                cells: [
-                  DataCell(Text(record.eventGroup!.name)),
-                  DataCell(Text(record.holder + " (${record.year})")),
-                  DataCell(Text(record.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's'))),
-                  DataCell(Text(latestRecord == null ? '' : latestRecord.name)),
-                  DataCell(Text(latestRecord == null ? '' : latestRecord.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's')))
-                ],
-              );
-            }).toList(),
+                return DataRow(
+                  color: MaterialStateProperty.all(
+                    isBroken == true ? Color(0xFFFDEC93): Colors.transparent,
+                  ),
+                  cells: [
+                    DataCell(Text(record.eventGroup!.name)),
+                    DataCell(Text(record.holder + " (${record.year})")),
+                    DataCell(Text(record.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's'))),
+                    DataCell(Text(latestRecord == null ? '' : latestRecord.name)),
+                    DataCell(Text(latestRecord == null ? '' : latestRecord.value.toString() + (record.units == RecordUnits.meters ? 'm' : 's')))
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         );
       },

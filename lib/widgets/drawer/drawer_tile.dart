@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
 class RouteData {
+  final String id;
   final String name;
   final IconData icon;
   final IconData selectedIcon;
   final Widget widget;
-  const RouteData(this.name, this.icon, this.selectedIcon, this.widget);
+  const RouteData(this.id, this.name, this.icon, this.selectedIcon, this.widget);
 
   bool operator ==(routeData) {
     if (routeData is RouteData) {

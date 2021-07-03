@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/data_classes/shareable.dart';
+import 'package:mymgs/helpers/app_metadata.dart';
 
 class ShareButton extends StatelessWidget {
   final Shareable shareable;
@@ -18,7 +19,7 @@ class ShareButton extends StatelessWidget {
         builder: (context) => PlatformAlertDialog(
           title: Text("Sharing on MyMGS"),
           content: Text(
-            "When sharing content, please remember that only MGS students with the MyMGS app will be able to open your link."
+            "When sharing content, please remember that only MGS students with the $appName app will be able to open your link."
           ),
           actions: [
             PlatformDialogAction(

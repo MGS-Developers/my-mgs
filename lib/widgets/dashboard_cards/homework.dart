@@ -25,7 +25,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
       title: "Homework",
       titleMargin: 10,
       onPressed: () {
-        DrawerSwitcher.of(context)?.switchTo(3);
+        DrawerSwitcher.of(context)?.switchTo("diary");
       },
       children: [
         EntryList(

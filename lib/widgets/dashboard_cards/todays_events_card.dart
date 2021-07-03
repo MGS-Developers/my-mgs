@@ -38,7 +38,7 @@ class TodaysEventsCard extends StatelessWidget {
           titleMargin: 10,
           children: children,
           onPressed: () {
-            DrawerSwitcher.of(context)?.switchTo(1);
+            DrawerSwitcher.of(context)?.switchTo("events");
           },
         );
       }

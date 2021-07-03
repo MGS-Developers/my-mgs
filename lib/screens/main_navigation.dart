@@ -33,7 +33,7 @@ class MainNavigation extends StatefulWidget {
   _MainNavigationState createState() => _MainNavigationState();
 }
 
-typedef DrawerNavigationFunction = void Function(int index);
+typedef DrawerNavigationFunction = void Function(String targetId);
 // this class helps us pass data down to other children widgets easily.
 // it's a little complicated, so look at the docs if you want to learn more: https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html
 class DrawerSwitcher extends InheritedWidget {
@@ -240,9 +240,12 @@ class _MainNavigationState extends State<MainNavigation> {
           // children is a list of possible screens/widgets
           // and index is which one of those screens/widgets to show
           body: DrawerSwitcher(
-            switchTo: (newIndex) {
+            switchTo: (targetId) {
+              final relevantIndex = screens.indexWhere((screen) => screen.id == targetId);
+              if (relevantIndex == -1) return;
+
               setState(() {
-                currentIndex = newIndex;
+                currentIndex = relevantIndex;
               });
             },
             child: IndexedStack(

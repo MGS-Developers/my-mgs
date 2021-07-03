@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/helpers/responsive.dart';
@@ -75,15 +73,9 @@ class _MasterDetailScreenState extends State<MasterDetailScreen> {
                 color: Theme.of(context).backgroundColor,
                 child: _buildMaster(context)
               ),
-              decoration: BoxDecoration(
-                boxShadow: [BoxShadow(
-                  color: MediaQuery.of(context).platformBrightness == Brightness.light ?
-                    Color(0x20000000) :
-                    Theme.of(context).primaryColorDark.withOpacity(0.8),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                )],
-              ),
+            ),
+            VerticalDivider(
+              width: 10,
             ),
             const SizedBox(width: 10),
             Expanded(

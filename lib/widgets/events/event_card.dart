@@ -13,21 +13,23 @@ class EventCard extends StatelessWidget {
   final String heroKey;
   final _HeroKeyCallback? onTap;
   final bool selected;
+  final bool showImage;
   EventCard({
     Key? key,
     required this.event,
     this.onTap,
     this.selected = false,
+    this.showImage = true,
   }) : heroKey = randomHeroKey();
 
   @override
   Widget build(BuildContext context) {
-    final hasImage = event.imageUrl != null && event.imageUrl != '';
+    final _showImage = event.imageUrl != null && event.imageUrl != '' && showImage;
     final summary = event.summary;
     final _callback = onTap;
 
     return Card(
-      color: selected ? Theme.of(context).primaryColorDark : null,
+      color: selected ? Theme.of(context).primaryColor : null,
       child: InkWell(
         onTap: _callback != null ? () => _callback(heroKey) : () {
           Navigator.of(context).push(platformPageRoute(
@@ -41,7 +43,7 @@ class EventCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (hasImage) Hero(
+            if (_showImage) Hero(
               tag: heroKey,
               transitionOnUserGestures: true,
               child: Container(
@@ -56,7 +58,7 @@ class EventCard extends StatelessWidget {
                 ),
               ),
             ),
-            if (!hasImage) const SizedBox(height: 15),
+            if (!_showImage) const SizedBox(height: 15),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15).copyWith(bottom: 15),
               child: Column(
@@ -64,15 +66,22 @@ class EventCard extends StatelessWidget {
                 children: [
                   Text(
                     event.title,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: selected ? Colors.white : null,
+                    ),
                   ),
                   const SizedBox(height: 1),
                   if (summary != null) Text(
                     summary,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: selected ? Colors.white70 : null,
+                    ),
                   ),
                   const SizedBox(height: 5),
-                  EventLogistics(event: event),
+                  EventLogistics(
+                    event: event,
+                    forceLightText: selected,
+                  ),
                 ],
               ),
             ),

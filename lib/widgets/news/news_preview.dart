@@ -25,20 +25,36 @@ class NewsPreview extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(
         vertical: 5,
-        horizontal: 10,
+        horizontal: 15,
       ),
       leading: newsItem.image.thumbnailUrl != null && newsItem.image.thumbnailUrl != '' ? Hero(
         tag: heroKey,
         transitionOnUserGestures: true,
-        child: NullableImage(
-          width: 60,
-          height: 60,
-          fit: BoxFit.cover,
-          image: newsItem.image,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: NullableImage(
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+            image: newsItem.image,
+          ),
         ),
       ) : null,
-      title: Text(newsItem.headline),
-      subtitle: Text(previewText),
+      title: Text(
+        newsItem.headline,
+        style: TextStyle(
+          color: selected ? Colors.white : null,
+        ),
+      ),
+      subtitle: Text(
+        previewText,
+        style: TextStyle(
+          color: selected ? Colors.white70 : null,
+        ),
+      ),
       onTap: onTap ?? () {
         Navigator.of(context).push(platformPageRoute(
           context: context,
@@ -48,7 +64,10 @@ class NewsPreview extends StatelessWidget {
           ),
         ));
       },
-      tileColor: selected ? Theme.of(context).primaryColorDark : null,
+      tileColor: selected ? Theme.of(context).primaryColor : null,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
     );
   }
 }

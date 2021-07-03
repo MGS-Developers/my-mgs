@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymgs/data/news.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/screens/news/news_item.dart';
-import 'package:mymgs/widgets/master_detail.dart';
+import 'package:mymgs/widgets/page_layouts/master_detail.dart';
 import 'package:mymgs/widgets/news/news_preview.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -33,6 +33,7 @@ class AllNews extends StatelessWidget {
 
             return ListView.builder(
               itemCount: data.length,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               itemBuilder: (BuildContext context, int index) {
                 final newsItem = data[index];
                 return NewsPreview(
