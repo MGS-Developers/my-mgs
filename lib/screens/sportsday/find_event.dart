@@ -109,6 +109,7 @@ class _SportsDayFindEventState extends State<SportsDayFindEvent> {
                   onChange: (_eventGroup) {
                     setState(() {
                       eventGroup = _eventGroup;
+                      subEvent = 0;
                     });
                   },
                 ),

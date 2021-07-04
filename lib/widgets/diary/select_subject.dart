@@ -38,7 +38,7 @@ const SUBJECTS = [
 typedef SubjectCallback = void Function(String newSubject);
 
 class SelectSubject extends StatefulWidget {
-  final String selectedSubject;
+  final String? selectedSubject;
   final SubjectCallback subjectCallback;
 
   const SelectSubject({
@@ -109,9 +109,10 @@ class _SelectSubjectState extends State<SelectSubject> {
   @override
   Widget build(BuildContext context) {
     List<String> combinedSubjects = SUBJECTS;
-    if (!combinedSubjects.contains(widget.selectedSubject)) {
+    final selectedSubject = widget.selectedSubject;
+    if (selectedSubject != null && !combinedSubjects.contains(selectedSubject)) {
       combinedSubjects = [
-        widget.selectedSubject,
+        selectedSubject,
         ...combinedSubjects,
       ];
     }

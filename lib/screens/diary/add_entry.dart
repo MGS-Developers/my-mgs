@@ -16,7 +16,7 @@ class AddDiaryEntry extends StatefulWidget {
 }
 
 class _AddDiaryEntryState extends State<AddDiaryEntry> {
-  String _subject = "🎨 Art";
+  String? _subject;
   late TextEditingController _homework;
   late DateTime _dueDate;
 
@@ -34,8 +34,11 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
   }
 
   void _save() async {
+    final subject = _subject;
+    if (subject == null) return;
+
     widget.diaryEntryController.addHomework(
-      subject: _subject,
+      subject: subject,
       homework: _homework.text,
       dueDate: _dueDate,
     );

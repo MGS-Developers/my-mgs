@@ -26,7 +26,6 @@ class _SubeventSelectState extends State<SubeventSelect> {
       setState(() {
         subEvent = 0;
       });
-      widget.onChange(0);
     }
   }
 
