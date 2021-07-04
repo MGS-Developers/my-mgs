@@ -53,4 +53,9 @@ app.*.map.json
 *.cache
 
 play-store-key.json
+
+
+# Fastlane stuff
+*.mobileprovision
+*.cer
 report.xml
