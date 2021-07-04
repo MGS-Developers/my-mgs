@@ -27,7 +27,7 @@ jobs:
         run: flutter build ios --release --no-codesign -v
 
       - name: Sign/upload using Fastlane
-        run: bundle execfastlane release
+        run: bundle exec fastlane release
         working-directory: ios
         env:
           FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
