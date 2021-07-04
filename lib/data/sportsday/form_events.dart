@@ -1,7 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mymgs/data/sportsday/caching.dart';
-import 'package:mymgs/data_classes/sportsday/event.dart';
-import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 
 final _firestore = FirebaseFirestore.instance;

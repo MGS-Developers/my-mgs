@@ -30,19 +30,24 @@ class SportsDayCaching {
     final db = await getDb();
     final raw = await _cacheStore.record(ref).get(db);
     if (raw != null) {
-      return builder(jsonDecode(raw));
-    } else {
-      final response = await runner();
-      // build the response before saving to cache to ensure custom serialization of complex types (e.g. Timestamp) takes place
-      final builtResponse = builder(response);
-
-      if (builtResponse == null) {
-        return null as T;
+      try {
+        return builder(jsonDecode(raw));
+      } catch (e) {
+        // if reconstruction fails (i.e. cache is corrupt), delete cached item and retry with live data
+        await _cacheStore.record(ref).delete(db);
       }
-
-      await _cacheStore.record(ref).put(db, jsonEncode(builtResponse.toJson()));
-      return builtResponse;
     }
+
+    final response = await runner();
+    // build the response before saving to cache to ensure custom serialization of complex types (e.g. Timestamp) takes place
+    final builtResponse = builder(response);
+
+    if (builtResponse == null) {
+      return null as T;
+    }
+
+    await _cacheStore.record(ref).put(db, jsonEncode(builtResponse.toJson()));
+    return builtResponse;
   }
 
   static final _formIdsRef = _cacheStore.record("form-ids");
