@@ -24,6 +24,7 @@ dependencies:
   firebase_crashlytics: ^2.0.6
   firebase_remote_config: ^0.10.0+2
   firebase_dynamic_links: ^2.0.6
+  firebase_analytics: ^8.1.2
 
   # everything else
   grouped_list: ^4.0.0

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/config.dart';
+import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/data/sportsday/temporary_authentication.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -30,6 +32,7 @@ class _SportsDayQuickSetupCardState extends State<SportsDayQuickSetupCard> {
       ),
     );
     await authenticateSportsDay();
+    await setupAnalytics();
     Navigator.of(context).pop();
     widget.onComplete();
   }

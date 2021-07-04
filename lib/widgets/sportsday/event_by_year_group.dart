@@ -77,7 +77,6 @@ class _EventByYearGroupState extends State<EventByYearGroup> {
                   stream: scoreNodeStreamList[subEvent],
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      print(snapshot.error);
                       return Container(
                         padding: emptyPadding,
                         child: Text(

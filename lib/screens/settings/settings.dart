@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,10 @@ import 'package:mymgs/widgets/drawer/drawer_app_bar.dart';
 import 'package:mymgs/widgets/settings/contributors.dart';
 import 'package:mymgs/widgets/settings/key_value.dart';
 import 'package:mymgs/widgets/settings/remove_license.dart';
+import 'package:mymgs/widgets/settings/toggle.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+final _analytics = FirebaseAnalytics();
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen();
@@ -152,6 +156,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 builder: (_) => const WebAuthScreen(),
               ));
             },
+          ),
+          ToggleSetting(
+            name: "Analytics",
+            description: "Collect anonymous stats",
+            callback: (enabled) => _analytics.setAnalyticsCollectionEnabled(enabled),
+            tracker: "analytics",
           ),
           KeyValueSetting(
             name: "About $appName",

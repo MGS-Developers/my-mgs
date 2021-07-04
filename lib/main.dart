@@ -26,6 +26,8 @@
 
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,6 +50,8 @@ void main() {
     setupNotifications();
   }
 }
+
+final _analytics = FirebaseAnalytics();
 
 // this is our first class!
 // it extends [StatelessWidget], a built-in Flutter class that represents a 'widget'
@@ -200,6 +204,8 @@ class App extends StatelessWidget {
     ),
   );
 
+  static final observer = FirebaseAnalyticsObserver(analytics: _analytics);
+
   // the 'build' function needs to be defined for widgets
   // flutter will call this function and expect our UI pieces to be returned
   // if nothing is returned (or if we return something other than widgets), the app will crash :'(
@@ -233,6 +239,7 @@ class App extends StatelessWidget {
           // have no clue what ThemeMode.system means? try cmd/ctrl + clicking on 'system' to see where it's defined (in Android Studio)
           // the vast majority of Flutter's definitions come with extensive code comments!
           themeMode: ThemeMode.system,
+          navigatorObservers: [observer],
           home: const MainNavigation(),
         );
       }

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/spinner.dart';
 import 'package:mymgs/widgets/sportsday/quick_setup_card.dart';
@@ -89,6 +90,7 @@ class _WebSetupState extends State<WebSetup> {
     }
 
     await saveSetting('year-group', yearGroup);
+    await setupAnalytics();
     await _auth.signInWithCustomToken(token);
 
     widget.done();

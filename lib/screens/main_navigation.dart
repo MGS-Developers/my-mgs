@@ -170,7 +170,6 @@ class _MainNavigationState extends State<MainNavigation> {
         final screens = snapshot.data;
 
         if (snapshot.hasError) {
-          print(snapshot.error);
           return Scaffold(
             body: Center(
               child: Text("Something went wrong, and we couldn't launch MyMGS. Please try again."),

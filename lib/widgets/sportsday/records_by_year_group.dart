@@ -17,7 +17,6 @@ class RecordsByYearGroup extends StatelessWidget {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.error);
           return Center(
             child: Text("Something went wrong! Please try again in a few minutes"),
           );
