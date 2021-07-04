@@ -37,7 +37,13 @@ class _ToggleSettingState extends State<ToggleSetting> {
   @override
   void initState() {
     setState(() {
-      _stream = watchSetting<bool>(widget.tracker).asBroadcastStream();
+      _stream = watchSetting<bool?>(widget.tracker).map((event) {
+        if (event == true) {
+          return true;
+        } else {
+          return false;
+        }
+      }).asBroadcastStream();
     });
 
     _streamSubscription = _stream.listen(widget.callback);
