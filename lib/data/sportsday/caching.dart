@@ -35,6 +35,7 @@ class SportsDayCaching {
       } catch (e) {
         // if reconstruction fails (i.e. cache is corrupt), delete cached item and retry with live data
         await _cacheStore.record(ref).delete(db);
+        // will continue due to no return statement
       }
     }
 
@@ -117,7 +118,7 @@ class SportsDayCaching {
 
   static Future<Event?> getEventFromComponents(EventGroup eventGroup, int subEvent, int yearGroup) {
     return _get<Event?>(
-      "evc-$eventGroup-$subEvent-$yearGroup",
+      "evc-${eventGroup.id}-$subEvent-$yearGroup",
       () async {
         final response = await _firestore.collectionGroup('sd_events')
             .where('eventGroupId', isEqualTo: eventGroup.id)
