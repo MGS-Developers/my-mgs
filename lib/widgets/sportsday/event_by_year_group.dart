@@ -5,7 +5,7 @@ import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/score.dart';
 import 'package:mymgs/helpers/sportsday.dart';
 import 'package:mymgs/screens/sportsday/timetabled_event.dart';
-import 'package:mymgs/widgets/shimmer_builder.dart';
+import 'package:mymgs/widgets/shimmer/shimmer_builder.dart';
 import 'package:mymgs/widgets/sportsday/form_position_table.dart';
 
 class EventByYearGroup extends StatefulWidget {

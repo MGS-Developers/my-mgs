@@ -10,7 +10,7 @@ import 'package:mymgs/data_classes/sportsday/score.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/helpers/sportsday.dart';
 import 'package:mymgs/widgets/button.dart';
-import 'package:mymgs/widgets/shimmer_builder.dart';
+import 'package:mymgs/widgets/shimmer/shimmer_builder.dart';
 import 'package:mymgs/widgets/sportsday/form_position_table.dart';
 
 class SportsDayTimetabledEvent extends StatefulWidget {
@@ -70,8 +70,19 @@ class _SportsDayTimetabledEventState extends State<SportsDayTimetabledEvent> {
         builder: (context, snapshot) {
           final data = snapshot.data;
           final timetable = data?.timetable;
+
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return ShimmerBuilder();
+            return Padding(
+              padding: EdgeInsets.all(15),
+              child: ShimmerBuilder(
+                height: 30,
+                rows: [
+                  [double.infinity],
+                  [80],
+                  for (final _ in List.filled(8, null)) [100, double.infinity, 100],
+                ],
+              ),
+            );
           }
 
           if (data == null || timetable == null) {

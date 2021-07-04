@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/sportsday/metadata.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
-import 'package:mymgs/widgets/shimmer_builder.dart';
+import 'package:mymgs/widgets/shimmer/sized_shimmer.dart';
 
 typedef Callback = void Function(EventGroup eventGroup);
 
