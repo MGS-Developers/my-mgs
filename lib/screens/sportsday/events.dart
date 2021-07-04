@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/sportsday/metadata.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/sportsday/event_group.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
@@ -11,6 +12,7 @@ class SportsDayEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Scaffold(
       body: FutureBuilder<List<EventGroup>>(
         future: eventsFuture,
@@ -28,6 +30,9 @@ class SportsDayEvents extends StatelessWidget {
               final eventGroup = data[index];
               return ListTile(
                 title: Text(eventGroup.name),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: responsive.horizontalListTilePadding,
+                ),
                 onTap: () {
                   Navigator.of(context).push(platformPageRoute(
                     context: context,

@@ -48,6 +48,7 @@ class _EntryList extends State<EntryList> {
                 const SizedBox(height: 10),
                 if (widget.isExpanded) MGSButton(
                   label: "Add new",
+                  outlined: true,
                   onPressed: () {
                     Navigator.of(context).push(platformPageRoute(
                       context: context,

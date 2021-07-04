@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mymgs/data/sportsday/caching.dart';
 import 'package:mymgs/data/sportsday/populate.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
@@ -14,7 +15,7 @@ enum EventLocation {
 
 @JsonSerializable()
 class EventTimetable {
-  @NoopKey
+  @SerializableTimestampKey
   final Timestamp startTime;
   final EventLocation location;
 
@@ -39,7 +40,7 @@ class EventTimetable {
 }
 
 @JsonSerializable()
-class Event {
+class Event extends Serializable {
   String id;
   String eventGroupId;
   String scoreSpecId;

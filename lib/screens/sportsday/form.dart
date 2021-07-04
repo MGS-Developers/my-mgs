@@ -38,56 +38,56 @@ class SportsDayForm extends StatelessWidget {
             );
           }
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StatisticContainer(
-                  rank: data.points.schoolPosition,
-                  label: "School position",
-                ),
-                const SizedBox(height: 10),
-                StatisticContainer(
-                  rank: data.points.yearPosition,
-                  label: "Year position",
-                ),
-                const SizedBox(height: 10),
-                StatisticContainer(
-                  label: "Total points",
-                  value: data.points.total.toString(),
-                ),
+          return StreamBuilder<List<ScoreNode>>(
+            stream: latestEventStream,
+            builder: (context, eventSnapshot) {
+              final latestEvents = eventSnapshot.data ?? [];
 
-                const SizedBox(height: 25),
+              return SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    StatisticContainer(
+                      rank: data.points.schoolPosition,
+                      label: "School position",
+                    ),
+                    const SizedBox(height: 10),
+                    StatisticContainer(
+                      rank: data.points.yearPosition,
+                      label: "Year position",
+                    ),
+                    const SizedBox(height: 10),
+                    StatisticContainer(
+                      label: "Total points",
+                      value: data.points.total.toString(),
+                    ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text(
-                    'Latest results',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                StreamBuilder<List<ScoreNode>>(
-                  stream: latestEventStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data;
-                    if (data == null) {
-                      return Container();
-                    }
+                    const SizedBox(height: 25),
 
-                    return ListView.builder(
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        'Results',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ListView.builder(
                       shrinkWrap: true,
-                      itemCount: data.length,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: latestEvents.length,
                       itemBuilder: (context, index) {
-                        final node = data[index];
+                        final node = latestEvents[index];
                         return FormScoreTile(scoreNode: node);
-                      }
-                    );
-                  }
-                ),
-              ],
-            ),
+                      },
+                    ),
+                  ],
+                )
+              );
+            },
           );
         },
       ),

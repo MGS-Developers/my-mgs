@@ -58,6 +58,8 @@ class _ReportContentState extends State<ReportContent> {
 
   @override
   Widget build(BuildContext context) {
+    final ref = widget.identifiable.identify();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Report a content issue"),
@@ -91,7 +93,7 @@ class _ReportContentState extends State<ReportContent> {
               ),
               const SizedBox(height: 10),
               Text(
-                "The following content identifier will be sent with your report: ${widget.identifiable.identify()}",
+                "The following content identifier will be sent with your report: ${ref.path}",
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(height: 15),

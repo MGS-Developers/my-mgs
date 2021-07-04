@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Form;
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data/local_database.dart';
-import 'package:mymgs/data/sportsday/form_events.dart';
+import 'package:mymgs/data/sportsday/caching.dart';
 import 'package:mymgs/data/sportsday/reminders.dart';
 import 'package:mymgs/data/sportsday/year_group_events.dart';
 import 'package:mymgs/data_classes/sportsday/event.dart';
@@ -17,7 +17,7 @@ class SportsDayTimetabledEvent extends StatefulWidget {
   final EventGroup eventGroup;
   final int subEvent;
   final int yearGroup;
-  late final _eventFuture = getEventFromComponents(eventGroup, subEvent, yearGroup);
+  late final _eventFuture = SportsDayCaching.getEventFromComponents(eventGroup, subEvent, yearGroup);
   SportsDayTimetabledEvent({
     Key? key,
     required this.eventGroup,

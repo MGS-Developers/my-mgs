@@ -1,11 +1,14 @@
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/sportsday/points.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'form.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Form {
+class Form with Identifiable {
+  @IgnoreKey
+  final collection = "sd_forms";
   String id;
   int yearGroup;
 

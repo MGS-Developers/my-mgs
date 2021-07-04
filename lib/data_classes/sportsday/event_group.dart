@@ -1,11 +1,10 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'event_group.g.dart';
 
 @JsonSerializable()
-class EventGroup {
+class EventGroup extends Serializable {
   String id;
   String name;
   int subEventCount;

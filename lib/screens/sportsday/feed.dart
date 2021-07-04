@@ -66,11 +66,21 @@ class SportsDayFeed extends StatelessWidget {
                 final media = item.media;
 
                 if (event != null) {
-                  return EventFeedTile(event: event, timestamp: item.timestamp);
+                  return EventFeedTile(
+                    key: Key(item.id),
+                    event: event,
+                    timestamp: item.timestamp
+                  );
                 } else if (media != null) {
-                  return MediaFeedTile(media: media, timestamp: item.timestamp);
+                  return MediaFeedTile(
+                    key: Key(item.id),
+                    media: media,
+                    timestamp: item.timestamp
+                  );
                 } else {
-                  return SizedBox();
+                  return SizedBox(
+                    key: Key(item.id),
+                  );
                 }
               },
             );

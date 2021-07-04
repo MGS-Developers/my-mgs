@@ -45,7 +45,7 @@ class FormScoreTile extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        '+' + scoreNode.calculatedPoints.toString(),
+        '+' + (scoreNode.calculatedPoints ?? 0).toString(),
         style: TextStyle(
           fontSize: 20,
         ),

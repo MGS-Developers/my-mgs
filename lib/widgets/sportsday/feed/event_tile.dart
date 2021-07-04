@@ -12,6 +12,7 @@ class EventFeedTile extends StatelessWidget {
   final EventFeedItem event;
   final Timestamp timestamp;
   const EventFeedTile({
+    Key? key,
     required this.event,
     required this.timestamp,
   });

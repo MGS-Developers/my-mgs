@@ -8,14 +8,14 @@ part of 'event.dart';
 
 EventTimetable _$EventTimetableFromJson(Map<String, dynamic> json) {
   return EventTimetable(
-    startTime: noopTransform(json['startTime']),
+    startTime: timestampFromJson(json['startTime']),
     location: _$enumDecode(_$EventLocationEnumMap, json['location']),
   );
 }
 
 Map<String, dynamic> _$EventTimetableToJson(EventTimetable instance) =>
     <String, dynamic>{
-      'startTime': noopTransform(instance.startTime),
+      'startTime': timestampToJson(instance.startTime),
       'location': _$EventLocationEnumMap[instance.location],
     };
 

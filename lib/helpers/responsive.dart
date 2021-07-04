@@ -10,6 +10,7 @@ class Responsive {
     return _screenSize.width >= 768;
   }
 
+  // For standard pages with simple text-based or interactive content
   double get horizontalPadding {
     if (_screenSize.width > 450) {
       return _screenSize.width * 0.05;
@@ -18,6 +19,7 @@ class Responsive {
     }
   }
 
+  // For ListView widgets to horizontally pad lists
   double get horizontalListPadding {
     if (_screenSize.width > 450) {
       return _screenSize.width * 0.1;
@@ -26,6 +28,16 @@ class Responsive {
     }
   }
 
+  // For ListTile widgets to horizontally pad contents when the parent ListView has no padding
+  double get horizontalListTilePadding {
+    if (_screenSize.width > 450) {
+      return _screenSize.width * 0.1;
+    } else {
+      return 16;
+    }
+  }
+
+  // For pages containing primarily textual content intended for batch-reading (e.g. News/Magazine)
   double get horizontalReaderPadding {
     if (_screenSize.width > 450) {
       return _screenSize.width * 0.15;
@@ -34,6 +46,7 @@ class Responsive {
     }
   }
 
+  // For pages containing a single action in the center of the screen (e.g. the Setup process)
   EdgeInsets get horizontalCenteredSetupPadding {
     return EdgeInsets.symmetric(vertical: 30, horizontal: horizontalReaderPadding);
   }

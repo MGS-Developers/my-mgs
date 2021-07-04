@@ -1,10 +1,10 @@
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 
 part 'points.g.dart';
 
 @JsonSerializable()
-class FormPoints {
+class FormPoints extends Serializable {
   int total;
   int yearPosition;
   int schoolPosition;

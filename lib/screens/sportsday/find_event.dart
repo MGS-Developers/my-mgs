@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide Form;
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
 import 'package:mymgs/data_classes/sportsday/form.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/screens/sportsday/timetabled_event.dart';
 import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/sportsday/event_select.dart';
@@ -51,9 +52,13 @@ class _SportsDayFindEventState extends State<SportsDayFindEvent> {
   Widget build(BuildContext context) {
 
     final _selectedEventGroup = eventGroup;
+    final responsive = Responsive(context);
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: responsive.horizontalPadding,
+        ),
         child: Stepper(
           currentStep: step,
           onStepCancel: () {

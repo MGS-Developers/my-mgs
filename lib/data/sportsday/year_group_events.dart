@@ -13,17 +13,11 @@ Stream<List<ScoreNode>> getEventGroupScoreNodes({
 }) async* {
   String? _eventId = eventId;
   if (_eventId == null) {
-    final eventIdResponse = await _firestore
-        .collection('sd_score_specs')
-        .doc(eventGroup.scoreSpecId)
-        .collection('sd_event_groups')
-        .doc(eventGroup.id)
-        .collection('sd_events')
-        .where('subEvent', isEqualTo: subEvent)
-        .where('yearGroup', isEqualTo: yearGroup)
-        .get();
-    if (eventIdResponse.docs.isEmpty) throw Exception("No Event found for ScoreSpec and EventGroup IDs.");
-    eventId = eventIdResponse.docs[0].id;
+    final eventResponse = await SportsDayCaching.getEventFromComponents(eventGroup, subEvent, yearGroup);
+    if (eventResponse == null) {
+      throw Exception("No Event found for ScoreSpec and EventGroup IDs.");
+    }
+    eventId = eventResponse.id;
   }
 
   final formIds = await SportsDayCaching.getFormIds(yearGroup);

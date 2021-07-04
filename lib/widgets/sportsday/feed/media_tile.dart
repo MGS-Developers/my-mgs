@@ -9,6 +9,7 @@ class MediaFeedTile extends StatelessWidget {
   final Timestamp timestamp;
 
   const MediaFeedTile({
+    Key? key,
     required this.media,
     required this.timestamp,
   });

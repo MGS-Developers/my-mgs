@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/sportsday/event_group.dart';
+import 'package:mymgs/data_classes/sportsday/event.dart';
 import 'package:mymgs/data_classes/sportsday/form.dart';
+import 'package:mymgs/helpers/class_serializers.dart';
 import 'package:sembast/sembast.dart';
 
 // Due to the exorbitant amounts of data involved with Sports Day, we use some heavy
@@ -13,7 +15,35 @@ import 'package:sembast/sembast.dart';
 final _firestore = FirebaseFirestore.instance;
 final _cacheStore = StoreRef<String, dynamic>('sportsday_caching');
 
+typedef Future<Map<String, dynamic>> QueryRunner<T extends Serializable?>();
+typedef T Builder<T extends Serializable?>(Map<String, dynamic> raw);
+
 class SportsDayCaching {
+  /// An extensible low-level caching function
+  ///
+  /// [ref] is the ID to store for this piece of data in cache
+  ///
+  /// [runner] is a function to fetch live data and return decoded JSON form (as a [Map])
+  ///
+  /// [builder] takes decoded JSON form (e.g. that returned by runner) and constructs [T] from it
+  static Future<T> _get<T extends Serializable?>(String ref, QueryRunner<T> runner, Builder<T> builder) async {
+    final db = await getDb();
+    final raw = await _cacheStore.record(ref).get(db);
+    if (raw != null) {
+      return builder(jsonDecode(raw));
+    } else {
+      final response = await runner();
+      // build the response before saving to cache to ensure custom serialization of complex types (e.g. Timestamp) takes place
+      final builtResponse = builder(response);
+
+      if (builtResponse == null) {
+        return null as T;
+      }
+
+      await _cacheStore.record(ref).put(db, jsonEncode(builtResponse.toJson()));
+      return builtResponse;
+    }
+  }
 
   static final _formIdsRef = _cacheStore.record("form-ids");
   static Future<List<String>> getFormIds(int yearGroup) async {
@@ -45,29 +75,68 @@ class SportsDayCaching {
       return assembledFormIds[yearGroup.toString()] ?? [];
     }
   }
-  
-  static String _getEventGroupRef(String eventGroupId) {
-    return "eg-$eventGroupId";
+
+  static Future<EventGroup> getEventGroup(String scoreSpecId, String eventGroupId) {
+    return _get<EventGroup>(
+      "eg-$eventGroupId",
+      () async {
+        final response = await _firestore.collection('sd_score_specs').doc(scoreSpecId)
+            .collection('sd_event_groups').doc(eventGroupId)
+            .get();
+        return {
+          'id': response.id,
+          ...?response.data(),
+        };
+      },
+      (raw) => EventGroup.fromJson(raw),
+    );
   }
-  static Future<EventGroup> getEventGroup(String scoreSpecId, String eventGroupId) async {
-    final db = await getDb();
-    final ref = _getEventGroupRef(eventGroupId);
-    final raw = await _cacheStore.record(ref).get(db);
-    
-    if (raw != null) {
-      return EventGroup.fromJson(jsonDecode(raw));
-    } else {
-      final response = await _firestore.collection('sd_score_specs').doc(scoreSpecId)
-          .collection('sd_event_groups').doc(eventGroupId)
-          .get();
 
-      final eventGroup = EventGroup.fromJson({
-        'id': response.id,
-        ...?response.data(),
-      });
+  static Future<Event> getEvent(String id) {
+    return _get<Event>(
+      "ev-$id",
+      () async {
+        final response = await _firestore.collectionGroup('sd_events')
+            .where('_id', isEqualTo: id)
+            .get();
 
-      await _cacheStore.record(ref).put(db, jsonEncode(eventGroup.toJson()));
-      return eventGroup;
-    }
+        final doc = response.docs.elementAt(0);
+        return {
+          'id': doc.id,
+          ...doc.data(),
+        };
+      },
+      (raw) => Event.fromJson(raw),
+    );
+  }
+
+  static Future<Event?> getEventFromComponents(EventGroup eventGroup, int subEvent, int yearGroup) {
+    return _get<Event?>(
+      "evc-$eventGroup-$subEvent-$yearGroup",
+      () async {
+        final response = await _firestore.collectionGroup('sd_events')
+            .where('eventGroupId', isEqualTo: eventGroup.id)
+            .where('subEvent', isEqualTo: subEvent)
+            .where('yearGroup', isEqualTo: yearGroup)
+            .get();
+
+        if (response.size == 0) {
+          return {};
+        }
+
+        final doc = response.docs[0];
+        return {
+          'id': doc.id,
+          ...doc.data(),
+        };
+      },
+      (raw) {
+        if (raw.isEmpty) {
+          return null;
+        } else {
+          return Event.fromJson(raw);
+        }
+      }
+    );
   }
 }
