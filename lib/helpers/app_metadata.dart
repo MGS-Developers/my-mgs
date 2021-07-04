@@ -5,7 +5,7 @@
 const appName = "MyMGS";
 
 // the app's current version. must be updated between releases.
-const appVersion = "0.5.0";
+const appVersion = "0.6.0";
 
 const appLegalese = """
 This app is part of a family of co-curricular sites run by students and staff of the Manchester Grammar School. The main school website is at mgs.org.
