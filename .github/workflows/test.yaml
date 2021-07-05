@@ -1,7 +1,11 @@
 name: Continuous Testing
 
 on:
-  push
+  push:
+    paths:
+      - lib/*
+      - assets/*
+      - pubspec.yaml
 
 jobs:
   test:
