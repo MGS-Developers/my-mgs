@@ -26,9 +26,12 @@ jobs:
       - name: Build Flutter
         run: flutter build ios --release --no-codesign -v
 
+      - name: Copy key to file
+        run: echo "$APIKEY" > "key.json"
+        working-directory: ios/fastlane
+        env:
+          APIKEY: ${{ secrets.FASTLANE_API_KEY }}
+
       - name: Sign/upload using Fastlane
         run: fastlane release
         working-directory: ios
-        env:
-          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
-          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}

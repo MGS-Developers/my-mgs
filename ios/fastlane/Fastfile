@@ -18,8 +18,10 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
-    cert
-    sigh(provisioning_name: "App Store Fastlane")
+    path = "fastlane/key.json"
+
+    cert(api_key_path: path)
+    sigh(provisioning_name: "App Store Fastlane", api_key_path: path)
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
@@ -30,6 +32,6 @@ platform :ios do
         }
       }
     )
-    upload_to_app_store(skip_metadata: true, skip_screenshots: true)
+    upload_to_app_store(skip_metadata: true, skip_screenshots: true, api_key_path: path)
   end
 end
