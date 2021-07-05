@@ -19,8 +19,17 @@ platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
     cert
-    sigh
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    sigh(provisioning_name: "App Store Fastlane")
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "org.mgs.my.ios" => "App Store Fastlane"
+        }
+      }
+    )
     upload_to_app_store(skip_metadata: true, skip_screenshots: true)
   end
 end
