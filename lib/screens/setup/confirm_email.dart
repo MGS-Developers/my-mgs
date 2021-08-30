@@ -125,6 +125,11 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             ],
           ),
         ] : [
+          const Image(
+            image: AssetImage('assets/confirmation_sent.png'),
+            height: 70,
+          ),
+          const SizedBox(height: 20),
           Text(
             'Enter your verification code',
             style: Theme.of(context).textTheme.headline5,

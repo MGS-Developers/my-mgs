@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/config.dart';
 import 'package:mymgs/data/safeguarding.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
@@ -21,6 +22,7 @@ class WellbeingDashboard extends StatefulWidget {
 
 class _WellbeingDashboardState extends State<WellbeingDashboard> {
   final organisationsFuture = getWellbeingOrganisations();
+  final messagingEnabledFuture = Config.getIsSafeguardingMessagingEnabled();
 
   @override
   Widget build(BuildContext context) {
@@ -48,34 +50,42 @@ class _WellbeingDashboardState extends State<WellbeingDashboard> {
               horizontal: Responsive(context).horizontalPadding,
             ),
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Report a safeguarding issue',
-                      style: Theme.of(context).textTheme.headline6,
+              FutureBuilder<bool>(
+                future: messagingEnabledFuture,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  if (data == null || data == false) return SizedBox();
+
+                  return Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Report a safeguarding issue',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Have an anonymous conversation with a member of staff about any concerns you have about yourself or someone else.',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        const SizedBox(height: 5),
+                        MGSButton(
+                          label: 'Open reporting menu',
+                          onPressed: () {
+                            Navigator.of(context).push(platformPageRoute(
+                              context: context,
+                              builder: (_) => MySafeguardingReports(),
+                            ));
+                          },
+                          tooltip: kIsWeb ? "Only available via the mobile app" : null,
+                          enabled: !kIsWeb,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pulvinar blandit tortor, sed condimentum arcu sollicitudin sit amet.',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    const SizedBox(height: 5),
-                    MGSButton(
-                      label: 'Open reporting menu',
-                      onPressed: () {
-                        Navigator.of(context).push(platformPageRoute(
-                          context: context,
-                          builder: (_) => MySafeguardingReports(),
-                        ));
-                      },
-                      tooltip: kIsWeb ? "Only available via the mobile app" : null,
-                      enabled: !kIsWeb,
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
 
               ListTile(

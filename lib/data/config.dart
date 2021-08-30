@@ -78,6 +78,13 @@ class Config {
     } catch (e) {}
   }
 
+  static Future<String> _getModules() async {
+    await _init();
+    await _fetch();
+
+    return _remoteConfig.getString('modules');
+  }
+
   static Stream<List<RouteData>> getDrawerTabs() async* {
     if (await isSportsDayAuth()) {
       yield _jsonStringToRoutes(jsonEncode(['sportsday', 'settings']));
@@ -98,12 +105,13 @@ class Config {
       return;
     }
 
-    await _init();
-    await _fetch();
-
-    final liveData = _remoteConfig.getString('modules');
-    if (liveData == '') return;
+    final liveData = await _getModules();
     yield _jsonStringToRoutes(liveData);
+  }
+
+  static Future<bool> getIsSafeguardingMessagingEnabled() async {
+    final liveData = jsonDecode(await _getModules()) as List;
+    return liveData.contains('safeguarding_messaging');
   }
 
   static Stream<bool> getIsSportsDaySeason() async* {
@@ -129,7 +137,7 @@ class Config {
     }
 
     if (Foundation.kIsWeb) {
-      return false; // must be updated manually
+      return true; // must be updated manually
     }
 
     await _init();

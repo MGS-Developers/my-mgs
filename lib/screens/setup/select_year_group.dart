@@ -38,6 +38,11 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 5),
+          Text(
+            'Staff — please select the year group you\'d most like to see data for.',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          const SizedBox(height: 5),
           DropdownButton<int>(
             dropdownColor: Theme.of(context).backgroundColor,
             isExpanded: true,
