@@ -64,7 +64,7 @@ class NewsPreview extends StatelessWidget {
           ),
         ));
       },
-      tileColor: selected ? Theme.of(context).primaryColor : null,
+      tileColor: selected ? Theme.of(context).colorScheme.primary : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),

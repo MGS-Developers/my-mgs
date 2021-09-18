@@ -36,7 +36,7 @@ class SurvivalFolder extends StatelessWidget {
                 ),
               ),
               onTap: () => onTap(index),
-              tileColor: selected ? Theme.of(context).primaryColor : null,
+              tileColor: selected ? Theme.of(context).colorScheme.primary : null,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

@@ -11,7 +11,7 @@ class GroupedListSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: contrastBackground ? Theme.of(context).primaryColorDark : Theme.of(context).backgroundColor,
+      color: contrastBackground ? Theme.of(context).primaryColorDark : Theme.of(context).colorScheme.background,
       padding: EdgeInsets.symmetric(
         vertical: 10,
         horizontal: 15,

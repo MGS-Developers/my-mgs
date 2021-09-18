@@ -18,9 +18,6 @@ class Clubs extends StatefulWidget {
 class _ClubsState extends State<Clubs> {
   Future<List<Club>>? clubsFuture;
 
-  //Stored the day currently selected by the user. First value in the DayOfWeek enum by default (currently Monday)
-  DayOfWeek selectedDay = DayOfWeek.values[DateTime.now().weekday - 1];
-
   // https://stackoverflow.com/a/52300307/9043010
   @override
   void initState() {
@@ -48,79 +45,76 @@ class _ClubsState extends State<Clubs> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DrawerAppBar('Clubs'),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Responsive(context).horizontalListPadding,
-        ).copyWith(
-          top: 15,
+    return DefaultTabController(
+      length: DayOfWeek.values.length,
+      child: Scaffold(
+        appBar: DrawerAppBar(
+          'Clubs',
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              for (final day in DayOfWeek.values) Tab(text: EnumHelper.getStringValue(day))
+            ],
+          ),
         ),
-        width: double.infinity,
-        child: FutureBuilder<List<Club>>(
-          //When the class is initialised a Future<List<Club>> is commenced, which will make a database query and return a list of clubs depending on the user's yeargroup
-          future: clubsFuture,
-          builder: (BuildContext context, snapshot) {
-            // refer to FutureBuilder docs for the contents of 'snapshot'
-            // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
-            // once populated, snapshot.data will contain a `List` of `Club` class instances
-            // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
+        body: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: Responsive(context).horizontalListPadding,
+          ),
+          width: double.infinity,
+          child: FutureBuilder<List<Club>>(
+            //When the class is initialised a Future<List<Club>> is commenced, which will make a database query and return a list of clubs depending on the user's yeargroup
+            future: clubsFuture,
+            builder: (BuildContext context, snapshot) {
+              // refer to FutureBuilder docs for the contents of 'snapshot'
+              // snapshot.data will only be populated once the request completes, and it will be null otherwise — make sure to implement loading based on snapshot.connectionState
+              // once populated, snapshot.data will contain a `List` of `Club` class instances
+              // refer to this doc for how to make lists for data: https://flutter.dev/docs/cookbook/lists/long-lists#2-convert-the-data-source-into-widgets
 
-            final data = snapshot.data;
-            if (snapshot.connectionState != ConnectionState.done) {
-              //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
-              return Center(child: Spinner());
-            } else if (snapshot.hasError || data == null) {
-              //Checks for errors and null. A list of clubs is now safe and ready to use.
-              return Text("An error occurred");
-            }
+              final data = snapshot.data;
+              if (snapshot.connectionState != ConnectionState.done) {
+                //Checks the status of the future. If the value has not yet been returned then the Spinner Widget is displayed
+                return Center(child: Spinner());
+              } else if (snapshot.hasError || data == null) {
+                //Checks for errors and null. A list of clubs is now safe and ready to use.
+                return Text("An error occurred");
+              }
 
-            final List<Club> filteredList = filterForDay(data, selectedDay);
-
-            //This column stores the dropdown widget and the container for the scrollable list
-            //The Expanded widgets are so we can have a fixed ratio (1:8 at time of writing) between the dropdown box and scrollable list.
-            //This ensures that the app looks the same, no matter the device (hopefully, haven't tested)
-            return Column(
-              children: [
-                //Expanded widget holding the dropdown menu
-                DropdownButton<DayOfWeek>(
-                  dropdownColor: Theme.of(context).backgroundColor,
-                  items: DayOfWeek.values.map((day) => DropdownMenuItem(
-                    child: Text(EnumHelper.getStringValue(day)),
-                    value: day,
-                  )).toList(),
-                  value: selectedDay,
-                  onChanged: (DayOfWeek? newValue) {
-                    if (newValue == null) return;
-                    setState(() {
-                      selectedDay = newValue;
-                    });
-                  },
-                ),
-                if (filteredList.isEmpty)
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "There are no clubs for your year on this day",
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                if (filteredList.isNotEmpty)
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      shrinkWrap: true,
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        final club = filteredList[index];
-                        return ClubCard(club: club);
+              return TabBarView(
+                children: [
+                  for (final day in DayOfWeek.values)
+                    Builder(
+                      builder: (context) {
+                        final filteredList = filterForDay(data, day);
+                        if (filteredList.isEmpty) {
+                          return Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              "There are no clubs for your year on this day",
+                              style: Theme.of(context).textTheme.bodyText1,
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        } else {
+                          return Expanded(
+                            child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              shrinkWrap: true,
+                              itemCount: filteredList.length,
+                              itemBuilder: (context, index) {
+                                final club = filteredList[index];
+                                return ClubCard(club: club);
+                              },
+                            ),
+                          );
+                        }
                       },
                     ),
-                  ),
-              ],
-            );
-          },
+                ],
+              );
+
+            },
+          ),
         ),
       ),
     );

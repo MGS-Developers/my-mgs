@@ -33,6 +33,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mymgs/notifications/init.dart';
 import 'package:mymgs/screens/main_navigation.dart';
 import 'package:mymgs/widgets/spinner.dart';
@@ -126,12 +127,13 @@ class App extends StatelessWidget {
     // Color(0xFF<paste here>)
 
     // the primaryColor is the colour we use for any interactive components, headers, and basically anything we want to draw attention to or separate
-    primaryColor: Color(0xFF374b6a),
+    colorScheme: ColorScheme.light(
+      primary: Color(0xFF374b6a),
+      secondary: Color(0xFFb4bbc7),
+    ),
     primaryColorLight: Colors.white, // alert backgrounds, cards, etc. White in light mode, tinted in dark mode
     primaryColorDark: Colors.grey[200],
     primaryColorBrightness: Brightness.dark,
-    accentColor: Color(0xFFb4bbc7),
-    backgroundColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     shadowColor: Colors.black.withOpacity(0.5),
     dialogTheme: DialogTheme(
@@ -164,13 +166,16 @@ class App extends StatelessWidget {
       ),
     ),
     appBarTheme: AppBarTheme(
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
     ),
   );
 
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
   static final ThemeData darkTheme = lightTheme.copyWith(
-    primaryColor: Color(0xFF061F45),
+    colorScheme: ColorScheme.dark(
+      primary: Color(0xFF061F45),
+      secondary: Colors.blueGrey[900]!,
+    ),
     primaryColorLight: Colors.blueGrey[900],
     primaryColorDark: Colors.blueGrey[900],
     backgroundColor: Colors.black,

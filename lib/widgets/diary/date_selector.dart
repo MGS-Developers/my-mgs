@@ -52,7 +52,6 @@ class _DateSelectorState extends State<DateSelector> {
           MGSIconButton(
             icon: PlatformIcons(context).leftChevron,
             onPressed: _prevDay,
-            color: Theme.of(context).accentColor,
             tooltip: 'Next',
           ),
           GestureDetector(
@@ -64,7 +63,6 @@ class _DateSelectorState extends State<DateSelector> {
           MGSIconButton(
             icon: PlatformIcons(context).rightChevron,
             onPressed: _nextDay,
-            color: Theme.of(context).accentColor,
             tooltip: 'Previous',
           ),
         ],

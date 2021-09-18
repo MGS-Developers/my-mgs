@@ -23,7 +23,7 @@ class ArticleCard extends StatelessWidget {
       width: double.infinity,
       child: Material(
         elevation: 3,
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(20),
         child: Stack(

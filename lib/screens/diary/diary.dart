@@ -62,10 +62,9 @@ class _DiaryState extends State<Diary> {
           ),
         ],
       ),
-      floatingActionButton: _diaryView == DiaryView.SingleDay ? FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
-        child: Icon(PlatformIcons(context).add),
+      floatingActionButton: _diaryView == DiaryView.SingleDay ? FloatingActionButton.extended(
+        label: Text('Add entry'),
+        icon: Icon(PlatformIcons(context).add),
         onPressed: () {
           Navigator.of(context).push(platformPageRoute(
             context: context,

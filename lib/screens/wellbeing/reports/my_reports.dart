@@ -113,10 +113,9 @@ class MySafeguardingReports extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Open case'),
+        icon: Icon(Icons.add),
         onPressed: () {
           _newCase(context);
         },

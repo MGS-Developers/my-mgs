@@ -44,7 +44,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           ),
           const SizedBox(height: 5),
           DropdownButton<int>(
-            dropdownColor: Theme.of(context).backgroundColor,
+            dropdownColor: Theme.of(context).colorScheme.surface,
             isExpanded: true,
             hint: Text(
               'Tap to choose',

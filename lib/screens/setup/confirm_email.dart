@@ -136,7 +136,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           ),
           const SizedBox(height: 10),
           Text(
-            'We sent you a 6-digit verification code; please enter it here.',
+            'We sent you a 6-digit verification code; please enter it here. It may take a few minutes to arrive.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 15),

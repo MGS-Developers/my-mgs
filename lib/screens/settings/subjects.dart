@@ -88,7 +88,7 @@ class _SelectSubjectsState extends State<SelectSubjects> {
                     bottomRight: nextSelected ? zero : radius,
                   ) : BorderRadius.circular(20),
                 ),
-                tileColor: selected ? Theme.of(context).primaryColor : null,
+                tileColor: selected ? Theme.of(context).colorScheme.primary : null,
                 onTap: () {
                   if (selected) {
                     _remove(subject);

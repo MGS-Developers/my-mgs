@@ -17,7 +17,7 @@ class _SportsDayRecordsState extends State<SportsDayRecords> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               child: TabBar(
                 tabs: _yearGroups.map((e) => Tab(
                   text: "Year $e",

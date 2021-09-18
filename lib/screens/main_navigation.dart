@@ -214,7 +214,7 @@ class _MainNavigationState extends State<MainNavigation> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Theme.of(context).primaryColor,
+                          Theme.of(context).colorScheme.primary,
                           Color(0xFF5b67ad),
                         ]
                       ),

@@ -93,7 +93,7 @@ class _ToggleSettingState extends State<ToggleSetting> {
             onChanged: canBeChanged ? (_) {
               _toggle(currentValue);
             } : null,
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         );
       }

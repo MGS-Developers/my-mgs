@@ -52,7 +52,7 @@ class _HeroAppBarState extends State<HeroAppBar> {
 
     return AppBar(
       title: Text(widget.title),
-      backgroundColor: Theme.of(context).primaryColor.withOpacity(opacity),
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(opacity),
       elevation: 0,
       actions: shareable != null ? [
         ShareButton(shareable: shareable),

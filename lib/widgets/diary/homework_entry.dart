@@ -99,7 +99,6 @@ class _HomeworkEntryState extends State<HomeworkEntry> with TickerProviderStateM
                     AnimatedSize(
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeInOut,
-                      vsync: this,
                       child: Container(
                         width: done ? 40 : 0,
                         padding: EdgeInsets.only(right: 15),

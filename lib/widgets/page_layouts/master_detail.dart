@@ -70,7 +70,7 @@ class _MasterDetailScreenState extends State<MasterDetailScreen> {
             Container(
               width: widget.masterWidth,
               child: Material(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 child: _buildMaster(context)
               ),
             ),

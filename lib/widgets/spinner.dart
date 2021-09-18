@@ -13,7 +13,7 @@ class Spinner extends StatelessWidget {
       // we only need a colour for the Android-style spinner (iOS spinners don't have colours)
       material: (_, __) => MaterialProgressIndicatorData(
         valueColor: AlwaysStoppedAnimation<Color>(
-          Theme.of(context).primaryColor,
+          Theme.of(context).colorScheme.primary,
         ),
       ),
     );

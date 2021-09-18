@@ -89,7 +89,7 @@ class _SportsDayQuickSetupCardState extends State<SportsDayQuickSetupCard> {
                 width: double.infinity,
                 clipBehavior: Clip.antiAlias,
                 child: Material(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   child: InkWell(
                     onTap: () {
                       _setup(context);

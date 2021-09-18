@@ -29,7 +29,7 @@ class EventCard extends StatelessWidget {
     final _callback = onTap;
 
     return Card(
-      color: selected ? Theme.of(context).primaryColor : null,
+      color: selected ? Theme.of(context).colorScheme.primary : null,
       child: InkWell(
         onTap: _callback != null ? () => _callback(heroKey) : () {
           Navigator.of(context).push(platformPageRoute(

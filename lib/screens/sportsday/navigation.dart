@@ -54,7 +54,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
     if (!Foundation.kIsWeb && Platform.isIOS) {
       return CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme.of(context).colorScheme.primary,
           items: tabs,
           currentIndex: index,
           onTap: (_index) {
@@ -80,7 +80,7 @@ class _SportsDayNavigationState extends State<SportsDayNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Color(0x50000000),
         onTap: (_index) {
           setState(() {

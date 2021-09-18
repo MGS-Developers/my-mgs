@@ -123,7 +123,7 @@ class _SelectSubjectState extends State<SelectSubject> {
     ];
 
     return DropdownButton<String>(
-      dropdownColor: Theme.of(context).backgroundColor,
+      dropdownColor: Theme.of(context).colorScheme.surface,
       value: widget.selectedSubject,
       hint: Text(
         "Select subject",

@@ -4,7 +4,6 @@ import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/safeguarding_case.dart';
 import 'package:mymgs/data_classes/wellbeing_organisation.dart';
 import 'package:mymgs/keys.dart';
-import 'package:openpgp/model/bridge.pb.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:sembast/sembast.dart';
 

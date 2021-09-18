@@ -3,12 +3,22 @@ import 'package:mymgs/widgets/drawer/drawer_icon_body.dart';
 
 class DrawerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Size preferredSize;
+  late final Size preferredSize;
   final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
   DrawerAppBar(this.title, {
     Key? key,
     this.actions,
-  }): preferredSize = AppBar().preferredSize;
+    this.bottom,
+  }) {
+    var preferredSize = AppBar().preferredSize;
+    final bottom = this.bottom;
+    if (bottom != null) {
+      preferredSize = Size.fromHeight(preferredSize.height + bottom.preferredSize.height);
+    }
+
+    this.preferredSize = preferredSize;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +26,7 @@ class DrawerAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: const DrawerIconButton(),
       actions: actions,
       title: Text(title),
+      bottom: bottom,
     );
   }
 }
