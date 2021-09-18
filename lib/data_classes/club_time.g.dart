@@ -6,11 +6,9 @@ part of 'club_time.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ClubTime _$ClubTimeFromJson(Map<String, dynamic> json) {
-  return ClubTime(
-    time: timeOfDayFromString(json['time'] as String),
-  )..dayOfWeek = _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek']);
-}
+ClubTime _$ClubTimeFromJson(Map<String, dynamic> json) => ClubTime(
+      time: timeOfDayFromString(json['time'] as String),
+    )..dayOfWeek = _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek']);
 
 Map<String, dynamic> _$ClubTimeToJson(ClubTime instance) => <String, dynamic>{
       'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek],

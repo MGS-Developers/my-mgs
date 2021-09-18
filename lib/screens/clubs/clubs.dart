@@ -96,16 +96,14 @@ class _ClubsState extends State<Clubs> {
                             ),
                           );
                         } else {
-                          return Expanded(
-                            child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              shrinkWrap: true,
-                              itemCount: filteredList.length,
-                              itemBuilder: (context, index) {
-                                final club = filteredList[index];
-                                return ClubCard(club: club);
-                              },
-                            ),
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            shrinkWrap: true,
+                            itemCount: filteredList.length,
+                            itemBuilder: (context, index) {
+                              final club = filteredList[index];
+                              return ClubCard(club: club);
+                            },
                           );
                         }
                       },

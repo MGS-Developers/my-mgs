@@ -6,19 +6,17 @@ part of 'catering_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CateringItem _$CateringItemFromJson(Map<String, dynamic> json) {
-  return CateringItem(
-    week: json['week'] as int,
-    dayOfWeek: _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek']),
-    menuItems: (json['menuItems'] as List<dynamic>)
-        .map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  )
-    ..id = json['id'] as String
-    ..yearGroups =
-        (json['yearGroups'] as List<dynamic>?)?.map((e) => e as int).toList()
-    ..location = json['location'] as String?;
-}
+CateringItem _$CateringItemFromJson(Map<String, dynamic> json) => CateringItem(
+      week: json['week'] as int,
+      dayOfWeek: _$enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek']),
+      menuItems: (json['menuItems'] as List<dynamic>)
+          .map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )
+      ..id = json['id'] as String
+      ..yearGroups =
+          (json['yearGroups'] as List<dynamic>?)?.map((e) => e as int).toList()
+      ..location = json['location'] as String?;
 
 Map<String, dynamic> _$CateringItemToJson(CateringItem instance) =>
     <String, dynamic>{

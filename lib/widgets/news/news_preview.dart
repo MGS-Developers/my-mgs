@@ -4,7 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/helpers/animation.dart';
 import 'package:mymgs/screens/news/news_item.dart';
-import 'package:mymgs/widgets/nullable_image.dart';
+import 'package:mymgs/widgets/rounded_card_thumbnail.dart';
 
 class NewsPreview extends StatelessWidget {
   final NewsItem newsItem;
@@ -30,18 +30,7 @@ class NewsPreview extends StatelessWidget {
       leading: newsItem.image.thumbnailUrl != null && newsItem.image.thumbnailUrl != '' ? Hero(
         tag: heroKey,
         transitionOnUserGestures: true,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: NullableImage(
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-            image: newsItem.image,
-          ),
-        ),
+        child: RoundedCardThumbnail(image: newsItem.image),
       ) : null,
       title: Text(
         newsItem.headline,

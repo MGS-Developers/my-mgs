@@ -6,13 +6,11 @@ part of 'points.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FormPoints _$FormPointsFromJson(Map<String, dynamic> json) {
-  return FormPoints(
-    total: json['total'] as int,
-    yearPosition: json['yearPosition'] as int,
-    schoolPosition: json['schoolPosition'] as int,
-  );
-}
+FormPoints _$FormPointsFromJson(Map<String, dynamic> json) => FormPoints(
+      total: json['total'] as int,
+      yearPosition: json['yearPosition'] as int,
+      schoolPosition: json['schoolPosition'] as int,
+    );
 
 Map<String, dynamic> _$FormPointsToJson(FormPoints instance) =>
     <String, dynamic>{

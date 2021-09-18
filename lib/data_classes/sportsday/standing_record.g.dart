@@ -6,29 +6,27 @@ part of 'standing_record.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewStandingRecord _$NewStandingRecordFromJson(Map<String, dynamic> json) {
-  return NewStandingRecord(
-    name: json['name'] as String,
-    value: (json['value'] as num).toDouble(),
-  );
-}
+NewStandingRecord _$NewStandingRecordFromJson(Map<String, dynamic> json) =>
+    NewStandingRecord(
+      name: json['name'] as String,
+      value: (json['value'] as num).toDouble(),
+    );
 
-StandingRecord _$StandingRecordFromJson(Map<String, dynamic> json) {
-  return StandingRecord(
-    holder: json['holder'] as String,
-    value: (json['value'] as num).toDouble(),
-    units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
-    year: json['year'] as int,
-    yearGroup: json['yearGroup'] as int,
-    eventGroup: json['eventGroup'] == null
+StandingRecord _$StandingRecordFromJson(Map<String, dynamic> json) =>
+    StandingRecord(
+      holder: json['holder'] as String,
+      value: (json['value'] as num).toDouble(),
+      units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
+      year: json['year'] as int,
+      yearGroup: json['yearGroup'] as int,
+      eventGroup: json['eventGroup'] == null
+          ? null
+          : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>),
+      eventGroupId: json['eventGroupId'] as String,
+      scoreSpecId: json['scoreSpecId'] as String,
+    )..newRecord = json['new'] == null
         ? null
-        : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>),
-    eventGroupId: json['eventGroupId'] as String,
-    scoreSpecId: json['scoreSpecId'] as String,
-  )..newRecord = json['new'] == null
-      ? null
-      : NewStandingRecord.fromJson(json['new'] as Map<String, dynamic>);
-}
+        : NewStandingRecord.fromJson(json['new'] as Map<String, dynamic>);
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,

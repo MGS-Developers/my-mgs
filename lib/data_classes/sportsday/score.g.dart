@@ -6,14 +6,13 @@ part of 'score.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AbsoluteScore _$AbsoluteScoreFromJson(Map<String, dynamic> json) {
-  return AbsoluteScore(
-    units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
-    value: (json['value'] as num).toDouble(),
-    competitorName: json['competitorName'] as String,
-    isNewRecord: json['isNewRecord'] as bool,
-  );
-}
+AbsoluteScore _$AbsoluteScoreFromJson(Map<String, dynamic> json) =>
+    AbsoluteScore(
+      units: _$enumDecode(_$RecordUnitsEnumMap, json['units']),
+      value: (json['value'] as num).toDouble(),
+      competitorName: json['competitorName'] as String,
+      isNewRecord: json['isNewRecord'] as bool? ?? false,
+    );
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
@@ -46,18 +45,16 @@ const _$RecordUnitsEnumMap = {
   RecordUnits.seconds: 'seconds',
 };
 
-ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) {
-  return ScoreNode(
-    formId: json['formId'] as String,
-    eventId: json['eventId'] as String,
-    position: json['position'] as int,
-    calculatedPoints: json['calculatedPoints'] as int?,
-    absolute: json['absolute'] == null
+ScoreNode _$ScoreNodeFromJson(Map<String, dynamic> json) => ScoreNode(
+      formId: json['formId'] as String,
+      eventId: json['eventId'] as String,
+      position: json['position'] as int,
+      calculatedPoints: json['calculatedPoints'] as int?,
+      absolute: json['absolute'] == null
+          ? null
+          : AbsoluteScore.fromJson(json['absolute'] as Map<String, dynamic>),
+      id: json['id'] as String,
+      createdAt: noopTransform(json['createdAt']),
+    )..event = json['event'] == null
         ? null
-        : AbsoluteScore.fromJson(json['absolute'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    createdAt: noopTransform(json['createdAt']),
-  )..event = json['event'] == null
-      ? null
-      : Event.fromJson(json['event'] as Map<String, dynamic>);
-}
+        : Event.fromJson(json['event'] as Map<String, dynamic>);

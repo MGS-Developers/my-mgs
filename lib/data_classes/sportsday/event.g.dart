@@ -6,12 +6,11 @@ part of 'event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventTimetable _$EventTimetableFromJson(Map<String, dynamic> json) {
-  return EventTimetable(
-    startTime: timestampFromJson(json['startTime']),
-    location: _$enumDecode(_$EventLocationEnumMap, json['location']),
-  );
-}
+EventTimetable _$EventTimetableFromJson(Map<String, dynamic> json) =>
+    EventTimetable(
+      startTime: timestampFromJson(json['startTime']),
+      location: _$enumDecode(_$EventLocationEnumMap, json['location']),
+    );
 
 Map<String, dynamic> _$EventTimetableToJson(EventTimetable instance) =>
     <String, dynamic>{
@@ -51,21 +50,19 @@ const _$EventLocationEnumMap = {
   EventLocation.athletics_area: 'athletics_area',
 };
 
-Event _$EventFromJson(Map<String, dynamic> json) {
-  return Event(
-    id: json['id'] as String,
-    subEvent: json['subEvent'] as int,
-    yearGroup: json['yearGroup'] as int,
-    eventGroupId: json['eventGroupId'] as String,
-    scoreSpecId: json['scoreSpecId'] as String,
-  )
-    ..eventGroup = json['eventGroup'] == null
-        ? null
-        : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>)
-    ..timetable = json['timetable'] == null
-        ? null
-        : EventTimetable.fromJson(json['timetable'] as Map<String, dynamic>);
-}
+Event _$EventFromJson(Map<String, dynamic> json) => Event(
+      id: json['id'] as String,
+      subEvent: json['subEvent'] as int,
+      yearGroup: json['yearGroup'] as int,
+      eventGroupId: json['eventGroupId'] as String,
+      scoreSpecId: json['scoreSpecId'] as String,
+    )
+      ..eventGroup = json['eventGroup'] == null
+          ? null
+          : EventGroup.fromJson(json['eventGroup'] as Map<String, dynamic>)
+      ..timetable = json['timetable'] == null
+          ? null
+          : EventTimetable.fromJson(json['timetable'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'id': instance.id,

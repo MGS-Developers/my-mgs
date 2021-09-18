@@ -10,6 +10,7 @@ import 'package:mymgs/screens/diary/diary.dart';
 import 'package:mymgs/screens/events/events.dart';
 import 'package:mymgs/screens/magazines/explore_magazines.dart';
 import 'package:mymgs/screens/settings/settings.dart';
+import 'package:mymgs/screens/shop/charities_shop.dart';
 import 'package:mymgs/screens/sportsday/navigation.dart';
 import 'package:mymgs/screens/survival/survival_dashboard.dart';
 import 'package:mymgs/screens/wellbeing/dashboard.dart';
@@ -28,6 +29,7 @@ const _modules = <String, RouteData>{
   'survival_guides': RouteData("survival_guides", "Survival Guides", Icons.menu_book_outlined, Icons.menu_book, SurvivalGuides()),
   'wellbeing': RouteData("wellbeing", "Wellbeing", Icons.support_outlined, Icons.support, WellbeingDashboard()),
   'settings': RouteData("settings", "Settings", Icons.settings_outlined, Icons.settings, SettingsScreen()),
+  'charities_shop': RouteData("charities_shop", "Charities Shop", Icons.shopping_cart_outlined, Icons.shopping_cart, CharitiesShop()),
   'sportsday': RouteData("sportsday", "Sports Day 2021", Icons.run_circle_outlined, Icons.run_circle, SportsDayNavigation()),
 };
 
@@ -97,6 +99,7 @@ class Config {
         "clubs",
         "events",
         "diary",
+        "charities_shop",
         "magazines",
         "survival_guides",
         "wellbeing",

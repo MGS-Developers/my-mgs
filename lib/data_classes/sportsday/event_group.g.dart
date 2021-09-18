@@ -6,14 +6,12 @@ part of 'event_group.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventGroup _$EventGroupFromJson(Map<String, dynamic> json) {
-  return EventGroup(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    subEventCount: json['subEventCount'] as int,
-    scoreSpecId: json['scoreSpecId'] as String,
-  );
-}
+EventGroup _$EventGroupFromJson(Map<String, dynamic> json) => EventGroup(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      subEventCount: json['subEventCount'] as int,
+      scoreSpecId: json['scoreSpecId'] as String,
+    );
 
 Map<String, dynamic> _$EventGroupToJson(EventGroup instance) =>
     <String, dynamic>{

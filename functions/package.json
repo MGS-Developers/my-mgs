@@ -18,6 +18,7 @@
     "lodash": "^4.17.21",
     "nodemailer": "^6.6.0",
     "sha.js": "^2.4.11",
+    "stripe": "^8.176.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -6,14 +6,13 @@ part of 'safeguarding_case.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SafeguardingCase _$SafeguardingCaseFromJson(Map<String, dynamic> json) {
-  return SafeguardingCase(
-    id: json['id'] as String,
-    createdAt: noopTransform(json['createdAt']),
-    studentPublicKey: json['studentPublicKey'] as String,
-    staffPublicKey: json['staffPublicKey'] as String,
-  );
-}
+SafeguardingCase _$SafeguardingCaseFromJson(Map<String, dynamic> json) =>
+    SafeguardingCase(
+      id: json['id'] as String,
+      createdAt: noopTransform(json['createdAt']),
+      studentPublicKey: json['studentPublicKey'] as String,
+      staffPublicKey: json['staffPublicKey'] as String,
+    );
 
 Map<String, dynamic> _$SafeguardingCaseToJson(SafeguardingCase instance) =>
     <String, dynamic>{
@@ -24,15 +23,14 @@ Map<String, dynamic> _$SafeguardingCaseToJson(SafeguardingCase instance) =>
     };
 
 SafeguardingCaseMessage _$SafeguardingCaseMessageFromJson(
-    Map<String, dynamic> json) {
-  return SafeguardingCaseMessage(
-    id: json['id'] as String,
-    caseId: json['caseId'] as String,
-    sentAt: noopTransform(json['sentAt']),
-    recipientIsStudent: json['recipientIsStudent'] as bool,
-    message: json['message'] as String,
-  );
-}
+        Map<String, dynamic> json) =>
+    SafeguardingCaseMessage(
+      id: json['id'] as String,
+      caseId: json['caseId'] as String,
+      sentAt: noopTransform(json['sentAt']),
+      recipientIsStudent: json['recipientIsStudent'] as bool,
+      message: json['message'] as String,
+    );
 
 Map<String, dynamic> _$SafeguardingCaseMessageToJson(
         SafeguardingCaseMessage instance) =>
