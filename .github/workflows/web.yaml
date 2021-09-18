@@ -9,6 +9,7 @@ on:
       - assets/*
       - fonts/*
       - web/*
+      - .github/workflows/web.yaml
       - pubspec.yaml
 
 jobs:
