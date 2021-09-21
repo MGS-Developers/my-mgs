@@ -39,6 +39,5 @@ class CharitiesShopData {
       userCode: response.data['userCode'],
       secret: response.data['secret'],
     );
-    return response.data;
   }
 }

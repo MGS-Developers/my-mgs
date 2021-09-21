@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymgs/data_classes/charities_shop_item.dart';
 import 'package:mymgs/helpers/pricing.dart';
+import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/icon_button.dart';
 import 'package:mymgs/widgets/nullable_image.dart';
 
@@ -58,7 +59,7 @@ class _CharitiesShopItemPreviewState extends State<CharitiesShopItemPreview> {
     final item = widget.item;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.symmetric(horizontal: Responsive(context).horizontalReaderPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

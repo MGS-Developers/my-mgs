@@ -31,7 +31,7 @@ class CharitiesShopComplete extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "Write this code down somewhere and bring it with you to collect your order:",
+              "Write this code down and bring it with you to collect your order. You can get a receipt when collecting.",
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),

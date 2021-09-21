@@ -99,7 +99,6 @@ class Config {
         "clubs",
         "events",
         "diary",
-        "charities_shop",
         "magazines",
         "survival_guides",
         "wellbeing",

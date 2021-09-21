@@ -62,6 +62,7 @@ class _CharitiesShopCartState extends State<CharitiesShopCart> {
 
     Stripe.publishableKey = kReleaseMode ? "pk_live_51HPO0pAX0ZOeVncMw6tMyIknpgulhkRW9HFk6t0yRTL2uT66zTG3ni6FwRNUNgzFCvZHkhnJ7VhNpWjygFcveL8E004fI2jZr1"
         : "pk_test_51HPO0pAX0ZOeVncMCKt0vqAi2SjCaIls4e5fCW9j9W7y3HpUe81IxXnZfBnA47nPebF7hf3ZNQE00tz3uEeA9P1X001wv0ouIU";
+    Stripe.merchantIdentifier = "merchant.org.mgs.my";
     await Stripe.instance.initPaymentSheet(paymentSheetParameters: SetupPaymentSheetParameters(
       applePay: true,
       googlePay: true,
@@ -79,6 +80,7 @@ class _CharitiesShopCartState extends State<CharitiesShopCart> {
         builder: (_) => CharitiesShopComplete(userCode: paymentDetails.userCode),
       ));
     } catch (e) {
+      print(e);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Something went wrong! You haven't been charged."),
         duration: Duration(seconds: 5),

@@ -22,7 +22,7 @@ const createPaymentIntent = async (stripe: Stripe, data: CreatePaymentIntentRequ
     let description = "";
     for (const item of data.items) {
         total += item.price * item.quantity;
-        description += `${item.name} (${item.id}) x${item.quantity};`;
+        description += `${item.name} (${item.id}) x${item.quantity}; `;
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -36,6 +36,13 @@ const createPaymentIntent = async (stripe: Stripe, data: CreatePaymentIntentRequ
         .add({
             userCode,
             paymentIntentId: paymentIntent.id,
+            items: data.items.map(e => {
+                return {
+                    id: e.id,
+                    quantity: e.quantity,
+                }
+            }),
+            total,
         })
 
     return {
