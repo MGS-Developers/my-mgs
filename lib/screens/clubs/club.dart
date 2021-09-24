@@ -7,6 +7,7 @@ import 'package:mymgs/widgets/content_markdown.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/page_layouts/hero_text_appbar.dart';
 import 'package:mymgs/widgets/links.dart';
+import 'package:mymgs/widgets/tutorial/tutorial_show_once.dart';
 
 class ClubScreen extends StatefulWidget {
   final Club club;
@@ -67,6 +68,21 @@ class _ClubScreenState extends State<ClubScreen> {
             const SizedBox(height: 20),
             if (description != null) ContentMarkdown(content: description),
             const SizedBox(height: 20),
+            TutorialShowOnce(
+              tutorialKey: "club_subscribe",
+              padding: EdgeInsets.only(bottom: 10),
+              enabled: false,
+              children: [
+                Text(
+                  "Subscribe to a club",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Get reminders, notifications, events, and more when you subscribe to " + widget.club.name + ".",
+                )
+              ]
+            ),
             ClubSubscriptionButton(club: widget.club),
             if (links != null) Links(
               links: links

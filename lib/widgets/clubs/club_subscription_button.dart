@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/clubs.dart';
+import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/notifications/permissions.dart';
 import 'package:mymgs/screens/settings/notifications.dart';
@@ -49,6 +50,7 @@ class _ClubSubscriptionButtonState extends State<ClubSubscriptionButton> {
       await unsubscribeFromClub(widget.club);
     } else {
       await subscribeToClub(widget.club);
+      await saveSetting('tutorial_dismissed_club_subscribe', true);
     }
 
     setState(() {

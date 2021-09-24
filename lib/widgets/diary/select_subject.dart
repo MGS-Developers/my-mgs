@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
+import 'package:mymgs/screens/settings/subjects.dart';
+import 'package:mymgs/widgets/tutorial/tutorial_card.dart';
 
 const SUBJECTS = [
   "🎨 Art",
@@ -52,20 +54,27 @@ class SelectSubject extends StatefulWidget {
 class _SelectSubjectState extends State<SelectSubject> {
   late TextEditingController _otherSubject;
   List selectedSubjects = [];
+  bool noSubjectsSelected = false;
+
+  Future<void> _initChosenSubjects() async {
+    final subjects = await getSetting<List?>('subjects');
+    if (subjects != null && subjects.length > 0) {
+      setState(() {
+        selectedSubjects = subjects;
+        noSubjectsSelected = false;
+      });
+    } else {
+      setState(() {
+        noSubjectsSelected = true;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _otherSubject = TextEditingController();
-
-    getSetting<List?>('subjects')
-    .then((value) {
-      if (value != null) {
-        setState(() {
-          selectedSubjects = value;
-        });
-      }
-    });
+    _initChosenSubjects();
   }
 
   @override
@@ -106,6 +115,15 @@ class _SelectSubjectState extends State<SelectSubject> {
     );
   }
 
+  void _openSubjectPicker(BuildContext context) async {
+    await Navigator.of(context).push(platformPageRoute(
+      context: context,
+      fullscreenDialog: true,
+      builder: (_) => SelectSubjects(),
+    ));
+    await _initChosenSubjects();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> combinedSubjects = SUBJECTS;
@@ -122,26 +140,49 @@ class _SelectSubjectState extends State<SelectSubject> {
       ...combinedSubjects.where((subject) => !selectedSubjects.contains(subject)),
     ];
 
-    return DropdownButton<String>(
-      dropdownColor: Theme.of(context).colorScheme.surface,
-      value: widget.selectedSubject,
-      hint: Text(
-        "Select subject",
-        style: Theme.of(context).textTheme.bodyText1,
-      ),
-      items: combinedSubjects.map((subject) => DropdownMenuItem<String>(
-        child: Text(subject),
-        value: subject,
-      )).toList(),
-      onChanged: (String? newValue) {
-        if (newValue == null) return;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (noSubjectsSelected) ...[
+          const SizedBox(height: 10),
+          TutorialCard(
+            onPressed: () => _openSubjectPicker(context),
+            children: [
+              Text(
+                "Which subjects do you take?",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                "Tap here to choose your subjects and make saving homework easier.",
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+        ],
 
-        if (newValue == "Other...") {
-          _selectOtherSubject(context);
-        } else {
-          widget.subjectCallback(newValue);
-        }
-      }
+        DropdownButton<String>(
+          dropdownColor: Theme.of(context).colorScheme.surface,
+          value: widget.selectedSubject,
+          hint: Text(
+            "Select subject",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          items: combinedSubjects.map((subject) => DropdownMenuItem<String>(
+            child: Text(subject),
+            value: subject,
+          )).toList(),
+          onChanged: (String? newValue) {
+            if (newValue == null) return;
+
+            if (newValue == "Other...") {
+              _selectOtherSubject(context);
+            } else {
+              widget.subjectCallback(newValue);
+            }
+          },
+        ),
+      ],
     );
   }
 }

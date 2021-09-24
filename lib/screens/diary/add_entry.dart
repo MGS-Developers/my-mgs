@@ -23,7 +23,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
   @override
   void initState() {
     _homework = TextEditingController();
-    _dueDate = DateTime.now();
+    _dueDate = DateTime.now().add(const Duration(days: 1));
     super.initState();
   }
 

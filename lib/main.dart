@@ -110,6 +110,9 @@ class App extends StatelessWidget {
     )),
   );
   static final materialStateColorLight = MaterialStateProperty.all(Color(0xFF374b6a));
+  static final materialStateWhiteText = MaterialStateProperty.all(TextStyle(
+    color: Colors.white,
+  ));
 
   // Themes!
   // our app can run in two modes: dark mode and light mode.
@@ -195,7 +198,13 @@ class App extends StatelessWidget {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: lightTheme.outlinedButtonTheme.style!.copyWith(
         foregroundColor: MaterialStateProperty.all(Colors.white),
+        textStyle: materialStateWhiteText,
       ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: lightTheme.elevatedButtonTheme.style!.copyWith(
+        textStyle: materialStateWhiteText,
+      )
     ),
     cardColor: Colors.blueGrey[900],
     iconTheme: IconThemeData(
