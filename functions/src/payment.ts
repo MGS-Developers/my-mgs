@@ -33,9 +33,11 @@ interface CreatePaymentIntentRequest {
     }[];
 }
 const createPaymentIntent = async (test: boolean, stripe: Stripe, data: CreatePaymentIntentRequest) => {
+    const items = data.items.filter(e => e.quantity > 0);
+
     let total = 0;
     let description = "";
-    for (const item of data.items) {
+    for (const item of items) {
         total += item.price * item.quantity;
         description += `${item.name} (${item.id}) x${item.quantity}; `;
     }
@@ -52,7 +54,7 @@ const createPaymentIntent = async (test: boolean, stripe: Stripe, data: CreatePa
             createdAt: admin.firestore.Timestamp.now(),
             userCode,
             paymentIntentId: paymentIntent.id,
-            items: data.items.map(e => {
+            items: items.map(e => {
                 return {
                     id: e.id,
                     quantity: e.quantity,
@@ -68,8 +70,8 @@ const createPaymentIntent = async (test: boolean, stripe: Stripe, data: CreatePa
         userCode,
     };
 }
-export const createPaymentIntentTest = region.onCall(async (data: CreatePaymentIntentRequest) => createPaymentIntent(true, stripeTest, data));
-export const createPaymentIntentLive = region.onCall(async (data: CreatePaymentIntentRequest) => createPaymentIntent(false, stripeLive, data));
+export const createPaymentIntentTest = region.onCall((data: CreatePaymentIntentRequest) => createPaymentIntent(true, stripeTest, data));
+export const createPaymentIntentLive = region.onCall((data: CreatePaymentIntentRequest) => createPaymentIntent(false, stripeLive, data));
 
 const getPaymentIntent = async (context: functions.https.CallableContext, stripe: Stripe, id: string) => {
     if (!(await ensurePermission(context))) {
@@ -82,26 +84,32 @@ const getPaymentIntent = async (context: functions.https.CallableContext, stripe
         cardLast4 = paymentIntent.charges.data[0].payment_method_details?.card?.last4 ?? undefined;
     }
 
+    const refunds = await stripe.refunds.list({
+        payment_intent: paymentIntent.id,
+    })
+    const refunded = refunds.data.length > 0;
+
     return {
-        paid: paymentIntent.status === "succeeded",
+        paid: paymentIntent.status === "succeeded" && !refunded,
         status: paymentIntent.status,
         total: paymentIntent.amount,
         cardLast4,
+        refunded,
     }
 }
-export const getPaymentIntentTest = region.onCall(async (data: string, context) => getPaymentIntent(context, stripeTest, data));
-export const getPaymentIntentLive = region.onCall(async (data: string, context) => getPaymentIntent(context, stripeLive, data));
+export const getPaymentIntentTest = region.onCall((data: string, context) => getPaymentIntent(context, stripeTest, data));
+export const getPaymentIntentLive = region.onCall((data: string, context) => getPaymentIntent(context, stripeLive, data));
 
 export const togglePaymentFulfillment = region.onCall(async (orderId: string, context) => {
     if (!(await ensurePermission(context))) {
-        return null;
+        return false;
     }
 
     const order = await admin.firestore().collection('payment_confirmations')
         .doc(orderId)
         .get();
     if (!order.exists) {
-        return null;
+        return false;
     }
 
     await admin.firestore().collection('payment_confirmations')
@@ -109,5 +117,20 @@ export const togglePaymentFulfillment = region.onCall(async (orderId: string, co
         .update({
             fulfilled: !order.data()!.fulfilled,
         });
-    return null;
+    return true;
 });
+
+const refundPaymentIntent = async (context: functions.https.CallableContext, stripe: Stripe, id: string) => {
+    if (!(await ensurePermission(context))) {
+        return false;
+    }
+
+    await stripe.refunds.create({
+        payment_intent: id,
+        reason: 'requested_by_customer',
+    });
+
+    return true;
+}
+export const refundPaymentIntentTest = region.onCall((id: string, context) => refundPaymentIntent(context, stripeTest, id));
+export const refundPaymentIntentLive = region.onCall((id: string, context) => refundPaymentIntent(context, stripeLive, id));

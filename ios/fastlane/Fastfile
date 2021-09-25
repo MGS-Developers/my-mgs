@@ -20,24 +20,15 @@ platform :ios do
   lane :release do
     path = "fastlane/key.json"
 
-    cert(api_key_path: path)
-    sigh(provisioning_name: "App Store Fastlane", api_key_path: path)
+    get_certificates(api_key_path: path)
+    get_provisioning_profile(api_key_path: path)
 
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: "Runner.xcodeproj",
-      profile_name: "App Store Fastlane",
-    )
+    disable_automatic_code_signing(path: "Runner.xcodeproj")
 
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
-      export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "org.mgs.my.ios" => "App Store Fastlane"
-        }
-      }
+      export_method: "app-store"
     )
     upload_to_app_store(skip_metadata: true, skip_screenshots: true, api_key_path: path)
   end

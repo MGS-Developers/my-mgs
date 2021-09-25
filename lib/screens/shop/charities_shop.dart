@@ -112,7 +112,7 @@ class _CharitiesShopState extends State<CharitiesShop> {
               MGSButton(
                 label: "Start shopping!",
                 onPressed: _dismissIntro,
-              )
+              ),
             ],
           ),
         ),
