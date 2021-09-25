@@ -36,6 +36,11 @@ class Contributors extends StatelessWidget {
                   const SizedBox(height: 15),
                 ],
               )),
+              const SizedBox(height: 20),
+              Text(
+                "Want to help? Maintaining this app takes a lot of work, so we're always welcome to new contributors. Please email kerecsenyip-y15@mgs.org.",
+                style: Theme.of(context).textTheme.bodyText1,
+              )
             ],
           ),
         ),

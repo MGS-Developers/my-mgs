@@ -9,4 +9,4 @@ export {getSendingSecret, studentSendMessage} from './safeguarding';
 export {getQrCodeData, verifyQrCode, retrieveSignInToken} from './web_authentication';
 export {cleanup} from './cleanup';
 export {sportsDayTemporaryAuth} from './sportsday/temporary_authentication'
-export {createPaymentIntentLive, createPaymentIntentTest} from './payment'
+export {createPaymentIntentLive, createPaymentIntentTest, getPaymentIntentLive, getPaymentIntentTest, togglePaymentFulfillment} from './payment'
