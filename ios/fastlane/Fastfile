@@ -21,9 +21,17 @@ platform :ios do
     path = "fastlane/key.json"
 
     # works for GitHub actions too
-    setup_ci(provider: "travis")
-    match(type: "appstore", readonly: true, api_key_path: path)
+    if is_ci
+      setup_ci(provider: "travis")
+    end
+    match(type: "appstore", readonly: is_ci, api_key_path: path)
 
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "Runner.xcodeproj",
+      profile_name: ENV["sigh_org.mgs.my.ios_appstore_profile-name"],
+      profile_uuid: ENV["sigh_org.mgs.my.ios_appstore"]
+    )
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner"
