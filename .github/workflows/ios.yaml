@@ -20,20 +20,23 @@ jobs:
         with:
           flutter-version: '2.5.1'
 
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Setup ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
           bundler-cache: true
 
+      - name: Install Ruby dependencies
+        run: gem install bundler && bundle install
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Install Pods
         run: pod install
         working-directory: ios
 
-      - name: Copy key to file
+      - name: Copy iOS API key to file
         run: echo "$APIKEY" > "key.json"
         working-directory: ios/fastlane
         env:
