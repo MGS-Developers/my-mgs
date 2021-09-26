@@ -28,6 +28,7 @@ jobs:
 
       - name: Install Ruby dependencies
         run: gem install bundler && bundle install
+        working-directory: ios
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -36,7 +37,7 @@ jobs:
         run: pod install
         working-directory: ios
 
-      - name: Copy iOS API key to file
+      - name: Copy Apple Developer API key to file
         run: echo "$APIKEY" > "key.json"
         working-directory: ios/fastlane
         env:
