@@ -36,6 +36,14 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner"
     )
-    upload_to_app_store(skip_metadata: true, skip_screenshots: true, api_key_path: path)
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true,
+      api_key_path: path,
+      force: true,
+      run_precheck_before_submit: false,
+      submit_for_review: false,
+      automatic_release: false,
+    )
   end
 end

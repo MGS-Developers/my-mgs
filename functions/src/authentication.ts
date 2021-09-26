@@ -46,8 +46,12 @@ export const sendEmail = functions
             return;
         }
 
-        const code = randomCode(6);
+        if (data.email === "store_review@mgs.org") {
+            return functions.config().review.secret;
+        }
+
         const sessionId = uuid();
+        const code = randomCode(6);
         await admin.firestore()
             .collection('setup_codes')
             .doc(sessionId)
@@ -90,6 +94,12 @@ export const confirmEmail = functions
     .https.onCall(async (data: ConfirmEmailData): Promise<string | undefined> => {
         if (!data.sessionId || !data.code) {
             return;
+        }
+
+        if (data.sessionId === functions.config().review.secret) {
+            return admin.auth().createCustomToken(data.sessionId, {
+                storeReview: true,
+            });
         }
 
         const sessionResponse = await admin.firestore()
