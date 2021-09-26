@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,8 +23,15 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build Flutter
-        run: flutter build ios --release --no-codesign -v
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+
+      - name: Install Pods
+        run: pod install
+        working-directory: ios
 
       - name: Copy key to file
         run: echo "$APIKEY" > "key.json"
@@ -32,6 +39,9 @@ jobs:
         env:
           APIKEY: ${{ secrets.FASTLANE_API_KEY }}
 
-      - name: Sign/upload using Fastlane
-        run: fastlane release
+      - name: Build, sign, upload using Fastlane
+        run: bundle exec fastlane release
         working-directory: ios
+        env:
+          MATCH_PASSWORD: ${{ secrets.FASTLANE_MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.FASTLANE_MATCH_GIT_BASIC_AUTHORIZATION }}

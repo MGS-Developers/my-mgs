@@ -60,3 +60,5 @@ play-store-key.json
 *.mobileprovision
 *.cer
 report.xml
+**/.bundle
+**/vendor

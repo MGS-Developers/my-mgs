@@ -20,15 +20,13 @@ platform :ios do
   lane :release do
     path = "fastlane/key.json"
 
-    get_certificates(api_key_path: path)
-    get_provisioning_profile(api_key_path: path)
-
-    disable_automatic_code_signing(path: "Runner.xcodeproj")
+    # works for GitHub actions too
+    setup_ci(provider: "travis")
+    match(type: "appstore", readonly: true, api_key_path: path)
 
     build_app(
       workspace: "Runner.xcworkspace",
-      scheme: "Runner",
-      export_method: "app-store"
+      scheme: "Runner"
     )
     upload_to_app_store(skip_metadata: true, skip_screenshots: true, api_key_path: path)
   end
