@@ -96,7 +96,7 @@ export const confirmEmail = functions
             return;
         }
 
-        if (data.sessionId === functions.config().review.secret) {
+        if (data.sessionId === functions.config().review.secret && data.code === functions.config().review.code) {
             return admin.auth().createCustomToken(data.sessionId, {
                 storeReview: true,
             });
