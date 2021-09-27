@@ -47,7 +47,7 @@ void main() {
   runApp(App());
 
   // we can't run Firebase Messaging on debug iOS instances
-  if (!kIsWeb && (!Platform.isIOS || !kDebugMode)) {
+  if (!kIsWeb && !(Platform.isIOS && kDebugMode)) {
     setupNotifications();
   }
 }

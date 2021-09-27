@@ -59,6 +59,9 @@ export const sendNotification = functions
         await admin.messaging().send({
             topic: data.topic,
             data: payload,
+            android: {
+                priority: 'high',
+            },
         });
         return true;
     });
