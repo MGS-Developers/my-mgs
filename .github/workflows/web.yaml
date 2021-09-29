@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - lib/*
-      - assets/*
+      - lib/**
+      - assets/**
       - fonts/*
-      - web/*
+      - web/**
       - .github/workflows/web.yaml
       - pubspec.yaml
 
