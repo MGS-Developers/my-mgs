@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/news.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/linkable_markdown.dart';
@@ -8,7 +9,7 @@ import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 import 'package:mymgs/widgets/nullable_image.dart';
 
-class NewsItemScreen extends StatelessWidget {
+class NewsItemScreen extends StatefulWidget {
   final NewsItem newsItem;
   final String? heroKey;
   final bool isFullScreen;
@@ -19,21 +20,32 @@ class NewsItemScreen extends StatelessWidget {
     Key? key,
   });
 
+  _NewsItemScreenState createState() => _NewsItemScreenState();
+}
+
+class _NewsItemScreenState extends State<NewsItemScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsEvents.view(widget.newsItem, widget.newsItem.headline);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final newsItem = widget.newsItem;
     final links = newsItem.links;
 
     return ImageScaffold(
-      showAppBar: isFullScreen,
+      showAppBar: widget.isFullScreen,
       appBarLabel: "Article",
       title: newsItem.headline,
       image: nullableImageProvider(url: newsItem.image.fullUrl),
-      heroKey: heroKey,
+      heroKey: widget.heroKey,
       shareable: newsItem,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isFullScreen ? Responsive(context).horizontalReaderPadding : 20,
+            horizontal: widget.isFullScreen ? Responsive(context).horizontalReaderPadding : 20,
             vertical: 15,
           ).copyWith(top: 30),
           child: LinkableMarkdown(

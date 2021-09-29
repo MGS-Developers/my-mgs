@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/diary_entry.dart';
 import 'package:mymgs/notifications/channels.dart';
 import 'package:mymgs/notifications/permissions.dart';
@@ -102,6 +103,7 @@ class DiaryEntryController {
     dayEntry.subjectEntries.add(subjectEntry);
     _createHomeworkReminder(subjectEntry);
     await write(dayEntry);
+    await AnalyticsEvents.addHomework();
   }
 
   Future<void> deleteHomework(int index) async {
@@ -123,6 +125,7 @@ class DiaryEntryController {
     if (subjectEntries[index].complete) {
       _deleteHomeworkReminder(subjectEntries[index]);
     } else {
+      await AnalyticsEvents.completeHomework();
       _createHomeworkReminder(subjectEntries[index]);
     }
 

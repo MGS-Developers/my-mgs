@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
 import 'package:mymgs/notifications/channels.dart';
@@ -77,6 +78,7 @@ class _EventReminderButtonState extends State<EventReminderButton> {
       );
 
       await _scoping.subscribeToScope(widget.event);
+      await AnalyticsEvents.eventRemind(widget.event.id);
     } else {
       cancelReminder(id);
       await _scoping.unsubscribeFromScope(widget.event);

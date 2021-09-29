@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/event.dart';
 import 'package:mymgs/screens/clubs/club.dart';
 import 'package:mymgs/widgets/content_markdown.dart';
@@ -10,18 +11,29 @@ import 'package:mymgs/widgets/page_layouts/image_scaffold.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 import 'package:mymgs/widgets/links.dart';
 
-class EventScreen extends StatelessWidget {
+class EventScreen extends StatefulWidget {
   final Event event;
   final String? heroKey;
   final bool showAppBar;
-  EventScreen({
+  const EventScreen({
     required this.event,
     this.heroKey,
     this.showAppBar = true,
   });
 
+  _EventScreenState createState() => _EventScreenState();
+}
+
+class _EventScreenState extends State<EventScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsEvents.view(widget.event, widget.event.title);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final event = widget.event;
     final description = event.description;
     final links = event.links;
     final imageUrl = event.imageUrl;
@@ -35,9 +47,9 @@ class EventScreen extends StatelessWidget {
       title: event.title,
       appBarLabel: "Event",
       image: imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
-      heroKey: heroKey,
+      heroKey: widget.heroKey,
       shareable: event,
-      showAppBar: showAppBar,
+      showAppBar: widget.showAppBar,
       children: [
         if (club != null) Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

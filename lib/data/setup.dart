@@ -1,6 +1,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/notifications/permissions.dart';
 
@@ -46,6 +47,7 @@ Future<void> confirmCode(String code, String sessionId) async {
   } else {
     await initialiseNotificationConfig();
     await setupAnalytics();
+    await AnalyticsEvents.completeSetup();
     await _firebaseAuth.signInWithCustomToken(functionResponse.data);
   }
 }

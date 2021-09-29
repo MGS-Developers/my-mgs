@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/survival_guide.dart';
 import 'package:mymgs/widgets/page_layouts/master_detail.dart';
 import 'package:mymgs/widgets/page_layouts/info.dart';
@@ -11,6 +12,10 @@ class SurvivalFolder extends StatelessWidget {
     required this.survivalGuides,
     required this.folderName,
   });
+
+  void _viewItemLog(SurvivalGuide guide) {
+    AnalyticsEvents.view(guide, guide.name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,10 @@ class SurvivalFolder extends StatelessWidget {
                   color: selected ? Colors.white : null,
                 ),
               ),
-              onTap: () => onTap(index),
+              onTap: () {
+                _viewItemLog(guide);
+                onTap(index);
+              },
               tileColor: selected ? Theme.of(context).colorScheme.primary : null,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

@@ -3,6 +3,7 @@ This file actually uses Firestore to make a query, so take a look at the code in
  */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data/local_database.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/helpers/class_serializers.dart';
@@ -80,6 +81,7 @@ Future<void> subscribeToClub(Club club) async {
   );
 
   await _scoping.subscribeToScope(club);
+  await AnalyticsEvents.clubSubscribe(club.id);
 }
 
 Future<void> unsubscribeFromClub(Club club) async {

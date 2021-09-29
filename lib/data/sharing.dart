@@ -1,11 +1,14 @@
 import 'dart:ui';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/shareable.dart';
 import 'package:mymgs/helpers/deep_link.dart';
 import 'package:share/share.dart';
 
 Future<void> shareShareable(Shareable shareable, [Rect? origin]) async {
+  await AnalyticsEvents.share(shareable);
+
   final deepLink = DeepLink(shareable.resource, shareable.id);
   final parameters = DynamicLinkParameters(
     uriPrefix: "https://mymgs.link",

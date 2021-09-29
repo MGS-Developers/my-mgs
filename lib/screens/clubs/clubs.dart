@@ -21,6 +21,8 @@ class _ClubsState extends State<Clubs> {
   // https://stackoverflow.com/a/52300307/9043010
   @override
   void initState() {
+    super.initState();
+
     // this function gets which year group the user has said they're in
     getYearGroup().then((value) {
       // once we've found out, we need to update the `clubsFuture` state variable with a call to `getClubs`, passing in the year group
@@ -29,8 +31,6 @@ class _ClubsState extends State<Clubs> {
         clubsFuture = getClubs(yearGroup: value);
       });
     });
-
-    super.initState();
   }
 
   List<Club> filterForDay(List<Club> clubs, DayOfWeek day) {

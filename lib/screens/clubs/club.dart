@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/club.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/clubs/club_logistics.dart';
@@ -23,8 +24,9 @@ class _ClubScreenState extends State<ClubScreen> {
 
   @override
   void initState() {
-    _controller = ScrollController();
     super.initState();
+    _controller = ScrollController();
+    AnalyticsEvents.view(widget.club, widget.club.name);
   }
 
   @override

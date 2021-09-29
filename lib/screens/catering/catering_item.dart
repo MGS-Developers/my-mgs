@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mymgs/data/analytics.dart';
 import 'package:mymgs/data_classes/catering_item.dart';
 import 'package:mymgs/data_classes/club_time.dart';
 import 'package:mymgs/helpers/widget_helpers.dart';
 import 'package:mymgs/widgets/catering_item_flags.dart';
 import 'package:mymgs/widgets/info_disclaimer.dart';
 
-class CateringItemScreen extends StatelessWidget {
+class CateringItemScreen extends StatefulWidget {
   final CateringItem cateringItem;
   final bool showAppBar;
   const CateringItemScreen({
@@ -13,8 +14,21 @@ class CateringItemScreen extends StatelessWidget {
     this.showAppBar = true,
   });
 
+  _CateringItemScreenState createState() => _CateringItemScreenState();
+}
+
+class _CateringItemScreenState extends State<CateringItemScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsEvents.view(
+      widget.cateringItem,
+      "Food " + widget.cateringItem.dayOfWeek.toDayString() + " Week " + widget.cateringItem.week.toString(),
+    );
+  }
+
   Iterable<Widget> getMenuWidgets(BuildContext context) {
-    return cateringItem.menuItems.map((e) {
+    return widget.cateringItem.menuItems.map((e) {
       final flags = e.flags;
       final description = e.description;
 
@@ -59,8 +73,9 @@ class CateringItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cateringItem = widget.cateringItem;
     return Scaffold(
-      appBar: showAppBar ? AppBar(
+      appBar: widget.showAppBar ? AppBar(
         title: Text(
           cateringItem.dayOfWeek.toDayString(),
         ),

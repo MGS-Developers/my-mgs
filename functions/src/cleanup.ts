@@ -8,7 +8,7 @@ const delimitedBatchDelete = async (snapshot: admin.firestore.QuerySnapshot): Pr
     let currentBatchSize = 0;
 
     snapshot.forEach(doc => {
-        if (currentBatchSize == 500) {
+        if (currentBatchSize === 500) {
             batches.push(admin.firestore().batch());
             currentBatchSize = 0;
         }
