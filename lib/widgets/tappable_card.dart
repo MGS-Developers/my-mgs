@@ -8,6 +8,7 @@ class TappableCard extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisAlignment mainAxisAlignment;
   const TappableCard({
+    Key? key,
     required this.children,
     this.onPressed,
     this.color,
@@ -28,6 +29,7 @@ class TappableCard extends StatelessWidget {
       onTap: onPressed,
       splashColor: splashColor,
       child: Ink(
+        key: UniqueKey(),
         padding: EdgeInsets.all(15),
         decoration: getCardDecoration(
           context,

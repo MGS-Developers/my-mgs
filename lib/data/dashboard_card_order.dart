@@ -11,27 +11,25 @@ final store = StoreRef("dashboard");
 
 List<String> defaultOrder = ["catering", "news", "events", "clubs", "homework"];
 
-List<Widget> _getWidgetsForNames(List names) {
-  return names.map((widgetName) {
-    switch(widgetName) {
-      case 'news':
-        return NewsCard(Key('news'));
-      case 'catering':
-        return TodaysMenuCard(Key('catering'));
-      case 'homework':
-        return HomeworkCard(Key('homework'));
-      case 'events':
-        return TodaysEventsCard(Key('events'));
-      case 'clubs':
-        return ClubsCard(Key('clubs'));
-      default:
-        return SizedBox();
-    }
-  }).toList();
+Widget getCardForName(String widgetName) {
+  switch(widgetName) {
+    case 'news':
+      return NewsCard(key: const Key("news"));
+    case 'catering':
+      return TodaysMenuCard(key: const Key("catering"));
+    case 'homework':
+      return HomeworkCard(key: const Key("homework"));
+    case 'events':
+      return TodaysEventsCard(key: const Key("events"));
+    case 'clubs':
+      return ClubsCard(key: const Key("clubs"));
+    default:
+      return SizedBox();
+  }
 }
 
-Stream<List<Widget>> getOrderedCards() async* {
-  yield _getWidgetsForNames(defaultOrder);
+Stream<List<String>> getOrderedCards() async* {
+  yield defaultOrder;
 
   final db = await getDb();
   yield* store.record('order').onSnapshot(db)
@@ -41,7 +39,7 @@ Stream<List<Widget>> getOrderedCards() async* {
       stringOrder = defaultOrder;
     }
 
-    return _getWidgetsForNames(stringOrder);
+    return stringOrder;
   });
 }
 

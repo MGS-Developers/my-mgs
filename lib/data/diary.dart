@@ -51,6 +51,12 @@ class DiaryEntryController {
 
   DiaryEntryController(this.date);
 
+  factory DiaryEntryController.forDay(DateTime date) {
+    final diaryEntryController = DiaryEntryController(date);
+    diaryEntryController.stream = _getStreamForDay(date);
+    return diaryEntryController;
+  }
+
   Future<void> write(DiaryEntry newEntry) async {
     final db = await getDb();
     await store.record(_dayToKey(date)).put(db, newEntry.toJson());
@@ -131,10 +137,4 @@ class DiaryEntryController {
 
     await write(dayEntry);
   }
-}
-
-DiaryEntryController getControllerForDay(DateTime day) {
-  final diaryEntryController = DiaryEntryController(day);
-  diaryEntryController.stream = _getStreamForDay(day);
-  return diaryEntryController;
 }

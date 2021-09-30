@@ -7,8 +7,9 @@ import 'package:mymgs/widgets/events/event_card.dart';
 import 'package:mymgs/widgets/spinner.dart';
 
 class TodaysEventsCard extends StatelessWidget {
-  final Key key;
-  TodaysEventsCard(this.key);
+  TodaysEventsCard({
+    Key? key,
+  });
 
   final _future = getTodaysEvents();
 

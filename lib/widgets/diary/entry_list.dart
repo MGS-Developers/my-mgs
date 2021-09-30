@@ -7,11 +7,12 @@ import 'package:mymgs/widgets/button.dart';
 import 'package:mymgs/widgets/diary/day_entry.dart';
 
 class EntryList extends StatefulWidget {
-  final DiaryEntryController diaryEntryController;
+  final DateTime date;
   // When false, hides 'Add new' button and illustration
   final bool isExpanded;
   const EntryList({
-    required this.diaryEntryController,
+    Key? key,
+    required this.date,
     this.isExpanded = true,
   });
 
@@ -19,11 +20,17 @@ class EntryList extends StatefulWidget {
 }
 
 class _EntryList extends State<EntryList> {
+  late final DiaryEntryController _diaryEntryController;
+  @override
+  void initState() {
+    super.initState();
+    _diaryEntryController = DiaryEntryController.forDay(widget.date);
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DiaryEntry>(
-      stream: widget.diaryEntryController.stream,
+      stream: _diaryEntryController.stream,
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container();
@@ -54,7 +61,7 @@ class _EntryList extends State<EntryList> {
                       context: context,
                       fullscreenDialog: true,
                       builder: (_) => AddDiaryEntry(
-                        diaryEntryController: widget.diaryEntryController,
+                        date: widget.date,
                       ),
                     ));
                   },
@@ -65,9 +72,9 @@ class _EntryList extends State<EntryList> {
         }
 
         return DayEntry(
-          deleteHomework: widget.diaryEntryController.deleteHomework,
+          deleteHomework: _diaryEntryController.deleteHomework,
           subjectEntries: data.subjectEntries,
-          toggleHomework: widget.diaryEntryController.toggleHomework,
+          toggleHomework: _diaryEntryController.toggleHomework,
         );
       }
     );

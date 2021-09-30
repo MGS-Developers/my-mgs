@@ -30,16 +30,12 @@ Future<List<CateringItem>> getCateringItems() async {
   return cateringItems;
 }
 
-int _calculateCycle(int? startWeek, int weeksSinceStart) {
-  int currentWeek = startWeek ?? 1;
-  for (var i = currentWeek; i < weeksSinceStart; i++) {
-    if (currentWeek == CATERING_CYCLE_LENGTH) {
-      currentWeek = 1;
-    } else {
-      currentWeek++;
-    }
+int _calculateCycle(int? startingCateringWeek, int weeksSinceStart) {
+  int currentWeek = startingCateringWeek ?? 1;
+  currentWeek = (weeksSinceStart + currentWeek) % CATERING_CYCLE_LENGTH;
+  if (currentWeek == 0) {
+    currentWeek = CATERING_CYCLE_LENGTH;
   }
-
   return currentWeek;
 }
 

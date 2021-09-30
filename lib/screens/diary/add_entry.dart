@@ -7,10 +7,10 @@ import 'package:mymgs/widgets/diary/due_date.dart';
 import 'package:mymgs/widgets/diary/select_subject.dart';
 
 class AddDiaryEntry extends StatefulWidget {
-  final DiaryEntryController diaryEntryController;
+  final DateTime date;
 
   const AddDiaryEntry({
-    required this.diaryEntryController,
+    required this.date,
   });
   _AddDiaryEntryState createState() => _AddDiaryEntryState();
 }
@@ -37,7 +37,8 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
     final subject = _subject;
     if (subject == null) return;
 
-    widget.diaryEntryController.addHomework(
+    final controller = DiaryEntryController.forDay(widget.date);
+    controller.addHomework(
       subject: subject,
       homework: _homework.text,
       dueDate: _dueDate,
@@ -57,7 +58,7 @@ class _AddDiaryEntryState extends State<AddDiaryEntry> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Jiffy(widget.diaryEntryController.date).yMMMEd,
+              Jiffy(widget.date).yMMMEd,
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(height: 10),

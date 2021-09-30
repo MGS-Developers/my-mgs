@@ -21,7 +21,7 @@ class DiaryDayList extends StatelessWidget {
     return InfiniteListView.builder(
       itemBuilder: (context, index) {
         final date = _getDateForIndex(index);
-        final controller = getControllerForDay(date);
+        final controller = DiaryEntryController.forDay(date);
         return InkWell(
           onTap: () {
             focusOnDay(date);

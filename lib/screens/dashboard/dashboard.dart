@@ -42,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: StreamBuilder<List<Widget>>(
+      body: StreamBuilder<List<String>>(
         stream: orderStream,
         builder: (context, snapshot) {
           final data = snapshot.data;
@@ -61,9 +61,7 @@ class _DashboardState extends State<Dashboard> {
             crossAxisSpacing: 30,
             crossAxisCount: responsive.triColumnCount,
             itemCount: data.length,
-            itemBuilder: (context, index) {
-              return data[index];
-            },
+            itemBuilder: (context, index) => getCardForName(data[index]),
             staggeredTileBuilder: (index) => StaggeredTile.fit(1),
           );
         },

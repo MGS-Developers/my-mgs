@@ -10,8 +10,9 @@ import '../spinner.dart';
 
 class ClubsCard extends StatelessWidget {
   final Future<List<Club>> clubsFuture;
-  final Key key;
-  ClubsCard(this.key) : clubsFuture = getYearGroup().then((y) => getClubs(
+  ClubsCard({
+    Key? key,
+  }) : clubsFuture = getYearGroup().then((y) => getClubs(
     yearGroup: y,
     todayOnly: true,
     limit: 3,

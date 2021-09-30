@@ -7,6 +7,7 @@ class DashboardCard extends StatelessWidget {
   final double? titleMargin;
   final VoidCallback? onPressed;
   const DashboardCard({
+    Key? key,
     required this.title,
     required this.children,
     this.titleMargin,

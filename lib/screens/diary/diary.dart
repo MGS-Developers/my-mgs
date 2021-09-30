@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mymgs/data/diary.dart';
 import 'package:mymgs/screens/diary/add_entry.dart';
 import 'package:mymgs/widgets/diary/date_selector.dart';
 import 'package:mymgs/widgets/diary/day_list.dart';
@@ -19,18 +18,18 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
-  late DiaryEntryController? _diaryEntryController;
+  late DateTime? _date;
   DiaryView _diaryView = DiaryView.SingleDay;
 
   @override
   void initState() {
-    _diaryEntryController = getControllerForDay(DateTime.now());
+    _date = DateTime.now();
     super.initState();
   }
 
   void _changeDate(DateTime newDate) {
     setState(() {
-      _diaryEntryController = getControllerForDay(newDate);
+      _date = newDate;
     });
   }
 
@@ -43,7 +42,7 @@ class _DiaryState extends State<Diary> {
       _changeDate(DateTime.now());
     } else {
       setState(() {
-        _diaryEntryController = null;
+        _date = null;
       });
     }
   }
@@ -68,7 +67,7 @@ class _DiaryState extends State<Diary> {
         onPressed: () {
           Navigator.of(context).push(platformPageRoute(
             context: context,
-            builder: (_) => AddDiaryEntry(diaryEntryController: _diaryEntryController!),
+            builder: (_) => AddDiaryEntry(date: _date!),
             fullscreenDialog: true,
           ));
         },
@@ -77,13 +76,13 @@ class _DiaryState extends State<Diary> {
         child: _diaryView == DiaryView.SingleDay ? Column(
           children: [
             DateSelector(
-              selectedDate: _diaryEntryController!.date,
+              selectedDate: _date!,
               dateCallback: _changeDate,
             ),
             const SizedBox(height: 20),
             Expanded(
               child: EntryList(
-                diaryEntryController: _diaryEntryController!,
+                date: _date!,
               ),
             ),
           ],
