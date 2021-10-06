@@ -85,93 +85,95 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: Responsive(context).horizontalCenteredSetupPadding,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: sessionId == null ? [
-          Text(
-            'Confirm your MGS email',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'We won\'t store this for more than a few milliseconds, and your app activity will always stay anonymous.',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          const SizedBox(height: 15),
-          PlatformTextField(
-            controller: email,
-            enabled: !loading,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.send,
-            onSubmitted: (_) => _send(),
-            material: (_, __) => MaterialTextFieldData(
-              decoration: InputDecoration(
-                labelText: "Email address (@mgs.org)",
-                errorText: emailError,
+    return Center(
+      child: SingleChildScrollView(
+        padding: Responsive(context).centeredSetupPadding,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: sessionId == null ? [
+            Text(
+              'Confirm your MGS email',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'We\'ll send you a code to confirm your address. Your app activity won\'t be connected to your email.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const SizedBox(height: 15),
+            PlatformTextField(
+              controller: email,
+              enabled: !loading,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.send,
+              onSubmitted: (_) => _send(),
+              material: (_, __) => MaterialTextFieldData(
+                decoration: InputDecoration(
+                  labelText: "Email address (@mgs.org)",
+                  errorText: emailError,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          ButtonBar(
-            children: [
-              MGSButton(
-                label: "Send!",
-                onPressed: _send,
-                enabled: !loading,
-              ),
-            ],
-          ),
-        ] : [
-          const Image(
-            image: AssetImage('assets/confirmation_sent.png'),
-            height: 70,
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Enter your verification code',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'We sent you a 6-digit verification code; please enter it here. It may take a few minutes to arrive.',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          const SizedBox(height: 15),
-          PlatformTextField(
-            controller: code,
-            keyboardType: TextInputType.number,
-            enabled: !loading,
-            inputFormatters: [
-              MaskTextInputFormatter(
-                mask: '######',
-              ),
-            ],
-            onSubmitted: (_) => _confirm(),
-          ),
-          const SizedBox(height: 10),
-          ButtonBar(
-            children: [
-              MGSButton(
-                label: "Change email",
-                enabled: !loading,
-                onPressed: () {
-                  setState(() {
-                    sessionId = null;
-                  });
-                },
-                outlined: true,
-              ),
-              MGSButton(
-                label: "Confirm!",
-                enabled: !loading,
-                onPressed: _confirm,
-              ),
-            ]
-          ),
-        ],
+            const SizedBox(height: 10),
+            ButtonBar(
+              children: [
+                MGSButton(
+                  label: "Send!",
+                  onPressed: _send,
+                  enabled: !loading,
+                ),
+              ],
+            ),
+          ] : [
+            const Image(
+              image: AssetImage('assets/confirmation_sent.png'),
+              height: 70,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Enter your verification code',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'We sent you a 6-digit verification code; please enter it here. It may take a few minutes to arrive.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const SizedBox(height: 15),
+            PlatformTextField(
+              controller: code,
+              keyboardType: TextInputType.number,
+              enabled: !loading,
+              inputFormatters: [
+                MaskTextInputFormatter(
+                  mask: '######',
+                ),
+              ],
+              onSubmitted: (_) => _confirm(),
+            ),
+            const SizedBox(height: 10),
+            ButtonBar(
+              children: [
+                MGSButton(
+                  label: "Change email",
+                  enabled: !loading,
+                  onPressed: () {
+                    setState(() {
+                      sessionId = null;
+                    });
+                  },
+                  outlined: true,
+                ),
+                MGSButton(
+                  label: "Confirm!",
+                  enabled: !loading,
+                  onPressed: _confirm,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mymgs/data/config.dart';
+import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/helpers/app_metadata.dart';
 import 'package:mymgs/screens/setup/confirm_email.dart';
+import 'package:mymgs/screens/setup/consent.dart';
 import 'package:mymgs/screens/setup/intro.dart';
 import 'package:mymgs/screens/setup/select_year_group.dart';
 import 'package:mymgs/screens/setup/web.dart';
@@ -29,6 +31,19 @@ class _SetupScreenState extends State<SetupScreen> {
       duration: const Duration(milliseconds: 120),
       curve: Curves.easeInOut,
     );
+  }
+
+  void _configureDefaultAnalyticsSetting() async {
+    final currentSetting = await getSetting<bool?>('analytics');
+    if (currentSetting == null) {
+      await saveSetting('analytics', false);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _configureDefaultAnalyticsSetting();
   }
 
   @override
@@ -62,6 +77,7 @@ class _SetupScreenState extends State<SetupScreen> {
                   onComplete: widget.quitSetup,
                   isAllowed: isAllowed,
                 ),
+                SetupConsent(onComplete: _nextPage),
                 SelectYearGroup(onComplete: _nextPage),
                 ConfirmEmail(onComplete: widget.quitSetup),
               ],

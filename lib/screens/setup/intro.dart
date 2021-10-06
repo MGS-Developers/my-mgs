@@ -19,7 +19,7 @@ class Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: Responsive(context).horizontalCenteredSetupPadding,
+      padding: Responsive(context).centeredSetupPadding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,7 @@ class Intro extends StatelessWidget {
               MGSButton(
                 enabled: isAllowed == true,
                 tooltip: isAllowed == true ? null : 'Currently unavailable',
-                label: 'Begin!',
+                label: 'Continue',
                 onPressed: onContinue,
               ),
             ],

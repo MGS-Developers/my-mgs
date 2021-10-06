@@ -39,3 +39,5 @@ const appContributors = {
     "The MGS School Council",
   ],
 };
+
+const appPrivacyLink = "https://docs.google.com/document/d/1t73ulBdv2QC7vgtMRjyxAWr9H3kKfwINGwLyJ-T-8E0";

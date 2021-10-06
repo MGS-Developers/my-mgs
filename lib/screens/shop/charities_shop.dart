@@ -88,7 +88,7 @@ class _CharitiesShopState extends State<CharitiesShop> {
       return Scaffold(
         appBar: DrawerAppBar("Introduction to Charities"),
         body: Padding(
-          padding: Responsive(context).horizontalCenteredSetupPadding,
+          padding: Responsive(context).centeredSetupPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

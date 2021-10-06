@@ -23,7 +23,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: Responsive(context).horizontalCenteredSetupPadding,
+      padding: Responsive(context).centeredSetupPadding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +34,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Don\'t worry — your data always stays on your device. You can change this setting at any time.',
+            'This setting always stays on your device. You can change it at any time.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 5),
@@ -65,7 +65,7 @@ class _SelectYearGroupState extends State<SelectYearGroup> {
           ButtonBar(
             children: [
               MGSButton(
-                label: 'Save',
+                label: 'Continue',
                 onPressed: yearGroup == null ? null : _save,
               ),
             ],

@@ -47,7 +47,7 @@ class Responsive {
   }
 
   // For pages containing a single action in the center of the screen (e.g. the Setup process)
-  EdgeInsets get horizontalCenteredSetupPadding {
+  EdgeInsets get centeredSetupPadding {
     return EdgeInsets.symmetric(vertical: 30, horizontal: horizontalReaderPadding);
   }
 
