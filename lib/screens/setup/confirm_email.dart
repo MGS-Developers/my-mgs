@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mymgs/data/setup.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/button.dart';
+import 'package:mymgs/widgets/text_field.dart';
 
 class ConfirmEmail extends StatefulWidget {
   final VoidCallback onComplete;
@@ -72,12 +73,29 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       await confirmCode(code.text, sessionId!);
       widget.onComplete();
     } catch (e) {
-      print(e);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("That code is incorrect! Please try again."),
       ));
     }
 
+    setState(() {
+      loading = false;
+    });
+  }
+
+  void _debugOverride() async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      await debugLogin(email.text);
+      widget.onComplete();
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text("Debug login failed! See logs for more info."),
+      ));
+    }
     setState(() {
       loading = false;
     });
@@ -102,18 +120,14 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(height: 15),
-            PlatformTextField(
+            MGSTextField(
               controller: email,
               enabled: !loading,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _send(),
-              material: (_, __) => MaterialTextFieldData(
-                decoration: InputDecoration(
-                  labelText: "Email address (@mgs.org)",
-                  errorText: emailError,
-                ),
-              ),
+              label: "Email address (@mgs.org)",
+              error: emailError,
             ),
             const SizedBox(height: 10),
             ButtonBar(
@@ -123,6 +137,11 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                   onPressed: _send,
                   enabled: !loading,
                 ),
+                if (kDebugMode) MGSButton(
+                  label: "Debug",
+                  onPressed: _debugOverride,
+                  enabled: !loading,
+                )
               ],
             ),
           ] : [
@@ -141,7 +160,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(height: 15),
-            PlatformTextField(
+            MGSTextField(
               controller: code,
               keyboardType: TextInputType.number,
               enabled: !loading,

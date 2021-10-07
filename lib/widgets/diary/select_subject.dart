@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/settings.dart';
 import 'package:mymgs/screens/settings/subjects.dart';
+import 'package:mymgs/widgets/text_field.dart';
 import 'package:mymgs/widgets/tutorial/tutorial_card.dart';
 
 const SUBJECTS = [
@@ -89,10 +90,11 @@ class _SelectSubjectState extends State<SelectSubject> {
       materialBarrierColor: Theme.of(context).shadowColor,
       builder: (BuildContext context) => PlatformAlertDialog(
         title: Text("Other subject"),
-        content: PlatformTextField(
+        content: MGSTextField(
           controller: _otherSubject,
           textCapitalization: TextCapitalization.words,
           autofocus: true,
+          label: "Subject name",
         ),
         actions: [
           PlatformDialogAction(

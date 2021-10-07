@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data/interests.dart';
 import 'package:mymgs/screens/interests/about.dart';
+import 'package:mymgs/widgets/text_field.dart';
 
 class InterestsScreen extends StatefulWidget {
   const InterestsScreen();
@@ -62,9 +63,9 @@ class _InterestsScreenState extends State<InterestsScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(15),
-                child: PlatformTextField(
+                child: MGSTextField(
                   controller: _search,
-                  hintText: "Search...",
+                  label: "Search...",
                   textCapitalization: TextCapitalization.words,
                   autofocus: true,
                 ),

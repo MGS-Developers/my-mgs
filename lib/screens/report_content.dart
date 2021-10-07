@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mymgs/data_classes/identifiable.dart';
 import 'package:mymgs/helpers/responsive.dart';
 import 'package:mymgs/widgets/button.dart';
+import 'package:mymgs/widgets/text_field.dart';
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -76,15 +77,11 @@ class _ReportContentState extends State<ReportContent> {
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(height: 15),
-              PlatformTextField(
+              MGSTextField(
                 controller: controller,
                 maxLines: null,
                 enabled: !loading,
-                material: (_, __) => MaterialTextFieldData(
-                  decoration: InputDecoration(
-                    labelText: "Explain the issue...",
-                  ),
-                ),
+                label: "Explain the issue...",
               ),
               const SizedBox(height: 15),
               Text(

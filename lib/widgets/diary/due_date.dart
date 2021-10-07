@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mymgs/widgets/date_picker.dart';
+import 'package:mymgs/widgets/text_field.dart';
 
 typedef DateCallback = void Function(DateTime newDate);
 
@@ -31,7 +31,7 @@ class DueDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformTextField(
+    return MGSTextField(
       readOnly: true,
       controller: TextEditingController.fromValue(TextEditingValue(
         text: Jiffy(selectedDate).yMMMEd,
@@ -39,14 +39,7 @@ class DueDate extends StatelessWidget {
       onTap: () {
         _showDatePicker(context);
       },
-      material: (_, __) => MaterialTextFieldData(
-        decoration: InputDecoration(
-          labelText: "Due date",
-        ),
-      ),
-      cupertino: (_, __) => CupertinoTextFieldData(
-        placeholder: "Due date",
-      ),
+      label: "Due date",
     );
   }
 }

@@ -209,13 +209,14 @@ class _MainNavigationState extends State<MainNavigation> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      // here, we're making the drawer's header's background colour be our current theme's primary colour
+                      // here, we're making the drawer's header's background colour be our current theme's primary colour (with a little gradient)
+                      // this background colour will automatically change when we're in dark mode
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).colorScheme.primary,
-                          Color(0xFF5b67ad),
+                          Color(0xFF967ae8),
                         ]
                       ),
                     ),

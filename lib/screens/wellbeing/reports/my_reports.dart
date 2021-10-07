@@ -6,6 +6,7 @@ import 'package:mymgs/data_classes/safeguarding_case.dart';
 import 'package:mymgs/screens/wellbeing/reports/privacy.dart';
 import 'package:mymgs/screens/wellbeing/reports/report_chat.dart';
 import 'package:mymgs/widgets/spinner.dart';
+import 'package:mymgs/widgets/text_field.dart';
 
 class MySafeguardingReports extends StatelessWidget {
   final _casesStream = getSafeguardingCases();
@@ -24,7 +25,7 @@ class MySafeguardingReports extends StatelessWidget {
           children: [
             Text(caption),
             const SizedBox(height: 15),
-            PlatformTextField(
+            MGSTextField(
               controller: passphraseController,
               obscureText: true,
             ),

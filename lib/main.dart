@@ -109,9 +109,10 @@ class App extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
     )),
   );
-  static final materialStateColorLight = MaterialStateProperty.all(Color(0xFF374b6a));
-  static final materialStateWhiteText = MaterialStateProperty.all(TextStyle(
+  static final materialStateColorLight = MaterialStateProperty.all(Color(0xFF0065FF));
+  static final materialStateDarkModeButtonText = MaterialStateProperty.all(TextStyle(
     color: Colors.white,
+    fontWeight: FontWeight.w600,
   ));
 
   // Themes!
@@ -131,7 +132,7 @@ class App extends StatelessWidget {
 
     // the primaryColor is the colour we use for any interactive components, headers, and basically anything we want to draw attention to or separate
     colorScheme: ColorScheme.light(
-      primary: Color(0xFF374b6a),
+      primary: Color(0xFF0065FF),
       secondary: Color(0xFFb4bbc7),
     ),
     primaryColorLight: Colors.white, // alert backgrounds, cards, etc. White in light mode, tinted in dark mode
@@ -176,7 +177,7 @@ class App extends StatelessWidget {
   // since most of the dark theme will be the same, we can copy the lightTheme and override the things we want to
   static final ThemeData darkTheme = lightTheme.copyWith(
     colorScheme: ColorScheme.dark(
-      primary: Color(0xFF061F45),
+      primary: Color(0xFF5B7EA8),
       secondary: Colors.blueGrey[900]!,
     ),
     primaryColorLight: Colors.blueGrey[900],
@@ -194,16 +195,21 @@ class App extends StatelessWidget {
       headline4: textTheme.headline4!.copyWith(
         color: Colors.white,
       ),
+      // for some reason, this defines the color for inputs
+      subtitle1: TextStyle(
+        color: Colors.white,
+      )
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: lightTheme.outlinedButtonTheme.style!.copyWith(
         foregroundColor: MaterialStateProperty.all(Colors.white),
-        textStyle: materialStateWhiteText,
+        textStyle: materialStateDarkModeButtonText,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: lightTheme.elevatedButtonTheme.style!.copyWith(
-        textStyle: materialStateWhiteText,
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        textStyle: materialStateDarkModeButtonText,
       )
     ),
     cardColor: Colors.blueGrey[900],

@@ -122,3 +122,17 @@ export const confirmEmail = functions
         const userId = uuid();
         return admin.auth().createCustomToken(userId);
     });
+
+interface DebugLoginData {
+    code?: string;
+}
+export const debugLogin = functions
+    .region('europe-west2')
+    .https.onCall(async (data: DebugLoginData) => {
+        if (data.code !== functions.config().debug.code) {
+            return null;
+        }
+
+        const userId = 'debug-' + uuid();
+        return admin.auth().createCustomToken(userId);
+    });

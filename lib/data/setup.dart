@@ -36,6 +36,13 @@ Future<String?> sendEmail(String address) async {
   return functionResponse.data;
 }
 
+Future<void> _completeSetup(String token) async {
+  await initialiseNotificationConfig();
+  await setupAnalytics();
+  await AnalyticsEvents.completeSetup();
+  await _firebaseAuth.signInWithCustomToken(token);
+}
+
 Future<void> confirmCode(String code, String sessionId) async {
   final functionResponse = await _firebaseFunctions.httpsCallable('confirmEmail').call({
     'code': code,
@@ -45,10 +52,7 @@ Future<void> confirmCode(String code, String sessionId) async {
   if (functionResponse.data == null) {
     throw Exception("incorrect_code");
   } else {
-    await initialiseNotificationConfig();
-    await setupAnalytics();
-    await AnalyticsEvents.completeSetup();
-    await _firebaseAuth.signInWithCustomToken(functionResponse.data);
+    await _completeSetup(functionResponse.data);
   }
 }
 
@@ -56,4 +60,16 @@ final _analytics = FirebaseAnalytics();
 Future<void> setupAnalytics() async {
   await _analytics.setAnalyticsCollectionEnabled(true);
   await saveSetting('analytics', true);
+}
+
+Future<void> debugLogin(String code) async {
+  final functionResponse = await _firebaseFunctions.httpsCallable('debugLogin').call({
+    'code': code,
+  });
+
+  if (functionResponse.data == null) {
+    throw Exception("Debug code incorrect! debugLogin() returned null token for code " + code);
+  }
+
+  await _completeSetup(functionResponse.data);
 }
